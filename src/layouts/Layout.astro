@@ -172,5 +172,17 @@ const { title } = Astro.props;
 	.blurb-container {
 		width: 450px;
 		border: 1px solid blue;
+        text-align: right;
 	}
+    #blurb-marquee {
+        white-space: nowrap;
+    }
 </style>
+
+<script is:inline>
+    var isFF3 = /a/[-1]=='a';
+    if(isFF3) {
+        // Hack for fixing marquee
+        document.getElementById("blurb-marquee").style.textIndent = "100%";
+    }
+</script>
