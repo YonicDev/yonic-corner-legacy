@@ -1,4 +1,7 @@
 --- 
+import NavigationTable from "../components/NavigationTable.astro";
+import MusicPlayerWindow from "../components/MusicPlayerWindow.astro";
+
 interface Props {
 	title: string;
 }
@@ -17,23 +20,157 @@ const { title } = Astro.props;
 		<title>{title}</title>
 	</head>
 	<body>
-		<slot />
+		<center>
+			<div id="bubbles"></div>
+			<div style="position: relative; z-index: 1">
+				<table id="layout">
+					<tr>
+						<td colspan="3" id="site-header">
+							<center>
+								<img id="site-title" alt="The Yonic Corner" src="/yonic-corner.gif">
+								<div class="blurb-window">
+									<div class="blurb-container">
+										<marquee id="blurb-marquee">Marquee test!</marquee>
+									</div>
+								</div>
+							</center>
+						</td>
+					</tr>
+					<tr>
+						<td class="secondary-section">
+							<center>
+								<NavigationTable title="Categories" links={[
+									{
+										label: "Gaming",
+										href: "/category/gaming"
+									},
+									{
+										label: "Dev stuff",
+										href: "/category/development"
+									},
+									{
+										label: "Creative endeavours",
+										href: "/category/creations/"
+									},
+									{
+										label: "Outdoor adventures",
+										href: "/category/outside"
+									},
+									{
+										label: "Blog updates",
+										href: "/category/blog"
+									},
+									{
+										label: "Misc stuff",
+										href: "/category/miscellaneous/"
+									},
+								]}/>
+								<NavigationTable title="Search the blog" links={[
+									{
+										label: "Series",
+										href: "/blog"
+									},
+									{
+										label: "Tags",
+										href: "/tags"
+									},
+								]} />
+							</center>
+						</td>
+						<td class="main-section">
+							<center>
+								<div id="main-article">
+									<slot />
+								</div>
+							</center>
+						</td>
+						<td class="secondary-section">
+							<center>
+								<NavigationTable title="Browse the blog" links={[
+									{
+										label: "All posts",
+										href: "/blog"
+									},
+									{
+										label: "About Yonic Corner",
+										href: "/about"
+									},
+								]}/>
+								<MusicPlayerWindow />
+							</center>
+						</td>
+					</tr>
+				</div>
+			</table>
+		</center>
 	</body>
 </html>
 <style is:global>
-	:root {
-		--accent: 136, 58, 234;
-		--accent-light: 224, 204, 250;
-		--accent-dark: 49, 10, 101;
-		--accent-gradient: linear-gradient(45deg, rgb(var(--accent)), rgb(var(--accent-light)) 30%, white 60%);
+	html, body {
+		padding: 0;
+		margin: 0;
 	}
-	html {
-		font-family: system-ui, sans-serif;
-		background: #13151A;
-		background-size: 224px;
+	body {
+		font-family: Verdana, Geneva, Tahoma, system-ui, sans-serif;
+		background: #03F3FF;
+		background-image: url("/ui/bg.gif");
+		image-rendering: pixelated;
+		position: absolute;
+		width: 100%;
+	}
+	* {
+		box-sizing: content-box;
 	}
 	code {
 		font-family: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono,
 			Bitstream Vera Sans Mono, Courier New, monospace;
+	}
+	a {
+        font-weight: bold;
+        color: #056B5A;
+        text-decoration: none;
+    }
+	a:hover {
+		text-decoration: underline;
+	}
+	#layout {
+		border-collapse: collapse;
+	}
+	#layout td {
+		padding: 0;
+		vertical-align: top;
+	}
+	.secondary-section {
+		width: 150px;
+	}
+	#main-article {
+		background: #C5FFF4;
+		border: 3px solid #009183;
+		text-align: left;
+		width: 500px;
+		margin: 0 20px;
+		padding: 20px;
+		font-size: 11pt;
+	}
+	#bubbles {
+		position: absolute;
+		top: 0px;
+		left: 0px;
+		background-repeat: no-repeat;
+		background-image: url("/ui/bubbles.gif");
+		background-position: top center;
+		width: 100%;
+		height: 100%;
+	}
+	#site-title {
+		margin-top: 100px;
+	}
+	.blurb-window {
+		border: 1px solid red;
+		width: 500px;
+	}
+	.blurb-container {
+		width: 450px;
+		border: 1px solid blue;
 	}
 </style>
