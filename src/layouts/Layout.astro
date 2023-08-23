@@ -28,6 +28,9 @@ const rainbowColors = ["#078D70","#26CEAA","#98E8C1","white","#7BADE2","#5049CC"
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
         <script src="http://code.jquery.com/jquery-1.2.1.pack.js" type="text/javascript" integrity="sha256-Z1poq2DOUGgETZpJqYnb989fBR7s6fnY8y+qHoncORI=" crossorigin="anonymous"></script>
+		<!--[if gt IE 6]>-->
+		<link rel="stylesheet" type="text/css" href={standardCss}>
+		<!--<![endif]-->
 	</head>
 	<body>
 		<center>
@@ -184,6 +187,9 @@ const rainbowColors = ["#078D70","#26CEAA","#98E8C1","white","#7BADE2","#5049CC"
 		height: 7px;
 		/* IE adjusts size of divs based on font-size even if it's empty */
 		font-size: 0;
+	}
+	.secondary-section {
+		width: 240px;
 	}
 	#footer {
 		font-size: 10pt;
