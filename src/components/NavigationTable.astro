@@ -5,13 +5,14 @@ interface Props {
         icon?: string,
         label: string
     }>,
+    type: string,
     title: string
 }
 
-const {links, title} = Astro.props;
+const {links, title, type} = Astro.props;
 ---
 
-<p class="navigation-title">{title}</p>
+<img class="navigation-tab" alt={title} src={`/ui/tab-${type}.gif`} width="200" height="32" />
 <ul class="navigation">
     {
         links.map(({href, icon, label}) => <li style={`list-style-image: ${icon? `url(${icon})` : "inherit"}`}><a {href}>{label}</a></li>)
@@ -19,12 +20,17 @@ const {links, title} = Astro.props;
 </ul>
 
 <style is:global>
+    .navigation-tab {
+        display: block;
+    }
     .navigation {
         background: #A1FFED;
         margin: 0;
+        margin-bottom: 32px;
         padding: 10px 0;
         padding-left: 28px;
-        width: 172px;
+        border: 2px solid #003323;
+        width: 168px;
         text-align: left;
         font-size: 10pt;
     }

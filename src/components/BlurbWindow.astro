@@ -1,0 +1,40 @@
+<table class="blurb-window">
+    <tr>
+        <td>
+            <img src="/ui/marquee-window-left.gif" width="13" height="24" />
+        </td>
+        <td class="blurb-container">
+            <marquee id="blurb-marquee">Marquee test!</marquee>
+        </td>
+        <td>
+            <img src="/ui/marquee-window-right.gif" width="13" height="24" />
+        </td>
+    </tr>
+</table>
+
+<style is:global>
+    .blurb-window {
+        border-collapse: collapse;
+        margin: 12px 0;
+    }
+	.blurb-container {
+        display: inline-block;
+		width: 360px;
+        height: 24px;
+		background-image: url("/ui/marquee-window-center.gif");
+        background-position: center left;
+        text-align: right;
+	}
+    .blurb-window img {
+        display: inline-block;
+        vertical-align: top;
+    }
+    #blurb-marquee {
+        white-space: nowrap;
+        height: 100%;
+        line-height: 24px;
+        font-family: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono,
+			Bitstream Vera Sans Mono, Courier New, monospace;
+        font-size: 12px;
+    }
+</style>
