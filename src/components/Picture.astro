@@ -1,0 +1,45 @@
+---
+import { getImage, Image } from "astro:assets";
+
+import { getAverageColor } from 'fast-average-color-node';
+
+interface Props {
+    src: ImageMetadata,
+    alt: string,
+    width?: number | string,
+}
+const { src, alt } = Astro.props;
+const margin = 12;
+const padding = 3;
+const MAX_WIDTH = 460 - padding*2;
+const width = Astro.props.width? parseInt(Astro.props.width.toString()) : MAX_WIDTH;
+const trueWidth = Math.min(454-margin, width);
+const { src: srcString } = src;
+const srcUnqueried = srcString.substring(0, srcString.indexOf("?")).replace("/@fs/", "");
+const dominantColor = await getAverageColor(srcUnqueried, {width});
+---
+<center>
+    <div class="figure" style={{background: dominantColor.hex, width: `${trueWidth}px`, margin: `${margin}px 6px`, padding: `${padding}px`}}>
+        <Image {src} {alt} width={trueWidth} format="jpg" />
+        <div class="caption" style={{width: `${trueWidth-20}px`}}>
+            <slot />
+        </div>
+    </div>
+</center>
+
+<style is:global>
+    .figure img {
+        display: block;
+    }
+    .figure .caption {
+        display: block;
+        background-color: #92fffa;
+        padding: 10px;
+        color: black;
+        text-align: center;
+        font-style: italic;
+    }
+    .figure .caption i, .figure .caption em {
+        font-style: normal;
+    }
+</style>

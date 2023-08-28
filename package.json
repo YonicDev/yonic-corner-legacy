@@ -15,7 +15,9 @@
     "astro": "^2.10.9",
     "astro-auto-import": "^0.3.0",
     "astro-mdx-code-blocks": "^0.0.3",
-    "autoprefixer": "^10.4.14"
+    "autoprefixer": "^10.4.14",
+    "fast-average-color-node": "^2.6.0",
+    "sharp": "^0.32.5"
   },
   "devDependencies": {
     "@types/jquery": "^3.5.16"
