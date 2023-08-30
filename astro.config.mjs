@@ -1,4 +1,4 @@
-import { defineConfig } from 'astro/config';
+import { defineConfig, sharpImageService } from 'astro/config';
 import mdx from "@astrojs/mdx";
 import MDXCodeBlocks, { mdxCodeBlockAutoImport } from 'astro-mdx-code-blocks';
 
@@ -12,7 +12,7 @@ export default defineConfig({
         assets: true
     },
     image: {
-        service: { entrypoint: 'astro/assets/services/sharp' },
+        service: sharpImageService(),
     },
     integrations: [mdx(), sitemap()],
     vite: {

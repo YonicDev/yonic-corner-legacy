@@ -1,8 +1,6 @@
 ---
 import { getImage, Image } from "astro:assets";
 
-import { getAverageColor } from 'fast-average-color-node';
-
 interface Props {
     src: ImageMetadata,
     alt: string,
@@ -14,12 +12,11 @@ const padding = 3;
 const MAX_WIDTH = 460 - padding*2;
 const width = Astro.props.width? parseInt(Astro.props.width.toString()) : MAX_WIDTH;
 const trueWidth = Math.min(454-margin, width);
-const { src: srcString } = src;
-const srcUnqueried = srcString.substring(0, srcString.indexOf("?")).replace("/@fs/", "");
-const dominantColor = await getAverageColor(srcUnqueried, {width});
+
+const borderImg = await getImage({src, width: 1, height: 1, format: "gif"});
 ---
 <center>
-    <div class="figure" style={{background: dominantColor.hex, width: `${trueWidth}px`, margin: `${margin}px 6px`, padding: `${padding}px`}}>
+    <div class="figure" style={{background: `url(${borderImg.src})`, width: `${trueWidth}px`, margin: `${margin}px 6px`, padding: `${padding}px`}}>
         <Image {src} {alt} width={trueWidth} format="jpg" />
         <div class="caption" style={{width: `${trueWidth-20}px`}}>
             <slot />
