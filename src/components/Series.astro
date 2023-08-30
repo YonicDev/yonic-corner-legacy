@@ -1,0 +1,103 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+import { categories } from '@lib/settings';
+
+interface Props {
+    previous?: CollectionEntry<"blog">,
+    next?: CollectionEntry<"blog">,
+    title: string,
+    category: string,
+    series?: string,
+}
+const { previous, next, title, category, series } = Astro.props;
+let link = "/blog/1";
+
+if(category in categories) {
+    link = `/blog/category/${category}/1`
+} else if (category === "series" && series) {
+    link = `/blog/series/${series}`
+}
+    
+---
+<div class={category}>
+    <table class="series-nav">
+        <tr>
+            <th style="text-align: left; width: 37.5%"><span>&lt; </span><span class="iptag">PREV</span></th>
+            <th rowspan="2" style="width: 25%;"><a href={link}>{title}</a></th>
+            <th style="text-align: right; width: 37.5%"><span class="iptag">NEXT</span><span> &gt;</span></th>
+        </tr>
+        <tr>
+            <td>
+                {
+                    previous? (<a href={`/blog/article/${previous.slug}`}>{previous.data.title}</a>) :
+                    <i>This is the first post</i>
+                }
+            </td>
+            <td>
+                {
+                    next? (<a href={`/blog/article/${next.slug}`}>{next.data.title}</a>) :
+                    <i>This is the last post</i>
+                }
+            </td>
+        </tr>
+    </table>
+</div>
+
+<style lang="scss" is:global>
+    @use "sass:list";
+    @use "../styles/global" as *;
+
+    #layout .series-nav {
+        width: 100%;
+        margin: 20px 0;
+        border-collapse: collapse;
+        border: 3px solid #003323;
+        .iptag {
+            letter-spacing: 8px;
+            font-size: 11pt;
+        }
+        th {
+            background-color: #056b5a;
+            color: #A1FFED;
+            padding: 5px 10px;
+            font-size: 12px;
+            a {
+                color: #A1FFED;
+            }
+        }
+        td {
+            text-align: center;
+            background-color: #A1FFED;
+            color: #005048;
+            padding: 10px;
+            font-size: 9pt;
+            vertical-align: middle;
+            a {
+                color: #1768d3;
+            }
+        }
+    }
+
+    @each $category, $data in $categories {
+        $base-color: list.nth($data, 1);
+        $border-color: list.nth($data, 2);
+        $light-color: list.nth($data, 3);
+        #layout .#{$category} {
+            .series-nav {
+                border-color: $border-color;
+                th {
+                    background-color: $base-color;
+                    color: $border-color;
+                    a {
+                        color: $border-color;
+                    }
+                }
+                td {
+                    background-color: $light-color;
+                    color: black;
+                }
+            }
+        }
+    }
+</style>

@@ -1,0 +1,49 @@
+---
+import Layout from './Layout.astro';
+
+interface Props {
+    title: string
+}
+const { title } = Astro.props;
+---
+<Layout {title}>
+    <div id="main-article" class="article">
+        <slot />
+    </div>
+	<slot name="below"/>
+</Layout>
+
+<style is:global>
+	.article {
+		background: #C5FFF4;
+		border: 3px solid #009183;
+		text-align: left;
+		width: 500px;
+		padding: 20px;
+		font-size: 11pt;
+	}
+	.article a {
+		color: #1768d3;
+	}
+	.article p {
+		margin: 12pt 0;
+	}
+	.article .picture {
+		width: 100%;
+	}
+</style>
+
+<script is:inline>
+	var ieVersion = /*@cc_on (function() {switch(@_jscript_version) {case 1.0: return 3; case 3.0: return 4; case 5.0: return 5; case 5.1: return 5; case 5.5: return 5.5; case 5.6: return 6; case 5.7: return 7; case 5.8: return 8; case 9: return 9; case 10: return 10;}})() || @*/ 0;
+
+	window.onload = function() {
+		$(".mid-row .triangle.center").each(function() {
+			this.style.top = $(".mid-row").height()*0.5 + "px";
+		});
+		if(ieVersion > 0 && ieVersion < 6) {
+			$(".figure").each(function() {
+				$(this).children('.caption').css('width', ($(this).children('img').width()) + 'px');
+			})
+		};
+	};
+</script>

@@ -1,0 +1,92 @@
+---
+import { CollectionEntry, getCollection, getEntry } from 'astro:content';
+import { Image } from 'astro:assets';
+
+import type { ImageMetadata } from 'astro';
+
+import Layout from "@lib/layouts/Article.astro";
+import Series from "@lib/components/Series.astro";
+import { categories } from '@lib/settings';
+import { data } from 'jquery';
+
+interface Props {
+    post: CollectionEntry<'blog'>,
+    allPosts: CollectionEntry<'blog'>[],
+    index: number
+}
+
+export async function getStaticPaths() {
+	const posts = (await getCollection('blog')).filter(post => {
+        return import.meta.env.DEV || !post.data.draft;
+    }).sort((a, b) => {
+        const aPub = a.data.pubDate.getTime();
+        const bPub = b.data.pubDate.getTime();
+        const aEdt = a.data.updatedDate?.getTime() ?? 0;
+        const bEdt = b.data.updatedDate?.getTime() ?? 0;
+        return Math.max(aPub, aEdt) - Math.max(bEdt, bPub) || a.id.localeCompare(b.id);
+    })
+    
+	return posts.map((post, i) => ({
+		params: { slug: post.slug },
+		props: {post, allPosts: posts, index: i },
+	}));
+}
+const { post, allPosts, index } = Astro.props;
+
+const postsSameCategory = allPosts.filter(p => p.data.category === post.data.category);
+const sameCategoryIndex = postsSameCategory.indexOf(post);
+
+let seriesPosts: CollectionEntry<"blog">[] = [];
+let series: CollectionEntry<"series"> | undefined = undefined;
+let seriesIndex = -1;
+if(post.data.series) {
+    seriesPosts = allPosts.filter(p => p.data.series?.id.id === post.data.series?.id.id)
+        .sort((a,b) => a.data.series!.order - b.data.series!.order);
+    seriesIndex = seriesPosts.indexOf(post);
+    series = await getEntry(post.data.series.id);
+}
+
+const dateFormat = new Intl.DateTimeFormat('en-US',
+{
+    year: 'numeric',
+    month: 'long',
+    day: '2-digit',
+})
+
+/**
+ * Gets the hero image.
+ * 
+ * The hero image has to be named "hero.png" and be located in a folder named the same way
+ * as the target article inside the assets/articles folder.
+ * It doesn't need to be a PNG image, other formats are supported.
+ */
+ async function getHeroImage(): Promise<ImageMetadata | null> {
+    try {
+        return (await import(`../../../assets/articles/${post.slug}/hero.png`)).default
+    } catch {
+        return null;
+    }
+}
+
+const {Content} = await post.render();
+const hero = await getHeroImage();
+---
+
+<Layout {...post.data}>
+    {
+        hero!=null && <Image alt={post.data.title} src={hero} width="454" format="jpg"/>
+    }
+    <h1>{post.data.title}</h1>
+    <div>
+        <span><img src="/icons/article.gif" alt="Published"/> {dateFormat.format(post.data.pubDate)}</span>
+        { post.data.updatedDate && <span><img src="/icons/edit.gif" alt="Last modified"/> {dateFormat.format(post.data.updatedDate)}</span> }
+    </div>
+    <Content/>
+    {
+        series && seriesPosts.length > 0 && seriesIndex >= 0 && (
+            <Series slot="below" series={series.id} category="series" title={"Series: " + series.data.title} previous={seriesPosts[seriesIndex-1]} next={seriesPosts[seriesIndex+1]}/>
+        )
+    }
+    <Series slot="below" category={post.data.category} title={categories[post.data.category].title + " posts"} previous={postsSameCategory[sameCategoryIndex-1]} next={postsSameCategory[sameCategoryIndex+1]}/>
+    <Series slot="below" category="all" title="All posts" previous={allPosts[index-1]} next={allPosts[index+1]}/>
+</Layout>
