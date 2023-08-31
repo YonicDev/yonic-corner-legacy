@@ -1,0 +1,15 @@
+---
+export interface Props {
+    name: string;
+    set?: string;
+    sprite: string;
+    thoughts?: string;
+    height?: number;
+    position?: "left"|"right";
+}
+
+const { name, set = "default", sprite, thoughts, position = "right", height=200 } = Astro.props;
+---
+<div class="chara" style={{textAlign: position}}>
+    <img src={`/chara/${name}/${set}/${sprite}.gif`} alt={thoughts} title={thoughts} {height}/>
+</div>
