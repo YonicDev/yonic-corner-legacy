@@ -1,5 +1,7 @@
 import { defineConfig, sharpImageService } from 'astro/config';
 import mdx from "@astrojs/mdx";
+
+import AutoImport from 'astro-auto-import';
 import MDXCodeBlocks, { mdxCodeBlockAutoImport } from 'astro-mdx-code-blocks';
 
 import sitemap from "@astrojs/sitemap";
@@ -14,7 +16,20 @@ export default defineConfig({
     image: {
         service: sharpImageService(),
     },
-    integrations: [mdx(), sitemap()],
+    integrations: [
+        AutoImport({
+            imports: [
+                {
+                    '@lib/components/bubbles/index.ts': [
+                        'BaseBubble',
+                        'YonicBubble'
+                    ]
+                }
+            ]
+        }),
+        mdx(), 
+        sitemap(),
+    ],
     vite: {
         build: {
             target: "es6"

@@ -1,0 +1,135 @@
+---
+interface Props {
+    theme?: string,
+    sizing?: BubbleSizings,
+    speech?: BubbleSpeech,
+}
+
+export interface BubbleSizings {
+    top: [number,number],
+    left?: [number,number],
+    bottom?: [number,number],
+    right?: [number,number]
+}
+
+export interface BubbleSpeech {
+    position: "top"|"left"|"right"|"bottom"|"none",
+    alignment: "near"|"center"|"far",
+    offset?: number,
+}
+
+const defaultSizing: BubbleSizings = {
+    top: [8,8],
+    left: [8,8],
+    bottom: [8,8],
+    right: [8,8]
+}
+
+const defaultSpeech: BubbleSpeech = {
+    position: "bottom",
+    alignment: "far",
+    offset: 0
+}
+
+const {theme = "test", sizing = defaultSizing, speech = defaultSpeech} = Astro.props;
+
+const {top} = sizing,
+left = sizing.left ?? top,
+right = sizing.right ?? left,
+bottom = sizing.bottom ?? top;
+
+const { position, alignment, offset = 0 } = speech;
+
+const positions: Record<Exclude<BubbleSpeech["position"],"none">, Record<BubbleSpeech["alignment"], string>> = {
+    top: {
+        near: `left: ${top[0]*2 + offset}px`,
+        far: `right: ${top[0]*2 + offset}px`,
+        center: `left: 50%; margin-left: ${top[0]*0.5 + offset}px;`
+    },
+    left: {
+        near: `top: ${offset}px`,
+        far: `bottom: ${offset}px;`,
+        center: `top: 50%; margin-top: ${left[1]*-0.5 + offset}px;`
+    },
+    right: {
+        near: `top: ${offset}px`,
+        far: `bottom: ${offset}px`,
+        center: `top: 50%; margin-top: ${right[1]*-0.5 + offset}px;`
+    },
+    bottom: {
+        near: `left: ${bottom[0]*2 + offset}px`,
+        far: `right: ${bottom[0]*2 + offset}px`,
+        center: `left: 50%; margin-left: ${bottom[0]*0.5 + offset}px;`
+    },
+}
+
+function toPixels(a: number) {
+    return `${a}px`;
+}
+
+---
+
+<table class="bubble" style="position: relative" cellpadding="0">
+    <tr>
+        <td class="corner" style={{backgroundImage: `url(/bubbles/${theme}/top-left.gif)`, width: toPixels(left[0]), height: toPixels(top[1])}}></td>
+        <td style={{background: `url(/bubbles/${theme}/top-center.gif)`, height: toPixels(top[1])}}>
+            {  position === "top" && <div>
+                    <img style={positions.top[alignment]} class="triangle" src={`/bubbles/${theme}/speech-top.gif`} width={top[0]} height={top[1]}/>
+                </div>
+            }
+        </td>
+        <td class="corner" style={{backgroundImage: `url(/bubbles/${theme}/top-right.gif)`, width: toPixels(right[0]), height: toPixels(top[1])}}></td>
+    </tr>
+    <tr class="midrow" style="height: 100%">
+        <td class="corner" style={{backgroundImage: `url(/bubbles/${theme}/center-left.gif)`, height: "100%"}}>
+            {   position === "left" && <div>
+                    <img style={positions.left[alignment]} class="triangle" src={`/bubbles/${theme}/speech-left.gif`} width={left[0]} height={left[1]} />
+                </div>
+            }
+        </td>
+        <td style={{backgroundImage: `url(/bubbles/${theme}/center.gif)`, fontSize: "10pt"}}><slot/></td>
+        <td class="corner" style={{backgroundImage: `url(/bubbles/${theme}/center-right.gif)`, height: "100%"}}>
+            {   position === "right" && <div>
+                    <img style={positions.right[alignment]} class="triangle" src={`/bubbles/${theme}/speech-right.gif`} width={right[0]} height={right[1]} /> 
+                </div>
+            }
+        </td>
+    </tr>
+    <tr>
+        <td class="corner" style={{backgroundImage: `url(/bubbles/${theme}/bottom-left.gif)`, height: toPixels(bottom[1])}}></td>
+        <td style={{backgroundImage: `url(/bubbles/${theme}/bottom-center.gif)`, height: toPixels(bottom[1])}}>
+            {   position === "bottom" && (<div>
+                    <img style={positions.bottom[alignment]} class="triangle" src={`/bubbles/${theme}/speech-bottom.gif`} width={bottom[0]} height={bottom[1]}/>
+                </div>)
+            }
+        </td>
+        <td class="corner" style={{backgroundImage: `url(/bubbles/${theme}/bottom-right.gif)`, height: toPixels(bottom[1])}}></td>
+    </tr>
+</table>
+<style is:global>
+    .bubble {
+        width: 100%;
+        height: 100%;
+        border-collapse: collapse;
+        border-spacing: 0;
+        table-layout: auto;
+        margin: 20px 0
+    }
+    .bubble td, .bubble tr {
+        padding: 0;
+        margin: 0;
+        word-wrap: break-word;
+    }
+    .bubble .triangle {
+        display: block;
+        position: absolute;
+    }
+    .bubble div {
+        width: 100%;
+        height: 100%;
+        position: relative;
+    }
+    .bubble p {
+        margin: 5px;
+    }
+</style>

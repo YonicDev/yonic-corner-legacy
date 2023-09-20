@@ -1,0 +1,19 @@
+---
+import Bubble, {type BubbleSizings, type BubbleSpeech} from "./BubbleBase.astro";
+
+interface Props extends BubbleSpeech {}
+
+const sizing: BubbleSizings = {
+    top: [8,8],
+    left: [9,10],
+    bottom: [8,10]
+}
+
+const speech = Astro.props;
+
+speech.offset ??= 30;
+---
+
+<Bubble theme="comic-yonic" {sizing} {speech}>
+    <slot />
+</Bubble>

@@ -37,13 +37,16 @@ const { title } = Astro.props;
 	var ieVersion = /*@cc_on (function() {switch(@_jscript_version) {case 1.0: return 3; case 3.0: return 4; case 5.0: return 5; case 5.1: return 5; case 5.5: return 5.5; case 5.6: return 6; case 5.7: return 7; case 5.8: return 8; case 9: return 9; case 10: return 10;}})() || @*/ 0;
 
 	window.onload = function() {
-		$(".mid-row .triangle.center").each(function() {
-			this.style.top = $(".mid-row").height()*0.5 + "px";
-		});
 		if(ieVersion > 0 && ieVersion < 6) {
 			$(".figure").each(function() {
 				$(this).children('.caption').css('width', ($(this).children('img').width()) + 'px');
 			})
 		};
+		if(window.opera && window.opera.version() < 10) {
+			$(".midrow").each(function() {
+				var rowHeight = $(this).height();
+				$(this).children("td div").css('height', rowHeight + 'px');
+			})
+		}
 	};
 </script>
