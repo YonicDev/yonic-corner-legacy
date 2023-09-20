@@ -6,8 +6,11 @@
     height: 196px!important;
 }
 .navigation {
-    width: 168px!important;
-    padding-left: 28px!important;
+    width: 176px!important;
+    padding-left: 10px!important;
+}
+.navigation li {
+    margin-left: 0px!important;
 }
 .series-nav {
     width: 497px!important;

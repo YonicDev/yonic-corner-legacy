@@ -54,37 +54,45 @@ const rainbowColors = ["#078D70","#26CEAA","#98E8C1","white","#7BADE2","#5049CC"
 								<NavigationTable type="category" title="Categories" links={[
 									{
 										label: "Gaming",
-										href: "/category/gaming"
+										href: "/category/gaming",
+										icon: "/icons/category/gaming.gif"
 									},
 									{
 										label: "Dev stuff",
-										href: "/category/development"
+										href: "/category/development",
+										icon: "/icons/category/development.gif"
 									},
 									{
 										label: "Creative endeavours",
-										href: "/category/creations/"
+										href: "/category/creations/",
+										icon: "/icons/category/creations.gif"
 									},
 									{
 										label: "Outdoor adventures",
-										href: "/category/outside"
+										href: "/category/outside",
+										icon: "/icons/category/outside.gif"
 									},
 									{
 										label: "Blog updates",
-										href: "/category/blog"
+										href: "/category/blog",
+										icon: "/icons/category/blog.gif"
 									},
 									{
-										label: "Misc stuff",
-										href: "/category/miscellaneous/"
+										label: "Miscellaneous",
+										href: "/category/miscellaneous/",
+										icon: "/icons/category/misc.gif"
 									},
 								]}/>
 								<NavigationTable type="search" title="Search the blog" links={[
 									{
 										label: "Series",
-										href: "/blog"
+										href: "/series/1",
+										icon: "/icons/series.gif"
 									},
 									{
 										label: "Tags",
-										href: "/tags"
+										href: "/tags",
+										icon: "/icons/tags.gif"
 									},
 								]} />
 							</center>
@@ -99,11 +107,13 @@ const rainbowColors = ["#078D70","#26CEAA","#98E8C1","white","#7BADE2","#5049CC"
 								<NavigationTable type="browse" title="Browse the blog" links={[
 									{
 										label: "All posts",
-										href: "/blog"
+										href: "/blog/1",
+										icon: "/icons/all-posts.gif"
 									},
 									{
 										label: "About Yonic Corner",
-										href: "/about"
+										href: "/about",
+										icon: "/icons/about.gif"
 									},
 								]}/>
 								<MusicPlayerWindow />
@@ -123,7 +133,7 @@ const rainbowColors = ["#078D70","#26CEAA","#98E8C1","white","#7BADE2","#5049CC"
 				</div>
 				<center>
 					<p>Yonic Corner Legacy v{version}, hosted by GitHub Pages</p>
-					<span><a href="">Source code</a> | <a href="/rss.xml">Subscribe to feed</a> (WIP)</span>
+					<span><a href="">Source code</a> | <a href="/rss.xml"><img src="/icons/rss.gif" alt="RSS" width="16" height="16" style="vertical-align: middle"/> Subscribe to feed</a> (WIP)</span>
 				</center>
 			</div>
 		</center>

@@ -15,7 +15,10 @@ const {links, title, type} = Astro.props;
 <img class="navigation-tab" alt={title} src={`/ui/tab-${type}.gif`} width="200" height="32" />
 <ul class="navigation">
     {
-        links.map(({href, icon, label}) => <li style={`list-style-image: ${icon? `url(${icon})` : "inherit"}`}><a {href}>{label}</a></li>)
+        links.map(({href, icon, label}) => <li>
+            {icon && <img src={icon} width="16" height="16"/>}
+            <a {href}>{label}</a>
+        </li>)
     }
 </ul>
 
@@ -27,16 +30,22 @@ const {links, title, type} = Astro.props;
         background: #A1FFED;
         margin: 0;
         margin-bottom: 32px;
-        padding: 10px 0;
-        padding-left: 12px;
+        padding: 10px;
+        padding-left: 0px;
         border: 2px solid #003323;
         width: 200px;
         text-align: left;
         font-size: 10pt;
     }
-    .navigation > li {
+    .navigation li {
         margin: 3px 0;
+        margin-left: -10px;
         padding: 0;
+        list-style-type: none;
+        list-style-position: inside;
+    }
+    .navigation img {
+        vertical-align: middle;
     }
     .navigation-title {
         margin: 0;
