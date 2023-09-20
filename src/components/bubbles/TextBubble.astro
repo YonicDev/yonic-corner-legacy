@@ -1,0 +1,26 @@
+---
+/**
+ * This is the standard TextBubble components that is to be used in MDX posts.
+ * @param _props 
+ */
+import type { BubbleSpeech } from "./BubbleBase.astro";
+import YonicBubble from "./themes/Yonic.astro";
+
+interface Props {
+    theme: string,
+    position?: "top"|"left"|"right"|"bottom"|"none",
+    alignment?: "near"|"center"|"far",
+    offset?: number
+}
+
+
+const { theme, position = "none", offset, alignment = "center" } = Astro.props;
+
+const themes: Record<string, (_props: BubbleSpeech) => any> = {
+    "yonic": YonicBubble
+}
+
+const Component = themes[theme];
+---
+
+<Component {position} {offset} {alignment}><slot/></Component>

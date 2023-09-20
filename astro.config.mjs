@@ -19,12 +19,7 @@ export default defineConfig({
     integrations: [
         AutoImport({
             imports: [
-                {
-                    '@lib/components/bubbles/index.ts': [
-                        'BaseBubble',
-                        'YonicBubble'
-                    ]
-                }
+                '@lib/components/bubbles/TextBubble.astro'
             ]
         }),
         mdx(), 
