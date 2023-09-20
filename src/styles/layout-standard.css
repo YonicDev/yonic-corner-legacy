@@ -15,3 +15,10 @@
 .series-nav {
     width: 497px!important;
 }
+.post-listing .post-data {
+    width: 494px!important;
+}
+.post-listing .hero-image img {
+    width: 146px!important;
+    height: 96px!important;
+}

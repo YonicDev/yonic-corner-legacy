@@ -14,9 +14,9 @@ const { previous, next, title, category, series } = Astro.props;
 let link = "/blog/1";
 
 if(category in categories) {
-    link = `/blog/category/${category}/1`
+    link = `/category/${category}/1`
 } else if (category === "series" && series) {
-    link = `/blog/series/${series}`
+    link = `/series/${series}`
 }
     
 ---
