@@ -1,1 +1,108 @@
+@use "sass:list";
+@use "sass:map";
+
 @forward "./vars";
+@use "./vars" as *;
+
+#layout .post-listing {
+    display: block;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    .post-wrapper {
+        position: relative;
+        left: 12px;
+    }
+    .post-data {
+        background: #C5FFF4;
+        border: 3px solid #009183;
+        margin-bottom: 10px;
+        text-align: left;
+        width: 500px;
+        border-collapse: separate;
+        .hero-image {
+            width: 150px;
+            img {
+                display: block;
+                object-fit: fill;
+                border: 2px solid #003323;
+            }
+        }
+        a {
+            font-weight: normal;
+            overflow: hidden;
+        }
+        p {
+            margin: 0;
+            .category-image {
+                display: inline;
+                cursor: help;
+            }
+        }
+        table.data-table {
+            width: 100%;
+            height: 100px;
+            margin: 0;
+            .description {
+                height: 100%;
+                a {
+                    display: block;
+                    height: 81px;
+                    font-size: 10pt;
+                    color: black;
+                    text-decoration: none;
+                }
+            }
+        }
+    }
+    .number {
+        position: absolute;
+        z-index: 1;
+        top: 16px;
+        left: -8px;
+        border: 2px solid #003323;
+        background-color: #056b5a;
+        color: #a6ffee;
+        padding: 3px 5px;
+        margin: 0;
+        font-size: 10pt; 
+        font-weight: bold;
+    }
+}
+.listing-header div {
+    background-color: #056b5a;
+    border: 3px solid #003323;
+    padding: 10px;
+    color: #a6ffee;
+    margin-bottom: 10px;
+    h1 {
+        width: 450px;
+        margin: 0;
+        margin-bottom: 10px;
+        font-size: 16pt;
+    }
+    p {
+        width: 450px;
+    }
+    span {
+        display: block;
+        width: 450px;
+    }
+}
+@each $category, $cat in $categories {
+    .listing-header .#{$category} {
+        background-color: list.nth($cat, 1);
+        color: list.nth($cat, 2);
+        border-color: list.nth($cat, 2);
+    }
+}
+.page-navigator {
+    background-color: #a5cef5;
+    border: 3px solid #1e1947;
+    padding: 5px 0px;
+    margin-top: 10px;
+    font-size: 10pt;
+    a {
+        color: #0061bd;
+    }
+}

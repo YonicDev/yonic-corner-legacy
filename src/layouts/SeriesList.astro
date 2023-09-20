@@ -1,0 +1,79 @@
+---
+import Image from "astro/components/Image.astro";
+
+import type { Page } from "astro";
+import type { CollectionEntry } from "astro:content";
+
+import Layout from "@lib/layouts/Layout.astro";
+
+
+interface Props {
+    title: string,
+    description?: string,
+    page: Page<CollectionEntry<"series">>,
+}
+
+const { title, description, page } = Astro.props;
+---
+<Layout {title}>
+    <div style="height: 752px">
+        <div class="listing-header">
+            <div class="series">
+                <h1>{title}</h1>
+                {description && <p><small>{description}</small></p>}
+                <span>Showing {page.total} post{page.total !== 1 ? "s" : ""}</span>
+            </div>
+        </div>
+        <div class="post-listing">
+            {page.data.map(async (post) => {
+                let heroImage: any;
+                try {
+                    heroImage = (await import(`../assets/series/${post.id}/hero.png`)).default;
+                } catch(err) {
+                    heroImage = null;
+                }
+                return (<table class="post-data" cellspacing="5">
+                        <tr>
+                            <td class="hero-image">
+                                <a href={`/series/${post.id}/1`}>
+                                {heroImage!=null ?
+                                    <Image alt={post.data.title} src={heroImage} width="150" height="100" format="jpeg"/> : <img src={`/ui/thumbnails/series.gif`} alt={post.data.title} src={heroImage} width="150" height="100"/>
+                                }
+                                </a>
+                            </td>
+                            <td>
+                                <table class="data-table" style="border-collapse: collapse; border: none;">
+                                    <tr style="height: 0"><td>
+                                        <img class="category-image" title={post.data.title} alt="Series" src="/icons/series.gif" width={16} height={16} />
+                                        <a href={`/series/${post.id}/1`}><b>{post.data.title}</b></a>
+                                    </td></td>
+                                    <tr class="description"><td>
+                                        <a href={`/series/${post.id}/1`}>{post.data.description.length > 145? post.data.description.slice(0,145)+"..." : post.data.description}</a>
+                                    </td></tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>)
+            })}
+        </div>
+        <div class="page-navigator">
+            {page.currentPage > 1? <a href="/blog/1">&lt;&lt; First</a> : <span>&lt;&lt; First</span>}
+            {page.url.prev? <a href={page.url.prev}>&lt; Prev</a>:<span>&lt; Prev</span>}
+            <b>[</b>
+            {
+                [-2,-1,0,1,2].map((i) => {
+                    const pageNo = (page.currentPage+i).toString().padStart(2, "0")+(page.currentPage+i+1 > page.lastPage? "" : " ");
+                    if(i === 0) {
+                        return <b>{pageNo}</b>
+                    }
+                    else if(page.lastPage >= page.currentPage+i && page.currentPage+i >= 1) {
+                        return <a href={`/blog/${page.currentPage+i}`}>{pageNo}</b>
+                    }
+                })
+            }
+            <b>]</b>
+            {page.url.next? <a href={page.url.next}>Next &gt;</a> : <span>Next &gt;</span>}
+            {page.currentPage < page.lastPage? <a href="/blog/1">Last &gt;&gt;</a>:<span>Last &gt;&gt;</span>}
+        </div>
+    </div>
+</Layout>

@@ -1,0 +1,22 @@
+---
+import { CollectionEntry, getCollection } from "astro:content";
+
+import type { GetStaticPaths, Page } from "astro";
+
+import { BLOG_PAGE_SIZE } from "@lib/settings";
+import Layout from "@lib/layouts/SeriesList.astro";
+
+export const getStaticPaths: GetStaticPaths = async ({paginate}) => {
+    const series = await getCollection('series');
+    return paginate(series, { pageSize: BLOG_PAGE_SIZE });
+}
+
+const { page } = Astro.props;
+
+interface Props {
+    page: Page<CollectionEntry<"series">>,
+}
+
+---
+
+<Layout {page} title="Article series" description="" />
