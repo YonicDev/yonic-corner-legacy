@@ -1,0 +1,21 @@
+---
+import AlertBox from "./AlertBox.astro";
+
+import { MODERN_WEBSITE } from "@lib/settings";
+
+interface Props {
+    instance?: string,
+    id: string,
+}
+const { instance, id } = Astro.props;
+
+const INVIDIOUS_DEFAULT_INSTANCE = "https://inv.tux.pizza";
+
+const hrefOriginal = Astro.url.pathname.split("/");
+const slug = hrefOriginal[hrefOriginal.length-1];
+
+console.log(slug);
+---
+<AlertBox title="The Legacy Version does not support playing YouTube videos." icon="youtube">
+    You can check the <a href={`${MODERN_WEBSITE}/blog/article/${slug}`}>modern version</a> of The Yonic Corner, or open this video <a href={`${instance ?? INVIDIOUS_DEFAULT_INSTANCE}/watch?v=${id}`} target="_blank" rel="noopener noreferrer">from Insidious</a>.<p style="margin-bottom: 0; margin-top: 8px;"><i>Both options require a modern browser.</i></p>
+</AlertBox>

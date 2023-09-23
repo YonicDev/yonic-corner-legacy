@@ -19,7 +19,12 @@ export default defineConfig({
     integrations: [
         AutoImport({
             imports: [
-                '@lib/components/bubbles/TextBubble.astro'
+                '@lib/components/bubbles/TextBubble.astro',
+                '@lib/components/Picture.astro',
+                '@lib/components/Chara.astro',
+                {
+                    'astro:assets': ['Image']
+                },
             ]
         }),
         mdx(), 

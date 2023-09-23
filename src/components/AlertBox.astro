@@ -1,0 +1,47 @@
+---
+interface Props {
+    title: string;
+    icon?: string;
+}
+
+const {title, icon} = Astro.props;
+---
+<table class="alert-box">
+    <tr>
+        <td class="icon">
+            <img alt={title} src={`/icons/alert/${icon ?? "alert"}.gif`} width="64" height="64" />
+        </td>
+        <td>
+            <div class="data">
+            <p class="title">{title}</p>
+                <slot/>
+            </div>
+        </td>
+    </tr>
+</table>
+
+<style is:global lang="scss">
+    #layout .alert-box {
+        border: 1px dashed #004e37;
+        border-top-width: 2px;
+        border-bottom-width: 2px;
+        background-color: #e9fdf6;
+        width: 100%;
+        td {
+            vertical-align: middle;
+        }
+        .icon {
+            width: 64px;
+        }
+        .title {
+            font-weight: bold;
+            display: block;
+            font-size: 10pt;
+            margin: 0;
+        }
+        .data {
+            font-size: 10pt;
+            padding: 5px;
+        }
+    }
+</style>

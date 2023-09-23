@@ -48,3 +48,5 @@ export const categories: Record<CategoryId, Category> = {
         emphasisColor: "#003A1E",
     }
 }
+
+export const MODERN_WEBSITE = "https://yonic-corner-astro.netlify.app"
