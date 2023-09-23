@@ -17,7 +17,7 @@ export const getStaticPaths: GetStaticPaths = async ({paginate}) => {
                 const bPub = b.data.pubDate.getTime();
                 const aEdt = a.data.updatedDate?.getTime() ?? 0;
                 const bEdt = b.data.updatedDate?.getTime() ?? 0;
-                return Math.max(aPub, aEdt) - Math.max(bEdt, bPub) || a.id.localeCompare(b.id);
+                return Math.max(bPub, bEdt) - Math.max(aEdt, aPub) || a.id.localeCompare(b.id);
             })
     
         return paginate(filteredPosts, {
