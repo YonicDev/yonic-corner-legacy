@@ -6,13 +6,9 @@
 
 #layout .post-listing {
     display: block;
-    text-align: center;
+    text-align: left;
     margin: 0;
     padding: 0;
-    .post-wrapper {
-        position: relative;
-        left: 12px;
-    }
     .post-data {
         background: #C5FFF4;
         border: 3px solid #009183;
@@ -34,10 +30,6 @@
         }
         p {
             margin: 0;
-            .category-image {
-                display: inline;
-                cursor: help;
-            }
         }
         table.data-table {
             width: 100%;
@@ -55,16 +47,18 @@
             }
         }
     }
+    .category-image {
+        display: inline;
+        cursor: help;
+        margin-bottom: -2px;
+    }
     .number {
-        position: absolute;
-        z-index: 1;
-        top: 16px;
-        left: -8px;
+        width: 60px;
         border: 2px solid #003323;
+        border-bottom: none;
         background-color: #056b5a;
         color: #a6ffee;
         padding: 3px 5px;
-        margin: 0;
         font-size: 10pt; 
         font-weight: bold;
     }

@@ -1,11 +1,11 @@
 ---
-import Image from "astro/components/Image.astro";
 
 import type { Page } from "astro";
 import type { CollectionEntry } from "astro:content";
 
-import { categories, type CategoryId } from "@lib/settings";
+import type { CategoryId } from "@lib/settings";
 import Layout from "@lib/layouts/Layout.astro";
+import PostListing from "../components/PostListing.astro";
 
 
 interface Props {
@@ -17,13 +17,6 @@ interface Props {
 
 
 const { title, description, page, category = "default" } = Astro.props;
-let baseUrl = "/blog";
-switch(category) {
-    case "default":
-        break;
-    case "series":
-        baseUrl = `/category/${category}`
-}
 ---
 <Layout {title}>
     <div class="listing-header">
@@ -34,38 +27,8 @@ switch(category) {
         </div>
     </div>
     <div class="post-listing">
-        {page.data.map(async (post) => {
-            let heroImage: any;
-            try {
-                heroImage = (await import(`../assets/articles/${post.slug}/hero.png`)).default;
-            } catch(err) {
-                heroImage = null;
-            }
-            return (<div class="post-wrapper">
-                <table class="post-data" cellspacing="5">
-                    <tr>
-                        <td class="hero-image">
-                            <a href={`/blog/article/${post.slug}`}>
-                            {heroImage!=null ?
-                                <Image alt={post.data.title} src={heroImage} width="150" height="100" format="jpeg"/> : <img src={`/ui/thumbnails/${post.data.category}.gif`} alt={post.data.title} src={heroImage} width="150" height="100"/>
-                            }
-                            </a>
-                        </td>
-                        <td>
-                            <table class="data-table" style="border-collapse: collapse; border: none;">
-                                <tr style="height: 0"><td>
-                                    <img class="category-image" title={categories[post.data.category].title} alt={categories[post.data.category].title} src={`/icons/category/${post.data.category}.gif`} width={16} height={16} />
-                                    <a href={`/blog/article/${post.slug}`}><b>{post.data.title}</b></a>
-                                </td></td>
-                                <tr class="description"><td>
-                                    <a href={`/blog/article/${post.slug}`}>{post.data.description.length > 145? post.data.description.slice(0,145)+"..." : post.data.description}</a>
-                                </td></tr>
-                            </table>
-                        </td>
-                    </tr>
-                </table>
-                { category==="series" && <span class="number">{post.data.series!.order}</span>}
-            </div>)
+        {page.data.map(async (post, i) => {
+            return <PostListing {post} {i} page={page.currentPage} {category} />
         })}
     </div>
     <div class="page-navigator">

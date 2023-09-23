@@ -1,0 +1,58 @@
+---
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+
+import { BLOG_PAGE_SIZE, CategoryId, categories } from '@lib/settings';
+
+interface Props {
+    post: CollectionEntry<"blog">,
+    page: number,
+    category: CategoryId | "series" | "default",
+    i: number
+}
+
+const {post, i, page, category} = Astro.props;
+
+let heroImage: any;
+try {
+    heroImage = (await import(`../assets/articles/${post.slug}/hero.png`)).default;
+} catch(err) {
+    heroImage = null;
+}
+---
+<div class="post-wrapper">
+    { category==="series" && <div class="number">#{((page-1)*BLOG_PAGE_SIZE+i+1).toString().padStart(3, "0")}</div>}
+    <table class="post-data" cellspacing="5">
+        <tr>
+            <td class="hero-image">
+                <a href={`/blog/article/${post.slug}`}>
+                    {heroImage!=null ?
+                        (<Image alt={post.data.title} src={heroImage} width="150" height="100" format="jpeg"/>) : (<img src={`/ui/thumbnails/${post.data.category}.gif`} alt={post.data.title} src={heroImage} width="150" height="100"/>)
+                    }
+                </a>
+            </td>
+            <td>
+                <table class="data-table" style="border-collapse: collapse; border: none;">
+                    <tr style="height: 0"><td>
+                        <a href={`/category/${post.data.category}/1`}>
+                            <img class="category-image" title={categories[post.data.category].title} alt={categories[post.data.category].title} src={`/icons/category/${post.data.category}.gif`} width={16} height={16} />
+                        </a>
+                        <a href={`/blog/article/${post.slug}`}>
+                            <b>{post.data.title}</b>
+                        </a>
+                    </td></td>
+                    <tr class="description"><td>
+                        <a href={`/blog/article/${post.slug}`}>{post.data.description.length > 145? post.data.description.slice(0,145)+"..." : post.data.description}</a>
+                    </td></tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<style is:global>
+    .series-header {
+        border-collapse: collapse;
+        table-layout: fixed;
+    }
+</style>

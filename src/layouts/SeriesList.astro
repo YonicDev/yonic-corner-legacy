@@ -32,7 +32,8 @@ const { title, description, page } = Astro.props;
                 } catch(err) {
                     heroImage = null;
                 }
-                return (<table class="post-data" cellspacing="5">
+                return (<div class="series">
+                    <table class="post-data" cellspacing="5">
                         <tr>
                             <td class="hero-image">
                                 <a href={`/series/${post.id}/1`}>
@@ -44,7 +45,7 @@ const { title, description, page } = Astro.props;
                             <td>
                                 <table class="data-table" style="border-collapse: collapse; border: none;">
                                     <tr style="height: 0"><td>
-                                        <img class="category-image" title={post.data.title} alt="Series" src="/icons/series.gif" width={16} height={16} />
+                                        <a><img class="category-image" title="Series" alt="Series" src="/icons/series.gif" width={16} height={16} /></a>
                                         <a href={`/series/${post.id}/1`}><b>{post.data.title}</b></a>
                                     </td></td>
                                     <tr class="description"><td>
@@ -53,7 +54,8 @@ const { title, description, page } = Astro.props;
                                 </table>
                             </td>
                         </tr>
-                    </table>)
+                    </table>
+                </div>)
             })}
         </div>
         <div class="page-navigator">
