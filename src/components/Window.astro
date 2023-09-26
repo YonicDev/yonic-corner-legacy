@@ -1,23 +1,23 @@
 ---
-const {maxWidth, title} = Astro.props;
+const {title, class: className} = Astro.props;
 
 interface Props {
     title?: string;
-    maxWidth?: string;
+    class?: string;
 }
 ---
 
-<table>
+<table class:list={["window", className]}>
     <tr>
-        <td><img src="/ui/window-top-left.gif" /></td>
+        <td class="corner"><img src="/ui/window-top-left.gif" /></td>
         <td class="top-center"></td>
         <td class={title? "top-center-title" : "top-center"}>{title}</td>
         <td class="top-center"></td>
-        <td><img src="/ui/window-top-left.gif" /></td>
+        <td class="corner"><img src="/ui/window-top-left.gif" /></td>
     </tr>
     <tr>
         <td class="left"></td>
-        <td colspan="3" class="content" style={{width: maxWidth ?? "500px"}}><slot/></td>
+        <td colspan="3" class="content"><slot/></td>
         <td class="right"></td>
     </tr>
     <tr>
@@ -27,50 +27,56 @@ interface Props {
     </tr>
 </table>
 
-<style is:global>
-    table {
+<style lang="scss" is:global>
+    #layout .window {
         border-collapse:collapse;
         border: none;
         padding: 0px;
         margin: 0px;
-    }
-    table tr, table td {
-        border: none;
-        padding: 0;
-        vertical-align: bottom;
-    }
-    .top-center {
-        background-image: url("/ui/window-top.gif");
-        background-repeat: repeat no-repeat;
-        background-position: bottom;
-        padding: 0 30px;
-    }
-    .bottom-center {
-        background-image: url("/ui/window-bottom.gif");
-        background-repeat: repeat no-repeat;
-    }
-    .top-center-title {
-        background-image: url("/ui/window-bottom.gif");
-        text-align: center;
-        color: aqua;
-        vertical-align: middle;
-        font-weight: bold;
-    }
-    .left {
-        background-image: url("/ui/window-left.gif");
-        /* background-position: right; */
-    }
-    .right {
-        background-image: url("/ui/window-right.gif");
-        /* background-position: left; */
-    }
-    .content {
-        background-color: #003333;
-        color: white;
-        padding: 10px;
-    }
-    td img {
-        vertical-align: top;
-        user-select: none;
+        table-layout: fixed;
+        width: 454px;
+        tr, td {
+            border: none;
+            padding: 0;
+            vertical-align: bottom;
+        }
+        .corner {
+            width: 25px;
+        }
+        .top-center {
+            background-image: url("/ui/window-top.gif");
+            background-repeat: repeat no-repeat;
+            background-position: bottom;
+            padding: 0 30px;
+        }
+        .bottom-center {
+            background-image: url("/ui/window-bottom.gif");
+            background-repeat: repeat no-repeat;
+        }
+        .top-center-title {
+            background-image: url("/ui/window-bottom.gif");
+            text-align: center;
+            color: aqua;
+            vertical-align: middle;
+            font-weight: bold;
+        }
+        .left {
+            background-image: url("/ui/window-left.gif");
+            /* background-position: right; */
+        }
+        .right {
+            background-image: url("/ui/window-right.gif");
+            /* background-position: left; */
+        }
+        .content {
+            background-color: #003333;
+            color: white;
+            padding: 10px;
+            // overflow: scroll;
+        }
+        td img {
+            vertical-align: top;
+            user-select: none;
+        }
     }
 </style>

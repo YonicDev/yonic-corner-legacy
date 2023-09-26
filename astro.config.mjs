@@ -19,6 +19,7 @@ export default defineConfig({
     integrations: [
         AutoImport({
             imports: [
+                mdxCodeBlockAutoImport("@lib/components/CodeBlock.astro"),
                 '@lib/components/bubbles/TextBubble.astro',
                 '@lib/components/Picture.astro',
                 '@lib/components/Chara.astro',
@@ -27,6 +28,7 @@ export default defineConfig({
                 },
             ]
         }),
+        MDXCodeBlocks(),
         mdx(), 
         sitemap(),
     ],

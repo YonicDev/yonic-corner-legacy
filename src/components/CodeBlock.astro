@@ -1,0 +1,27 @@
+---
+import { Code } from 'astro/components';
+
+import Window from './Window.astro';
+
+const {
+    code,
+    lang,
+    filename,
+} = Astro.props;
+---
+<Window class="code-window" title={filename}>
+    <Code code={code} lang={lang} theme="min-dark"/>
+</Window>
+
+<style lang="scss" is:global>
+    .astro-code {
+        width: 100%;
+        background: none!important;
+        margin: 0!important;
+        padding: 0!important;
+        overflow: auto!important;
+        overflow: scroll auto!important;
+        overflow-x: scroll!important;
+        font-size: 12px;
+    }
+</style>
