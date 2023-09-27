@@ -7,7 +7,6 @@ import type { ImageMetadata } from 'astro';
 import Layout from "@lib/layouts/Article.astro";
 import Series from "@lib/components/Series.astro";
 import { categories } from '@lib/settings';
-import { data } from 'jquery';
 
 interface Props {
     post: CollectionEntry<'blog'>,
@@ -73,14 +72,22 @@ const hero = await getHeroImage();
 ---
 
 <Layout {...post.data}>
+    <div class="category-label"><a href={`/category/${post.data.category}/1`}><img src={`/icons/category/${post.data.category}.gif`}/> {categories[post.data.category].title}</a></div>
     {
         hero!=null && <Image alt={post.data.title} src={hero} width="454" format="jpg"/>
     }
-    <h1>{post.data.title}</h1>
+    <h1>{post.data.title}{post.data.draft && <sup>[draft]</sup>}</h1>
     <div>
-        <span><img src="/icons/article.gif" alt="Published"/> {dateFormat.format(post.data.pubDate)}</span>
-        { post.data.updatedDate && <span><img src="/icons/edit.gif" alt="Last modified"/> {dateFormat.format(post.data.updatedDate)}</span> }
+        <span><img class="icon" src="/icons/article.gif" alt="Published" title="Published"/> {dateFormat.format(post.data.pubDate)}</span>
+        { post.data.updatedDate && <span><img class="icon" src="/icons/edit.gif" alt="Last modified" title="Last modified"/> {dateFormat.format(post.data.updatedDate)}</span> }
     </div>
+    <div class="tags-list">
+        <img class="icon" src="/icons/tags.gif" alt="Tags" title="Tags" width="16" height="16"/> Tags:
+        { post.data.tags.length > 0 ? post.data.tags.sort((a, b) => a.localeCompare(b)).map(tag => (
+            <a class="tag" href={`/tag/${tag}/1`}>{tag.replaceAll("-"," ")}</a>
+        )) : <span>None</span>}
+    </div>
+    <hr/>
     <Content/>
     {
         series && seriesPosts.length > 0 && seriesIndex >= 0 && (
@@ -90,3 +97,21 @@ const hero = await getHeroImage();
     <Series slot="below" category={post.data.category} title={categories[post.data.category].title + " posts"} previous={postsSameCategory[sameCategoryIndex-1]} next={postsSameCategory[sameCategoryIndex+1]}/>
     <Series slot="below" category="all" title="All posts" previous={allPosts[index-1]} next={allPosts[index+1]}/>
 </Layout>
+
+<style is:global>
+    .tags-list {
+        line-height: 24px;
+        word-wrap: normal;
+        word-break: keep-all;
+    }
+    .category-label {
+        margin-bottom: 12px;
+    }
+    #main-article hr {
+        border: none;
+        border-top: 3px solid #009183;
+    }
+    .icon {
+        cursor: help;
+    }
+</style>

@@ -1,0 +1,36 @@
+---
+import { CollectionEntry, getCollection } from "astro:content";
+
+import type { GetStaticPaths, Page } from "astro";
+
+import Layout from "@lib/layouts/PostList.astro";
+import { BLOG_PAGE_SIZE } from "@lib/settings";
+
+export const getStaticPaths = (async ({paginate}) => {
+    const allPosts = (await getCollection('blog')).filter(post => {
+        return import.meta.env.DEV || !post.data.draft;
+        }).sort((a, b) => {
+            const aPub = a.data.pubDate.getTime();
+            const bPub = b.data.pubDate.getTime();
+            const aEdt = a.data.updatedDate?.getTime() ?? 0;
+            const bEdt = b.data.updatedDate?.getTime() ?? 0;
+            return Math.max(bPub, bEdt) - Math.max(aEdt, aPub) || a.id.localeCompare(b.id);
+        });
+
+    const allTags = allPosts.flatMap(post => post.data.tags);
+    const tags = [...new Set(allTags)].sort((a, b) => a.localeCompare(b));
+
+    return tags.flatMap(tag => {
+        const posts = allPosts.filter(({data}) => data.tags.indexOf(tag) >= 0);
+        return paginate(posts, { params: {tag}, pageSize: BLOG_PAGE_SIZE })
+    });
+}) satisfies GetStaticPaths;
+
+interface Props {
+    page: Page<CollectionEntry<"blog">>
+}
+
+const {page} = Astro.props;
+const {tag} = Astro.params;
+---
+<Layout {page} title={`Posts with tag "${tag?.replaceAll("-", " ") ?? "UNKNOWN"}"`} />

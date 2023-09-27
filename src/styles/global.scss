@@ -39,7 +39,7 @@
                 height: 100%;
                 a {
                     display: block;
-                    height: 81px;
+                    height: 100%;
                     font-size: 10pt;
                     color: black;
                     text-decoration: none;
@@ -99,4 +99,12 @@
     a {
         color: #0061bd;
     }
+}
+.tag {
+    background: #a5cef5;
+    color: #0061bd;
+    margin: 5px;
+    white-space: normal;
+    padding: 0 5px;
+    line-height: 10px;
 }

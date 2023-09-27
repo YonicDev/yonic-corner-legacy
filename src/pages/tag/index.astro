@@ -1,0 +1,107 @@
+---
+import Layout from "@lib/layouts/Layout.astro"
+import { getCollection } from "astro:content";
+
+const title = "Tags"
+const description = "Search blog posts by their tags."
+
+const posts = (await getCollection("blog"))
+    .filter(post => import.meta.env.DEV || !post.data.draft);
+
+const allTags = posts.flatMap(post => post.data.tags);
+const tags = [...new Set(allTags)];
+const occurrences = tags.map(tag => {
+    return {tag, times: allTags.reduce((acc, tag2) => acc += tag2 === tag? 1 : 0, 0)}
+}).sort((a, b) => b.times - a.times || a.tag.localeCompare(b.tag));
+
+const alphabet = 'abcdefghijklmnopqrstuvwxyz'.split("");
+---
+<Layout {title}>
+    <center>
+        <div id="top" class="listing-header">
+            <div class="default">
+                <h1>{title}</h1>
+                <span>{description}</span>
+            </div>
+        </div>
+        <div class="article">
+            <div id="tag-directory">
+                <div class="link-section">
+                    <h3>Index</h3>
+                    {alphabet.map((char, i) => {
+                        const tagsWithHits = occurrences.filter(occ => occ.tag.startsWith(char))
+                        return <>
+                            {
+                                tagsWithHits.length > 0 ? <><a href={`#section-${char}`}>{char.toUpperCase()}</a>{i < alphabet.length -1 ? " | ": ""}</> : <span><b>{char.toUpperCase()}</b>{i < alphabet.length -1 ? " | ": ""}</span>
+                            }
+                        </>
+                    })}
+                </div>
+            </div>
+            {alphabet.map(char => {
+                const tagsWithHits = occurrences.filter(occ => occ.tag.startsWith(char))
+                if(tagsWithHits.length < 1)
+                    return undefined;
+                return (<>
+                    <table class="stop" id={`section-${char}`}><tr>
+                        <td><span>{char.toUpperCase()}</span></td>
+                        <td style="width:100%"></td>
+                        <td><a href="#top">&uarr;&nbsp;<small>Top</small></a></td>
+                    </tr></table>
+                    {
+                        tagsWithHits.map(({tag, times}) => (
+                            <a class="tag" href={`/tag/${tag}/1`}>{tag} | {times}</a>
+                        ))
+                    }
+                </>)
+            })}
+        </div>
+    </center>
+</Layout>
+
+<style lang="scss" is:global>
+	.article {
+		background: #C5FFF4;
+		border: 3px solid #009183;
+		text-align: left;
+		width: 500px;
+		padding: 20px;
+		font-size: 11pt;
+        .stop {
+            margin: 15px 0;
+            border-collapse: collapse;
+            span {
+                font-size: 20px;
+                font-weight: bold;
+            }
+            a {
+                font-size: 18px;
+                small {
+                    font-size: 12px;
+                }
+            }
+        }
+	}
+	.article a {
+		color: #1768d3;
+	}
+	.article p {
+		margin: 12pt 0;
+	}
+    #tag-directory {
+        border: 2px solid #1768d3;
+        background-color: #a5cef5;
+        padding: 10px;
+        text-align: center;
+        h3 {
+            margin: 0;
+            margin-bottom: 5px;
+        }
+        .link-section {
+            font-size: 13px;
+            b {
+                color: #666666;
+            }
+        }
+    }
+</style>

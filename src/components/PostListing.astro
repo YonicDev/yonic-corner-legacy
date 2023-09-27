@@ -38,13 +38,21 @@ try {
                             <img class="category-image" title={categories[post.data.category].title} alt={categories[post.data.category].title} src={`/icons/category/${post.data.category}.gif`} width={16} height={16} />
                         </a>
                         <a href={`/blog/article/${post.slug}`}>
-                            <b>{post.data.title}</b>
+                            <b>{post.data.title}{post.data.draft && <sup>[draft]</sup>}</b>
                         </a>
                     </td></td>
                     <tr class="description"><td>
                         <a href={`/blog/article/${post.slug}`}>{post.data.description.length > 145? post.data.description.slice(0,145)+"..." : post.data.description}</a>
                     </td></tr>
                 </table>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" class="tags-row">
+                <span>Tags:</span>
+                {
+                    post.data.tags.length > 0 ? post.data.tags.sort((a,b) => a.localeCompare(b)).map(tag => <a href={`/tag/${tag}/1`} class="tag">{tag.replaceAll("-", " ")}</a>) : <span>None</span>
+                }
             </td>
         </tr>
     </table>
@@ -54,5 +62,9 @@ try {
     .series-header {
         border-collapse: collapse;
         table-layout: fixed;
+    }
+    .tags-row {
+        font-size: 10pt;
+        line-height: 20px;
     }
 </style>
