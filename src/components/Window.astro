@@ -29,10 +29,13 @@ interface Props {
 
 <style lang="scss" is:global>
     #layout .window {
+        $margin: 24px;
         border-collapse:collapse;
         border: none;
         padding: 0px;
-        margin: 0px;
+        margin: #{$margin};
+        margin: #{$margin} 0;
+        margin: #{$margin} auto;
         table-layout: fixed;
         width: 454px;
         tr, td {

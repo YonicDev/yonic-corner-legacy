@@ -34,7 +34,8 @@ export default defineConfig({
     ],
     vite: {
         build: {
-            target: "es6"
+            target: "es6",
+            assetsInlineLimit: 0,
         }
     },
 });

@@ -25,3 +25,9 @@
 .post-listing .number {
     width: 46px!important;
 }
+
+@media all and (-webkit-min-device-pixel-ratio:10000), not all and (-webkit-min-device-pixel-ratio:0) {
+    * {
+        box-sizing: border-box;
+    }
+}
