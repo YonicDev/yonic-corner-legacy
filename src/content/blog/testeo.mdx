@@ -1,5 +1,6 @@
 ---
 title: "Second article test for article test"
+draft: true
 category: gaming
 description: "Yeah no kids allowed"
 pubDate: "2023-08-30T20:47:29.783Z"
@@ -11,9 +12,28 @@ tags: [test, hola, long-tag-word, mundo]
 import Test from "@assets/articles/test/test.jpeg"
 import TestUrl from "@assets/articles/test/test.jpeg?url"
 
+import AlertBox from "@lib/components/AlertBox.astro"
+
 export const components = { img: Picture }
 
-This is a test
+<AlertBox title="Test!">
+This is a test for many of the components of the legacy blog.
+</AlertBox>
+
+I wonder if this looks consistent.
+
+```js
+//file.js
+window.onload = function() {
+    var obsolete = /IE/.test(navigator.userAgent) && window.IE < 5;
+}
+```
+
+```cpp
+void main() {
+    std::cout << "Hello world!"
+}
+```
 
 <TextBubble theme="yonic" position="bottom" alignment="far">
 Test for **speech bubbles**!
