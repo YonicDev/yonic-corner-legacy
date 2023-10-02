@@ -74,7 +74,7 @@ const hero = await getHeroImage();
 <Layout {...post.data}>
     <div class="category-label"><a href={`/category/${post.data.category}/1`}><img src={`/icons/category/${post.data.category}.gif`}/> {categories[post.data.category].title}</a></div>
     {
-        hero!=null && <Image alt={post.data.title} src={hero} width="454" format="jpg"/>
+        hero!=null && <Image alt={post.data.title} src={hero} width="454" format="jpg" quality="max"/>
     }
     <h1>{post.data.title}{post.data.draft && <sup>[draft]</sup>}</h1>
     <div>
