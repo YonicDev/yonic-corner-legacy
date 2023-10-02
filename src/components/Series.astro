@@ -16,7 +16,7 @@ let link = "/blog/1";
 if(category in categories) {
     link = `/category/${category}/1`
 } else if (category === "series" && series) {
-    link = `/series/${series}`
+    link = `/series/${series}/1`
 }
 
 const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, "");
