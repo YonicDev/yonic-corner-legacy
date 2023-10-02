@@ -4,12 +4,14 @@ interface Props {
     icon?: string;
 }
 
+const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, "");
+
 const {title, icon} = Astro.props;
 ---
 <table class="alert-box">
     <tr>
         <td class="icon">
-            <img alt={title} src={`/icons/alert/${icon ?? "alert"}.gif`} width="64" height="64" />
+            <img alt={title} src={`${baseUrl}/icons/alert/${icon ?? "alert"}.gif`} width="64" height="64" />
         </td>
         <td>
             <div class="data">

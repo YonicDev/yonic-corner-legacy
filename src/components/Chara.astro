@@ -8,8 +8,10 @@ export interface Props {
     position?: "left"|"right";
 }
 
+const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, "");
+
 const { name, set = "default", sprite, thoughts, position = "right", height=200 } = Astro.props;
 ---
 <div class="chara" style={{textAlign: position}}>
-    <img src={`/chara/${name}/${set}/${sprite}.gif`} alt={thoughts} title={thoughts} {height}/>
+    <img src={`${baseUrl}/chara/${name}/${set}/${sprite}.gif`} alt={thoughts} title={thoughts} {height}/>
 </div>

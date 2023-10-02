@@ -8,7 +8,8 @@ import sitemap from "@astrojs/sitemap";
 
 // https://astro.build/config
 export default defineConfig({
-    site: "https://yonic-corner-legacy.netlify.app",
+    site: "http://yonicdev.github.io",
+    base: "/yonic-corner-legacy",
     scopedStyleStrategy: "class",
     experimental: {
         assets: true

@@ -13,6 +13,8 @@ interface Props {
 
 const {post, i, page, category} = Astro.props;
 
+const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, "");
+
 let heroImage: any;
 try {
     heroImage = (await import(`../assets/articles/${post.slug}/hero.png`)).default;
@@ -25,24 +27,24 @@ try {
     <table class="post-data" cellspacing="5">
         <tr>
             <td class="hero-image">
-                <a href={`/blog/article/${post.slug}`}>
+                <a href={`${baseUrl}/blog/article/${post.slug}`}>
                     {heroImage!=null ?
-                        (<Image alt={post.data.title} src={heroImage} width="150" height="100" format="jpeg"/>) : (<img src={`/ui/thumbnails/${post.data.category}.gif`} alt={post.data.title} src={heroImage} width="150" height="100"/>)
+                        (<Image alt={post.data.title} src={heroImage} width="150" height="100" format="jpeg"/>) : (<img src={`${baseUrl}/ui/thumbnails/${post.data.category}.gif`} alt={post.data.title} src={heroImage} width="150" height="100"/>)
                     }
                 </a>
             </td>
             <td>
                 <table class="data-table" style="border-collapse: collapse; border: none;">
                     <tr style="height: 0"><td>
-                        <a href={`/category/${post.data.category}/1`}>
-                            <img class="category-image" title={categories[post.data.category].title} alt={categories[post.data.category].title} src={`/icons/category/${post.data.category}.gif`} width={16} height={16} />
+                        <a href={`${baseUrl}/category/${post.data.category}/1`}>
+                            <img class="category-image" title={categories[post.data.category].title} alt={categories[post.data.category].title} src={`${baseUrl}/icons/category/${post.data.category}.gif`} width={16} height={16} />
                         </a>
-                        <a href={`/blog/article/${post.slug}`}>
+                        <a href={`${baseUrl}/blog/article/${post.slug}`}>
                             <b>{post.data.title}{post.data.draft && <sup>[draft]</sup>}</b>
                         </a>
                     </td></td>
                     <tr class="description"><td>
-                        <a href={`/blog/article/${post.slug}`}>{post.data.description.length > 145? post.data.description.slice(0,145)+"..." : post.data.description}</a>
+                        <a href={`${baseUrl}/blog/article/${post.slug}`}>{post.data.description.length > 145? post.data.description.slice(0,145)+"..." : post.data.description}</a>
                     </td></tr>
                 </table>
             </td>
@@ -51,7 +53,7 @@ try {
             <td colspan="2" class="tags-row">
                 <span>Tags:</span>
                 {
-                    post.data.tags.length > 0 ? post.data.tags.sort((a,b) => a.localeCompare(b)).map(tag => <a href={`/tag/${tag}/1`} class="tag">{tag.replaceAll("-", " ")}</a>) : <span>None</span>
+                    post.data.tags.length > 0 ? post.data.tags.sort((a,b) => a.localeCompare(b)).map(tag => <a href={`${baseUrl}/tag/${tag}/1`} class="tag">{tag.replaceAll("-", " ")}</a>) : <span>None</span>
                 }
             </td>
         </tr>

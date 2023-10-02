@@ -18,25 +18,27 @@ if(category in categories) {
 } else if (category === "series" && series) {
     link = `/series/${series}`
 }
+
+const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, "");
     
 ---
 <div class={category}>
     <table class="series-nav">
         <tr>
             <th style="text-align: left; width: 37.5%"><span>&lt; </span><span class="iptag">PREV</span></th>
-            <th rowspan="2" style="width: 25%;"><a href={link}>{title}</a></th>
+            <th rowspan="2" style="width: 25%;"><a href={baseUrl + link}>{title}</a></th>
             <th style="text-align: right; width: 37.5%"><span class="iptag">NEXT</span><span> &gt;</span></th>
         </tr>
         <tr>
             <td>
                 {
-                    previous? (<a href={`/blog/article/${previous.slug}`}>{previous.data.title}</a>) :
+                    previous? (<a href={`${baseUrl}/blog/article/${previous.slug}`}>{previous.data.title}</a>) :
                     <i>This is the first post</i>
                 }
             </td>
             <td>
                 {
-                    next? (<a href={`/blog/article/${next.slug}`}>{next.data.title}</a>) :
+                    next? (<a href={`${baseUrl}/blog/article/${next.slug}`}>{next.data.title}</a>) :
                     <i>This is the last post</i>
                 }
             </td>

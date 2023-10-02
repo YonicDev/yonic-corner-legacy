@@ -1,6 +1,10 @@
 ---
 const {title, class: className} = Astro.props;
 
+const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, "");
+
+const windowCorner = (corner: string) => `url(${baseUrl}/ui/window-${corner}.gif)`;
+
 interface Props {
     title?: string;
     class?: string;
@@ -9,21 +13,21 @@ interface Props {
 
 <table class:list={["window", className]}>
     <tr>
-        <td class="corner"><img src="/ui/window-top-left.gif" /></td>
-        <td class="top-center"></td>
-        <td class={title? "top-center-title" : "top-center"}>{title}</td>
-        <td class="top-center"></td>
-        <td class="corner"><img src="/ui/window-top-left.gif" /></td>
+        <td class="corner"><img src={baseUrl + "/ui/window-top-left.gif"} /></td>
+        <td class="top-center" style={{backgroundImage: windowCorner("top")}}></td>
+        <td class={title? "top-center-title" : "top-center"} style={{backgroundImage: title? windowCorner("bottom") : windowCorner("top")}}>{title}</td>
+        <td class="top-center" style={{backgroundImage: windowCorner("top")}}></td>
+        <td class="corner"><img src={baseUrl + "/ui/window-top-left.gif"} /></td>
     </tr>
     <tr>
-        <td class="left"></td>
+        <td class="left" style={{backgroundImage: windowCorner("left")}}></td>
         <td colspan="3" class="content"><slot/></td>
-        <td class="right"></td>
+        <td class="right" style={{backgroundImage: windowCorner("right")}}></td>
     </tr>
     <tr>
-        <td><img src="/ui/window-top-left.gif" /></td>
-        <td colspan="3" class="bottom-center"></td>
-        <td><img src="/ui/window-top-left.gif" /></td>
+        <td><img src={baseUrl + "/ui/window-top-left.gif"} /></td>
+        <td colspan="3" class="bottom-center" style={{backgroundImage: windowCorner("bottom")}}></td>
+        <td><img src={baseUrl + "/ui/window-top-left.gif"} /></td>
     </tr>
 </table>
 

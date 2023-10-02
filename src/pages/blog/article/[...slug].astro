@@ -52,6 +52,8 @@ const dateFormat = new Intl.DateTimeFormat('en-US',
     day: '2-digit',
 })
 
+const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, "");
+
 /**
  * Gets the hero image.
  * 
@@ -72,19 +74,19 @@ const hero = await getHeroImage();
 ---
 
 <Layout {...post.data}>
-    <div class="category-label"><a href={`/category/${post.data.category}/1`}><img src={`/icons/category/${post.data.category}.gif`}/> {categories[post.data.category].title}</a></div>
+    <div class="category-label"><a href={`${baseUrl}/category/${post.data.category}/1`}><img src={`${baseUrl}/icons/category/${post.data.category}.gif`}/> {categories[post.data.category].title}</a></div>
     {
         hero!=null && <Image alt={post.data.title} src={hero} width="454" format="jpg" quality="max"/>
     }
     <h1>{post.data.title}{post.data.draft && <sup>[draft]</sup>}</h1>
     <div>
-        <span><img class="icon" src="/icons/article.gif" alt="Published" title="Published"/> {dateFormat.format(post.data.pubDate)}</span>
-        { post.data.updatedDate && <span><img class="icon" src="/icons/edit.gif" alt="Last modified" title="Last modified"/> {dateFormat.format(post.data.updatedDate)}</span> }
+        <span><img class="icon" src={baseUrl + "/icons/article.gif"} alt="Published" title="Published"/> {dateFormat.format(post.data.pubDate)}</span>
+        { post.data.updatedDate && <span><img class="icon" src={baseUrl + "/icons/edit.gif"} alt="Last modified" title="Last modified"/> {dateFormat.format(post.data.updatedDate)}</span> }
     </div>
     <div class="tags-list">
-        <img class="icon" src="/icons/tags.gif" alt="Tags" title="Tags" width="16" height="16"/> Tags:
+        <img class="icon" src={baseUrl + "/icons/tags.gif"} alt="Tags" title="Tags" width="16" height="16"/> Tags:
         { post.data.tags.length > 0 ? post.data.tags.sort((a, b) => a.localeCompare(b)).map(tag => (
-            <a class="tag" href={`/tag/${tag}/1`}>{tag.replaceAll("-"," ")}</a>
+            <a class="tag" href={`${baseUrl}/tag/${tag}/1`}>{tag.replaceAll("-"," ")}</a>
         )) : <span>None</span>}
     </div>
     <hr/>

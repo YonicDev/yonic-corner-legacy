@@ -14,6 +14,8 @@ interface Props {
 }
 
 const { title, description, page } = Astro.props;
+
+const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, "");
 ---
 <Layout {title}>
     <div style="height: 752px">
@@ -36,20 +38,20 @@ const { title, description, page } = Astro.props;
                     <table class="post-data" cellspacing="5">
                         <tr>
                             <td class="hero-image">
-                                <a href={`/series/${post.id}/1`}>
+                                <a href={`${baseUrl}/series/${post.id}/1`}>
                                 {heroImage!=null ?
-                                    <Image alt={post.data.title} src={heroImage} width="150" height="100" format="jpeg"/> : <img src={`/ui/thumbnails/series.gif`} alt={post.data.title} src={heroImage} width="150" height="100"/>
+                                    <Image alt={post.data.title} src={heroImage} width="150" height="100" format="jpeg"/> : <img src={`${baseUrl}/ui/thumbnails/series.gif`} alt={post.data.title} src={heroImage} width="150" height="100"/>
                                 }
                                 </a>
                             </td>
                             <td>
                                 <table class="data-table" style="border-collapse: collapse; border: none;">
                                     <tr style="height: 0"><td>
-                                        <a><img class="category-image" title="Series" alt="Series" src="/icons/series.gif" width={16} height={16} /></a>
-                                        <a href={`/series/${post.id}/1`}><b>{post.data.title}</b></a>
+                                        <a><img class="category-image" title="Series" alt="Series" src={baseUrl + "/icons/series.gif"} width={16} height={16} /></a>
+                                        <a href={`${baseUrl}/series/${post.id}/1`}><b>{post.data.title}</b></a>
                                     </td></td>
                                     <tr class="description"><td>
-                                        <a href={`/series/${post.id}/1`}>{post.data.description.length > 145? post.data.description.slice(0,145)+"..." : post.data.description}</a>
+                                        <a href={`${baseUrl}/series/${post.id}/1`}>{post.data.description.length > 145? post.data.description.slice(0,145)+"..." : post.data.description}</a>
                                     </td></tr>
                                 </table>
                             </td>
@@ -59,7 +61,7 @@ const { title, description, page } = Astro.props;
             })}
         </div>
         <div class="page-navigator">
-            {page.currentPage > 1? <a href="/blog/1">&lt;&lt; First</a> : <span>&lt;&lt; First</span>}
+            {page.currentPage > 1? <a href={baseUrl+"/blog/1"}>&lt;&lt; First</a> : <span>&lt;&lt; First</span>}
             {page.url.prev? <a href={page.url.prev}>&lt; Prev</a>:<span>&lt; Prev</span>}
             <b>[</b>
             {
@@ -69,13 +71,13 @@ const { title, description, page } = Astro.props;
                         return <b>{pageNo}</b>
                     }
                     else if(page.lastPage >= page.currentPage+i && page.currentPage+i >= 1) {
-                        return <a href={`/blog/${page.currentPage+i}`}>{pageNo}</b>
+                        return <a href={`${baseUrl}/blog/${page.currentPage+i}`}>{pageNo}</b>
                     }
                 })
             }
             <b>]</b>
             {page.url.next? <a href={page.url.next}>Next &gt;</a> : <span>Next &gt;</span>}
-            {page.currentPage < page.lastPage? <a href="/blog/1">Last &gt;&gt;</a>:<span>Last &gt;&gt;</span>}
+            {page.currentPage < page.lastPage? <a href={baseUrl + "/blog/1"}>Last &gt;&gt;</a>:<span>Last &gt;&gt;</span>}
         </div>
     </div>
 </Layout>

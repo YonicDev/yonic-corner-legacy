@@ -16,7 +16,9 @@ const { title } = Astro.props;
 
 const rainbowColors = ["#078D70","#26CEAA","#98E8C1","white","#7BADE2","#5049CC","#3D1A78"]
 
+const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, "");
 
+const basify = (url: string) => `url(${baseUrl}${url})`;
 ---
 
 <!DOCTYPE html>
@@ -25,8 +27,8 @@ const rainbowColors = ["#078D70","#26CEAA","#98E8C1","white","#7BADE2","#5049CC"
 		<meta charset="UTF-8" />
 		<meta name="description" content="Astro description">
 		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/x-icon" href="/favicon.ico" />
-		<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+		<link rel="icon" type="image/x-icon" href={baseUrl + "/favicon.ico"} />
+		<link rel="shortcut icon" type="image/x-icon" href={baseUrl + "/favicon.ico"}>
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
         <script src="http://code.jquery.com/jquery-1.0.4.pack.js" integrity="sha256-upOUW/O9T857epnazR8IlX1C0ZSEE19MuqWoC75KUOE=" crossorigin="anonymous"></script>
@@ -34,16 +36,16 @@ const rainbowColors = ["#078D70","#26CEAA","#98E8C1","white","#7BADE2","#5049CC"
 		<link rel="stylesheet" type="text/css" href={standardCss}>
 		<!--<![endif]-->
 	</head>
-	<body>
+	<body style={{backgroundImage: basify("/ui/bg.gif")}}>
 		<center>
-			<div id="bubbles"></div>
+			<div id="bubbles" style={{backgroundImage: basify("/ui/bubbles.gif")}}></div>
 			<div style="position: relative; z-index: 1">
 				<table id="layout">
 					<tr>
 						<td colspan="3" id="site-header">
 							<center>
-								<a href="/">
-									<img id="site-title" alt="The Yonic Corner" src="/yonic-corner.gif">
+								<a id="site-logo" href={baseUrl + "/"}>
+									<img id="site-title" alt="The Yonic Corner" src={baseUrl + "/yonic-corner.gif"}>
 								</a>
 								<BlurbWindow />
 							</center>
@@ -123,9 +125,9 @@ const rainbowColors = ["#078D70","#26CEAA","#98E8C1","white","#7BADE2","#5049CC"
 					</tr>
 				</div>
 			</table>
-			<div id="footer">
+			<div id="footer" style={{backgroundImage: basify("/ui/footer.jpg")}}>
 				<div id="rainbow">
-					<img id="footer-me" src="/ui/footer-me.gif" />
+					<img id="footer-me" src={baseUrl+"/ui/footer-me.gif"} />
 					{
 						rainbowColors.map((color) => (
 							<div class="rainbow-strip" style={{backgroundColor: color}}/>
@@ -134,7 +136,7 @@ const rainbowColors = ["#078D70","#26CEAA","#98E8C1","white","#7BADE2","#5049CC"
 				</div>
 				<center>
 					<p>Yonic Corner Legacy v{version}, hosted by GitHub Pages</p>
-					<span><a href="">Source code</a> | <a href="/rss.xml"><img src="/icons/rss.gif" alt="RSS" width="16" height="16" style="vertical-align: middle"/> Subscribe to feed</a> (WIP)</span>
+					<span><a href="https://github.com/YonicDev/yonic-corner-legacy">Source code</a> | <a href={baseUrl+"/rss.xml"}><img src={baseUrl+"/icons/rss.gif"} alt="RSS" width="16" height="16" style="vertical-align: middle"/> Subscribe to feed</a> (WIP)</span>
 				</center>
 			</div>
 		</center>
@@ -148,7 +150,6 @@ const rainbowColors = ["#078D70","#26CEAA","#98E8C1","white","#7BADE2","#5049CC"
 	body {
 		font-family: Verdana, Geneva, Tahoma, system-ui, sans-serif;
 		background: #03F3FF;
-		background-image: url("/ui/bg.gif");
 		image-rendering: pixelated;
 		position: absolute;
 		width: 100%;
@@ -184,7 +185,6 @@ const rainbowColors = ["#078D70","#26CEAA","#98E8C1","white","#7BADE2","#5049CC"
 		top: 0px;
 		left: 0px;
 		background-repeat: no-repeat;
-		background-image: url("/ui/bubbles.gif");
 		background-position: top center;
 		width: 100%;
 		height: 250px;
@@ -211,7 +211,6 @@ const rainbowColors = ["#078D70","#26CEAA","#98E8C1","white","#7BADE2","#5049CC"
 	#footer {
 		font-size: 10pt;
 		background: #1b1b2f;
-		background-image: url("/ui/footer.jpg");
 		color: white;
 		padding-bottom: 24px;
 	}

@@ -67,43 +67,45 @@ function toPixels(a: number) {
     return `${a}px`;
 }
 
+const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, "");
+
 ---
 
 <table class="bubble" style="position: relative" cellpadding="0">
     <tr>
-        <td class="corner" style={{backgroundImage: `url(/bubbles/${theme}/top-left.gif)`, width: toPixels(left[0]), height: toPixels(top[1])}}></td>
-        <td style={{background: `url(/bubbles/${theme}/top-center.gif)`, height: toPixels(top[1])}}>
+        <td class="corner" style={{backgroundImage: `url(${baseUrl}/bubbles/${theme}/top-left.gif)`, width: toPixels(left[0]), height: toPixels(top[1])}}></td>
+        <td style={{background: `url(${baseUrl}/bubbles/${theme}/top-center.gif)`, height: toPixels(top[1])}}>
             {  position === "top" && <div>
-                    <img style={positions.top[alignment]} class="triangle" src={`/bubbles/${theme}/speech-top.gif`} width={top[0]} height={top[1]}/>
+                    <img style={positions.top[alignment]} class="triangle" src={`${baseUrl}/bubbles/${theme}/speech-top.gif`} width={top[0]} height={top[1]}/>
                 </div>
             }
         </td>
-        <td class="corner" style={{backgroundImage: `url(/bubbles/${theme}/top-right.gif)`, width: toPixels(right[0]), height: toPixels(top[1])}}></td>
+        <td class="corner" style={{backgroundImage: `url(${baseUrl}/bubbles/${theme}/top-right.gif)`, width: toPixels(right[0]), height: toPixels(top[1])}}></td>
     </tr>
     <tr class="midrow" style="height: 100%">
-        <td class="corner" style={{backgroundImage: `url(/bubbles/${theme}/center-left.gif)`, height: "100%"}}>
+        <td class="corner" style={{backgroundImage: `url(${baseUrl}/bubbles/${theme}/center-left.gif)`, height: "100%"}}>
             {   position === "left" && <div>
-                    <img style={positions.left[alignment]} class="triangle" src={`/bubbles/${theme}/speech-left.gif`} width={left[0]} height={left[1]} />
+                    <img style={positions.left[alignment]} class="triangle" src={`${baseUrl}/bubbles/${theme}/speech-left.gif`} width={left[0]} height={left[1]} />
                 </div>
             }
         </td>
-        <td style={{backgroundImage: `url(/bubbles/${theme}/center.gif)`, fontSize: "10pt"}}><slot/></td>
-        <td class="corner" style={{backgroundImage: `url(/bubbles/${theme}/center-right.gif)`, height: "100%"}}>
+        <td style={{backgroundImage: `url(${baseUrl}/bubbles/${theme}/center.gif)`, fontSize: "10pt"}}><slot/></td>
+        <td class="corner" style={{backgroundImage: `url(${baseUrl}/bubbles/${theme}/center-right.gif)`, height: "100%"}}>
             {   position === "right" && <div>
-                    <img style={positions.right[alignment]} class="triangle" src={`/bubbles/${theme}/speech-right.gif`} width={right[0]} height={right[1]} /> 
+                    <img style={positions.right[alignment]} class="triangle" src={`${baseUrl}/bubbles/${theme}/speech-right.gif`} width={right[0]} height={right[1]} /> 
                 </div>
             }
         </td>
     </tr>
     <tr>
-        <td class="corner" style={{backgroundImage: `url(/bubbles/${theme}/bottom-left.gif)`, height: toPixels(bottom[1])}}></td>
-        <td style={{backgroundImage: `url(/bubbles/${theme}/bottom-center.gif)`, height: toPixels(bottom[1])}}>
+        <td class="corner" style={{backgroundImage: `url(${baseUrl}/bubbles/${theme}/bottom-left.gif)`, height: toPixels(bottom[1])}}></td>
+        <td style={{backgroundImage: `url(${baseUrl}/bubbles/${theme}/bottom-center.gif)`, height: toPixels(bottom[1])}}>
             {   position === "bottom" && (<div>
-                    <img style={positions.bottom[alignment]} class="triangle" src={`/bubbles/${theme}/speech-bottom.gif`} width={bottom[0]} height={bottom[1]}/>
+                    <img style={positions.bottom[alignment]} class="triangle" src={`${baseUrl}/bubbles/${theme}/speech-bottom.gif`} width={bottom[0]} height={bottom[1]}/>
                 </div>)
             }
         </td>
-        <td class="corner" style={{backgroundImage: `url(/bubbles/${theme}/bottom-right.gif)`, height: toPixels(bottom[1])}}></td>
+        <td class="corner" style={{backgroundImage: `url(${baseUrl}/bubbles/${theme}/bottom-right.gif)`, height: toPixels(bottom[1])}}></td>
     </tr>
 </table>
 <style is:global>

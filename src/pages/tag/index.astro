@@ -14,6 +14,8 @@ const occurrences = tags.map(tag => {
     return {tag, times: allTags.reduce((acc, tag2) => acc += tag2 === tag? 1 : 0, 0)}
 }).sort((a, b) => b.times - a.times || a.tag.localeCompare(b.tag));
 
+const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, "");
+
 const alphabet = 'abcdefghijklmnopqrstuvwxyz'.split("");
 ---
 <Layout {title}>
@@ -50,7 +52,7 @@ const alphabet = 'abcdefghijklmnopqrstuvwxyz'.split("");
                     </tr></table>
                     {
                         tagsWithHits.map(({tag, times}) => (
-                            <a class="tag" href={`/tag/${tag}/1`}>{tag} | {times}</a>
+                            <a class="tag" href={`${baseUrl}/tag/${tag}/1`}>{tag} | {times}</a>
                         ))
                     }
                 </>)

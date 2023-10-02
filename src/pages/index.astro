@@ -4,7 +4,7 @@ import Layout from '../layouts/Layout.astro';
 
 <Layout title="Welcome">
 	<center>
-		<img id="yonic-profile" alt="It's me, Yonic" src="/yonic-profile/summer.gif" />
+		<img id="yonic-profile" alt="It's me, Yonic" src={import.meta.env.BASE_URL.replace(/\/$/, "") + "/yonic-profile/summer.gif"} />
 		<div class="article">
 			<p>
 				Welcome to the <i>legacy version</i> of the <b>Yonic Corner</b>!<br/>
@@ -61,7 +61,8 @@ import Layout from '../layouts/Layout.astro';
 	var now = new Date();
 	var thisMonth = now.getMonth();
 	if(thisMonth < 3 || thisMonth >= 9) {
-		$('#yonic-profile').attr("src", "/yonic-profile/winter.gif");
+		var base = $('#site-logo').attr("href");
+		$('#yonic-profile').attr("src", base + "yonic-profile/winter.gif");
 	}
 	$('#jquery-test').html("Your browser supports jQuery! Enhanced features activated!");
 </script>

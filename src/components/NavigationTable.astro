@@ -9,15 +9,17 @@ interface Props {
     title: string
 }
 
+const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, "");
+
 const {links, title, type} = Astro.props;
 ---
 
-<img class="navigation-tab" alt={title} src={`/ui/tab-${type}.gif`} width="200" height="32" />
+<img class="navigation-tab" alt={title} src={`${baseUrl}/ui/tab-${type}.gif`} width="200" height="32" />
 <ul class="navigation">
     {
         links.map(({href, icon, label}) => <li>
-            {icon && <img src={icon} width="16" height="16"/>}
-            <a {href}>{label}</a>
+            {icon && <img src={baseUrl + icon} width="16" height="16"/>}
+            <a href={baseUrl + href}>{label}</a>
         </li>)
     }
 </ul>
