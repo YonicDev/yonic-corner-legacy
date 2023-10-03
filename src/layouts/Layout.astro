@@ -33,7 +33,7 @@ const basify = (url: string) => `url(${baseUrl}${url})`;
 		<title>{title}</title>
         <script src="http://code.jquery.com/jquery-1.0.4.pack.js" integrity="sha256-upOUW/O9T857epnazR8IlX1C0ZSEE19MuqWoC75KUOE=" crossorigin="anonymous"></script>
 		<!--[if gte IE 6]><!-->
-		<link rel="stylesheet" type="text/css" href={standardCss}>
+		<link rel="stylesheet" type="text/css" href={baseUrl + "/layout-standard.css"}>
 		<!--<![endif]-->
 	</head>
 	<body style={{backgroundImage: basify("/ui/bg.gif")}}>

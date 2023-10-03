@@ -9,17 +9,19 @@ interface Props {
 const { src, alt } = Astro.props;
 const margin = 12;
 const padding = 3;
-const MAX_WIDTH = 460 - padding*2;
-const width = Astro.props.width? parseInt(Astro.props.width.toString()) : MAX_WIDTH;
-const trueWidth = Math.min(454-margin, width);
+const MAX_WIDTH = 454;
+const width = parseInt(Astro.props.width?.toString() ?? MAX_WIDTH.toString() )
+const trueWidth = Math.min(MAX_WIDTH, width)-padding*2;
 
 const borderImg = await getImage({src, width: 1, height: 1, format: "gif"});
 ---
 <center>
-    <div class="figure" style={{background: `url(${borderImg.src})`, width: `${trueWidth}px`, margin: `${margin}px 6px`, padding: `${padding}px`}}>
+    <div class="figure" style={{background: `url(${borderImg.src})`, width: `${trueWidth}px`, margin: `${margin}px 0`, padding: `${padding}px`}}>
         <Image {src} {alt} width={trueWidth} format="jpg" />
-        <div class="caption" style={{width: `${trueWidth-20}px`}}>
-            <slot />
+        <div class="caption" style={{width: trueWidth+'px'}}>
+            <div style="padding: 10px">
+                <slot />
+            </div>
         </div>
     </div>
 </center>
@@ -31,7 +33,6 @@ const borderImg = await getImage({src, width: 1, height: 1, format: "gif"});
     .figure .caption {
         display: block;
         background-color: #92fffa;
-        padding: 10px;
         color: black;
         text-align: center;
         font-style: italic;

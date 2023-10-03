@@ -1,17 +1,18 @@
 ---
 title: "The first (legacy) post"
-description: "We're going back to the past!"
+description: "After much effort, I finished creating a version of my blog compatible with legacy browsers from the late 1990s. That’s nearly a 30 year gap!"
 pubDate: "October 2 2023"
 category: blog
+series: 
+    id: legacy
+    order: 1
 tags: [yonic-corner, legacy, web-design]
 ---
 
 import AlertBox from "@lib/components/AlertBox.astro"
 
 <div class="feed-preview">
-After much effort, I finalized creating a version of my blog
-that is compatible with legacy browsers from the late 1990s.
-That's more than a 30 year gap!
+    <p>{frontmatter.description}</p>
 </div>
 
 ## Completely new design, but with not many changes
@@ -45,16 +46,20 @@ Barely anybody browses the web in old, outdated web browsers. And I highly doubt
 
 I also wanted to get a deeper understanding on the workings on pre-standards HTML and the quirks of old browsers, as well as the history that would bring the early 2000s to web technologies. But apart from that, I took it as an interesting challenge to refine my frontend skills.
 
+This design has many things that define the web during this period: Marquees, table layouts, animated GIFs, repeated backgrounds, and using images to define complex and decorated UI elements. **A truly nostalgic experience**.
+
 ## Will I even go deeper?
 
 Probably not. I'm quite satisfied with how broad the support of operating systems is.
 
-- **Windows**: it technically supports even **Windows 3.x** thanks to being designed to work for IE5.5 in mind, but I haven't tested it out. Windows 9x and NT 4 work like a charm.
+- **Windows**: it technically supports even **Windows 3.x** thanks to being designed to work for IE5 in mind, but I haven't tested it out. Windows 9x and NT 4 work like a charm.
 - **Mac OS Classic**: I tested it out with several browsers while on **System 9**, but I think you should be able to have it working down to **System 8.6** as well.
 - **UNIX**: I guess it could work with Internet Explorer for UNIX, but I'm not willing to test this out.
 
 ## The HTTPS problem
 
-None of the browsers I've targeted this blog to won't work under the current version of HTTPS used by nearly all websites since a few years ago. This has forced me to host the blog in a place where HTTPS is not forced.
+None of the browsers I've targeted this blog to **won't work under the latest versions of encryption protocols** used by nearly all websites since a few years ago (TLS 1.1 and higher). This has forced me to host the blog in a place where HTTPS is not forced, which meant that many web hosting solutions I'm used like Netlify got benched.
 
-To be continued...
+The only reasonable place to do it for now without setting up a server on my own is **GitHub Pages**. I don't really mind having a fully static blog, but having SSR might be used to leverage the rendering of certain dynamic elements, like the site marquee.
+
+Right now, I'm using the default domain, so I can't turn off HTTPS for now. This is definitely bound to change soon so that it removes this final obstacle.

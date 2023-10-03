@@ -25,6 +25,12 @@
 .post-listing .number {
     width: 46px!important;
 }
+.picture .caption {
+    width: auto!important;
+}
+.bubble {
+    height: 100%!important;
+}
 
 @media all and (-webkit-min-device-pixel-ratio:10000), not all and (-webkit-min-device-pixel-ratio:0) {
     * {
