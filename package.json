@@ -1,5 +1,6 @@
 {
   "name": "yonic-corner-legacy",
+  "license": "MIT",
   "type": "module",
   "version": "0.0.1",
   "scripts": {
