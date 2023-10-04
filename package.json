@@ -2,7 +2,8 @@
   "name": "yonic-corner-legacy",
   "license": "MIT",
   "type": "module",
-  "version": "0.0.1",
+  "version": "1.0.0",
+  "private": "true",
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
