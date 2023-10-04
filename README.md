@@ -1,6 +1,6 @@
 # The Yonic Corner (Legacy edition)
 
-![The Yonic Corner on IE 5.5 for Windows 98](src/assets/articles/first-post/hero.png)
+![The Yonic Corner on IE 5.5 for Windows 98](src/assets/articles/first-post-legacy/hero.png)
 
 [**Visit the blog here!**](http://yonicdev.github.io/yonic-corner-legacy/)
 
