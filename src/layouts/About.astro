@@ -1,0 +1,54 @@
+---
+import Layout from './Layout.astro';
+
+const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, "");
+
+const { frontmatter } = Astro.props;
+const { title } = frontmatter;
+---
+<Layout {title}>
+    <div id="main-article" class="article">
+		<h1>{title}</h1>
+		<p><img alt="Creation" src={baseUrl + "/icons/about.gif"} width="16" height="16"> Legacy Blog estabilished on October 3, 2023</p>
+		<hr/>
+        <slot />
+    </div>
+	<slot name="below"/>
+</Layout>
+
+<style is:global>
+	.article {
+		background: #C5FFF4;
+		border: 3px solid #009183;
+		text-align: left;
+		width: 500px;
+		padding: 20px;
+		font-size: 11pt;
+	}
+	.article a {
+		color: #1768d3;
+	}
+	.article p {
+		margin: 12pt 0;
+	}
+	.article .picture {
+		width: 100%;
+	}
+	#main-article hr {
+        border: none;
+        border-top: 3px solid #009183;
+    }
+</style>
+
+<script is:inline>
+	var ieVersion = /*@cc_on (function() {switch(@_jscript_version) {case 1.0: return 3; case 3.0: return 4; case 5.0: return 5; case 5.1: return 5; case 5.5: return 5.5; case 5.6: return 6; case 5.7: return 7; case 5.8: return 8; case 9: return 9; case 10: return 10;}})() || @*/ 0;
+
+	window.onload = function() {
+		if(ieVersion >= 6 || (window.opera && window.opera.version() < 10)) {
+			$(".midrow").each(function() {
+				var rowHeight = $(this).height();
+				$(this).children("td div").css('height', rowHeight + 'px');
+			})
+		}
+	};
+</script>
