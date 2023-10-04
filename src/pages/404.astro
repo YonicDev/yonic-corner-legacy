@@ -1,0 +1,57 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const modernPage = Astro.url;
+modernPage.host = "modern.yonic.blog";
+modernPage.port = "";
+---
+
+<Layout title="Page not found">
+	<center>
+		<div class="article">
+            <center>
+                <img alt="Error 404" src="/chara/yonic/_special/404.gif" />
+			    <h1>Page Not Found</h1>
+            </center>
+            <p>The page you are trying to access does not exist in this blog.<br/>Here's what you can do:</p>
+            <ul>
+                <li>Check the URL in the address bar at the top of your browser for any typos.</li>
+                <li>It's possible that the page has been moved, locked access or deleted, either temporarily or permanently. You can browse the blog using the <b>navigation links</b> off the sides of the site.</li>
+                <ul><li>If you clicked on a link from inside this blog and encountered this page, <a href="https://github.com/YonicDev/yonic-corner-legacy/issues">submit an issue</a> indicating that the link is broken. You will need a modern browser for this.</li></ul>
+                <li>Perhaps you were looking for a page in the modern version. <a href={modernPage.href}>Click here</a> to look for it in the modern version of the blog.</li>
+            </ul>
+            <p><b>Your Internet connection is fine, so don't mess with your settings or cables.</b></p>
+        </div>
+	</center>
+</Layout>
+
+<style lang="scss" is:global>
+	.article {
+		background: #C5FFF4;
+		border: 3px solid #009183;
+		text-align: left;
+		width: 500px;
+		padding: 0 20px;
+		font-size: 11pt;
+        h1 {
+            border-bottom: 2px solid #009183;
+            padding-bottom: 5px;
+        }
+        a {
+            color: #1768d3;
+        }
+        p {
+            margin: 12pt 0;
+        }
+	}
+</style>
+
+<script is:inline>
+	var now = new Date();
+	var thisMonth = now.getMonth();
+	if(thisMonth < 3 || thisMonth >= 9) {
+		var base = $('#site-logo').attr("href");
+		$('#yonic-profile').attr("src", base + "yonic-profile/winter.gif");
+	}
+	$('#jquery-test').html("Your browser supports jQuery! Enhanced features activated!");
+</script>
