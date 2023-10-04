@@ -23,6 +23,7 @@ export default defineConfig({
                 '@lib/components/bubbles/TextBubble.astro',
                 '@lib/components/Picture.astro',
                 '@lib/components/Chara.astro',
+                '@lib/components/PlayerLink.astro',
                 {
                     'astro:assets': ['Image']
                 },

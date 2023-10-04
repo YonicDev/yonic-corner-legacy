@@ -1,0 +1,121 @@
+---
+title: 'A deeper look into Metroid Prime Remastered: Remaster or Remake?'
+description: "The borderlines between a remaster and a remake can be very fuzzy, especially for a game with so many technological gaps."
+pubDate: '2023-02-12T11:39:19.908Z'
+updatedDate: '2023-09-17T21:08:36.190Z'
+category: gaming
+tags: ['videogames', 'metroid-prime', 'remaster', 'remake', 'nintendo-switch', 'gamecube']
+---
+
+import Reshade from "@assets/articles/metroid-prime-remastered-remaster-or-remake/reshade.webp"
+import Ghidra from "@assets/articles/metroid-prime-remastered-remaster-or-remake/ghidra.png"
+import Remastered from "@assets/articles/metroid-prime-remastered-remaster-or-remake/metroid-prime-remastered.webp"
+import Woei from "@assets/articles/metroid-prime-remastered-remaster-or-remake/wii.jpg"
+import Metroid from "@assets/articles/metroid-prime-remastered-remaster-or-remake/nesmetroid.png"
+import ZeroMission from "@assets/articles/metroid-prime-remastered-remaster-or-remake/mzm.png"
+import Metroid2 from "@assets/articles/metroid-prime-remastered-remaster-or-remake/metroid2.png"
+import SamusReturns from "@assets/articles/metroid-prime-remastered-remaster-or-remake/samusreturns.jpg"
+
+<PlayerLink id="metroid-prime/ridley-mpt" />
+
+In this February 2023's Nintendo Direct, [a remastered version of *Metroid Prime* was shadow dropped](https://www.youtube.com/watch?v=e9OQOJC1QII) for Nintendo Switch, and from what was revealed, it surfaced some pedantic comments showing some doubts whether it is a remake or a remastered version.
+
+Retro Studios developers have already explained that it is indeed a **remastered** version and not a remake, but didn't delve much into the why.
+
+In order to explain this (and also for the sake of pedantry) this article explains the correct usage of these terms &mdash;plus a few other ones&mdash; and showing examples of games of the Metroid franchise that are coined as such.
+
+## Port
+
+What makes a game a port of an existing game is very straightforward: Developers work over the original game to make it work on another platform, but everything else remains mostly the same. This may imply changing a few things due to platform differences &mdash;most of the time, it's controls schemes and graphical changes.
+
+<Picture alt="Metroid Prime as seen on Metroid Prime Trilogy" src={Woei}>
+    <>Aside from widescreen support and motion controls, *Metroid Prime* was ported for the Wii with minimal changes.</>
+</Picture>
+
+***Metroid Prime Trilogy*** is the sole example of a port within the Metroid franchise. The original *Metroid Prime* and *Metroid Prime 2: Echoes* were reworked to function with the *Metroid Prime 3: Corruption* version of the game engine that Retro Studios has in-house.
+
+On the other hand, *Remastered* is far beyond a port, because it has a ton of modifications and enhancements.
+
+## Emulation
+
+Several retro and vintage gamers have considered the possibility of Metroid Prime Remastered being an **emulation of the original game, but enhanced with higher quality textures and models**, as well as using software like a reshader to give a significant boost in the quality of lighting.
+
+Despite many of the 2D Metroid games being released as emulated copies in several occasions, they were all releases as is, with no enhancements whatsoever other than the ones that are built into the emulators themselves, such as save states and palette swaps. But fans have done their own enhancements for the Dolphin emulator to enhance the visuals and have a control scheme more suitable for PC.
+
+<Picture src={Reshade} alt="Metroid Prime with RTGI Reshade on Dolphin">
+    <figcaption>
+        This screenshot shows rendering enhancements like raytracing and a widescreen hack, but apart from that and HD textures, the rest remains mostly the same.
+    </figcaption>
+</Picture>
+While saying that *Metroid Prime Remastered* is actually an enhanced emulation is a very valid claim, datamining the game has revealed that this is clearly not the case. **The game is running code from the engine natively**, and not doing anything like emulating the engine to work on Nintendo Switch.
+
+<Picture src={Ghidra} alt="Reverse engineering Prime Remastered with Ghidra">
+    <>In the Symbol Tree panel at the left, there are names that match perfectly with those from the *Prime* games, meaning that it's using the same codebase.</>
+</Picture>
+
+<TextBubble position="bottom" alignment="far" theme="yonic">
+    *Huge* thank you to Retro Studios for leaving in the build symbols in the game. Without them, datamining the game would have been significantly more difficult.
+</TextBubble>
+
+<Chara name="yonic" set="summer" sprite="normal" thoughts="Yonic has zero regrets and is truly grateful." />
+
+To be more specific, the version of the engine that Remastered uses has been built upon the one from *Donkey Kong Country: Tropical Freeze* (yeah, that's a Retro Studios title), while also taking many of the elements from *Metroid Prime Trilogy*, and of course, they added a ton of new features.
+
+## Remake
+
+A remake in a nutshell is "making the same thing once again", in other words, remakes of games are **built from the ground up**. This usually means creating new content and usually for a completely new engine.
+
+In the Metroid franchise, there are two games that were made base on previous entries: ***Metroid Zero Mission*** was a Game Boy Advance remake of *Metroid* for the NES, and ***Metroid: Samus Returns*** was a 3DS remake of *Metroid II* for the original Game Boy. Both games feature totally new assets and engines, and have situations in which they depart from their original counterparts.
+
+<table>
+    <tr>
+        <td><Image alt="Metroid" src={Metroid} width={220} height={147} format="jpg"/></td>
+        <td><Image alt="Metroid" src={ZeroMission} width={220} height={147} format="jpg"/></td>
+    </tr>
+    <tr>
+        <td><Image alt="Metroid II: Return of Samus" src={Metroid2} width={220} height={147} format="jpg"/></td>
+        <td><Image alt="Metroid: Samus Returns" src={SamusReturns} width={220} height={147} format="jpg"/></td>
+    </tr>
+    <tr><td colspan="2">*To the left, the original games, and to the right, the remade versions.*</td></tr>
+</table>
+
+The version of *Metroid Prime* for the Nintendo Switch doesn't fit into this category for this reason. And this is a nice segue to my next point.
+
+## Remaster
+
+A remastered game is a bit of a **midway term between a remake and a port**. While a port merely makes a software work with another platform different from the original, a remaster **embraces the technological upgrades of the new hardware** of the target platform. And unlike a remake, it **reuses as much content from the original as possible**.
+
+<Picture src={Remastered} alt="Screenshot of Metroid Prime Remastered">
+    <>Metroid Prime Remastered *is* a remaster.</>
+</Picture>
+
+*Metroid Prime Remastered* fits quite nicely here: It uses a heavily revamped version of the original engine: Incredibly well made PBR-like lightning, higher fidelity graphical effects, and much higher quality models. But it still reuses many other elements from *Trilogy*, like animations, AI and physics.
+
+But that leaves one important question.
+
+## Why the confusion?
+
+The borderlines between a remaster and a port or a remake are **particularly fuzzy**, because the degree of work over an existing game can range from just a resolution upscale, to porting the entire game to an overhauled engine, among others.
+
+And this is especially more complicated in games with a large technological gap between a newer release and an original one because they require more work to make. Although, thankfully, the gap is drawing closer and closer between the most recent generations.
+
+Still, the gap between the Nintendo GameCube and Switch is **fairly large, enough to draw doubts** on what would a title that has been re-released for Switch be considered to be. However, this is merely an issue from looking at the bigger picture: Once you delve into the details, it becomes easy to tell where it belongs.
+
+Here is a table I made for reference:
+
+
+O = Yes, X = No, ? = Sometimes
+|Feature| Port | Emulation | Remake | Remaster |
+|:------|:----:|:---------:|:------:|:--------:|
+Uses the original engine natively | O | X | X | O |
+Has the same base game content | O | O | ? | ? |
+Enhances the original content | X | ? | O | O |
+Is adapted for the newer system | O | ? | O | O |
+
+Still, don't let this discourage you, especially if you've played *Metroid Prime* before. The remastered version is one heck of a remaster. *Metroid Prime Remastered* is one of the best examples of a remaster that I've ever seen, and is a really nice treat to have while waiting for *Metroid Prime 4*.
+
+<TextBubble position="bottom" alignment="far" theme="yonic">
+    To be fair, I think there's still a big chance for a proper remake of *Metroid Prime Hunters* as a way to build the story for *Metroid Prime 4*. There are even teasers of it in later games.
+</TextBubble>
+
+<Chara name="yonic" set="summer" sprite="thinking" thoughts="I've been thinking for a looong time about how badly Hunters has aged..." align="right" />

@@ -5,8 +5,9 @@ interface Props {
     src: ImageMetadata,
     alt: string,
     width?: number | string,
+    nocaption?: boolean,
 }
-const { src, alt } = Astro.props;
+const { src, alt, nocaption = false } = Astro.props;
 const margin = 12;
 const padding = 3;
 const MAX_WIDTH = 454;
@@ -18,11 +19,11 @@ const borderImg = await getImage({src, width: 1, height: 1, format: "gif"});
 <center>
     <div class="figure" style={{background: `url(${borderImg.src})`, width: `${trueWidth}px`, margin: `${margin}px 0`, padding: `${padding}px`}}>
         <Image {src} {alt} width={trueWidth} format="jpg" />
-        <div class="caption" style={{width: trueWidth+'px'}}>
+        {!nocaption && <div class="caption" style={{width: trueWidth+'px'}}>
             <div style="padding: 10px">
                 <slot />
             </div>
-        </div>
+        </div>}
     </div>
 </center>
 

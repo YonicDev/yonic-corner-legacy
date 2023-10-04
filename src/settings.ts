@@ -49,4 +49,4 @@ export const categories: Record<CategoryId, Category> = {
     }
 }
 
-export const MODERN_WEBSITE = "https://yonic-corner-astro.netlify.app"
+export const MODERN_WEBSITE = "https://modern.yonic.blog"
