@@ -3,7 +3,7 @@ import AlertBox from "./AlertBox.astro";
 
 import { MODERN_WEBSITE } from "@lib/settings";
 
-const hrefOriginal = Astro.url.pathname.split("/");
+const hrefOriginal = Astro.url.pathname.split("/").filter(s => s);;
 const slug = hrefOriginal[hrefOriginal.length-1];
 ---
 <AlertBox title="The Legacy Version's music player is still under construction." icon="video">
