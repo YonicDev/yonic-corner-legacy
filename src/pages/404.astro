@@ -18,7 +18,7 @@ modernPage.port = "";
                 <li>Check the URL in the address bar at the top of your browser for any typos.</li>
                 <li>It's possible that the page has been moved, locked access or deleted, either temporarily or permanently. You can browse the blog using the <b>navigation links</b> off the sides of the site.</li>
                 <ul><li>If you clicked on a link from inside this blog and encountered this page, <a href="https://github.com/YonicDev/yonic-corner-legacy/issues">submit an issue</a> indicating that the link is broken. You will need a modern browser for this.</li></ul>
-                <li>Perhaps you were looking for a page in the modern version. <a href={modernPage.href}>Click here</a> to look for it in the modern version of the blog.</li>
+                <li>Perhaps you were looking for a page in the modern version. <a id="click-here" href={modernPage.href}>Click here</a> to look for it in the modern version of the blog.</li>
             </ul>
             <p><b>Your Internet connection is fine, so don't mess with your settings or cables.</b></p>
         </div>
@@ -47,11 +47,7 @@ modernPage.port = "";
 </style>
 
 <script is:inline>
-	var now = new Date();
-	var thisMonth = now.getMonth();
-	if(thisMonth < 3 || thisMonth >= 9) {
-		var base = $('#site-logo').attr("href");
-		$('#yonic-profile').attr("src", base + "yonic-profile/winter.gif");
-	}
-	$('#jquery-test').html("Your browser supports jQuery! Enhanced features activated!");
+    window.onload = function() {
+        document.getElementById("click-here").setAttribute("href", "https://modern.yonic.blog" + location.pathname);
+    }
 </script>
