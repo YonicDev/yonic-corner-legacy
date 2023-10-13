@@ -6,11 +6,8 @@
 import type { BubbleSpeech } from "./BubbleBase.astro";
 import YonicBubble from "./themes/Yonic.astro";
 
-interface Props {
-    theme: string,
-    position?: "top"|"left"|"right"|"bottom"|"none",
-    alignment?: "near"|"center"|"far",
-    offset?: number
+interface Props extends BubbleSpeech {
+    theme: string
 }
 
 

@@ -1,0 +1,11 @@
+---
+const { href } = Astro.props;
+
+interface Props {
+    href: string
+}
+
+const isInternal = href.startsWith("/") || href.startsWith("../") || href.startsWith("./")
+---
+
+<a class="anchor" {href} target={isInternal? "_self" : "_blank"}><slot/></a>
