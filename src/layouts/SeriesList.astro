@@ -71,7 +71,7 @@ const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, "");
                         return <b>{pageNo}</b>
                     }
                     else if(page.lastPage >= page.currentPage+i && page.currentPage+i >= 1) {
-                        return <a href={`./${baseUrl}/blog/${page.currentPage+i}`}>{pageNo}</b>
+                        return <a href={`${baseUrl}/blog/${page.currentPage+i}`}>{pageNo}</b>
                     }
                 })
             }
