@@ -24,6 +24,7 @@ export default defineConfig({
                 '@lib/components/Picture.astro',
                 '@lib/components/Chara.astro',
                 '@lib/components/PlayerLink.astro',
+                '@lib/components/Anchor.astro',
                 {
                     'astro:assets': ['Image']
                 },
