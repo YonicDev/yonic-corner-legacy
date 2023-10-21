@@ -1,0 +1,111 @@
+---
+title: 'Making The Yonic Corner Legacy: The design'
+description: >-
+  With the motivation set to create a version of my blog for old browsers, I had
+  to come up with a design and basic goals, as well as figuring out the
+  shortcomings of these browsers.
+pubDate: '2023-10-21T12:33:48.177Z'
+category: development
+tags:
+  - yonic-corner
+  - legacy
+  - web-design
+series:
+  id: legacy
+  order: 2
+draft: false
+---
+
+import PixelSurgeon from "@assets/articles/making-legacy-1/pixel-surgeon.png"
+import Vertpush from "@assets/articles/making-legacy-1/vertpush.png"
+import Moonbeams from "@assets/articles/making-legacy-1/moonbeans.png"
+import DeviantArt from "@assets/articles/making-legacy-1/deviant-art.jpg"
+import RhythmHeaven from "@assets/articles/making-legacy-1/rhythm.png"
+import Nitrome from "@assets/articles/making-legacy-1/nitrome.png"
+
+export const components = { a: Anchor };
+
+<PlayerLink id="newgrounds/bluesky"/>
+<div class="feed-preview">
+<p class="biyonic-string">{frontmatter.description}</p>
+
+I already figured out that my ideal goal would be to be able to browse the web using
+technology from the late 1990s (namely, Windows 9x and optionally Classic Mac OS),
+so all that remained was to come up with a design and put it into practice.
+</div>
+## Getting inspired
+
+First off, I needed to get a good idea of what I wanted to make, so I went through the path that searching through old web designs took to find inspiration once again.
+I already had *sort* of an idea of what to do, but I needed specifics.
+
+So I went through several websites throughout the years in the [Wayback Machine](https://web.archive.org), and even used [The Old HTTP Proxy](http://theoldnet.com/docs/httpproxy/index.html) to quickly browse through them.
+This allowed me to check the source code and HTML contents of a page without much of a headache of dealing with the iframes the Wayback Machine introduces.
+
+<TextBubble position="bottom" alignment="far" theme="yonic">
+    I even checked my very first website! Sadly, virtually none of the assets got archived and it was mostly text based, so it didn't give me much to work on.
+
+    There were older versions with more interesting layouts, but I think those never got archived.
+</TextBubble>
+<Chara name="yonic" set="summer" sprite="sad" thoughts="I'm pretty sure I still have the source files, though." />
+
+When I first found about [Neocities](https://neocities.org/) and checked the CMS used there, I had some expectations about being able to check the HTML inside as well. But several of these
+user-created sites were hiding HTML5 components and flexible or pseudo-flexible layouts. At least responsiveness wasn't much an order of business on these sites.
+
+Here are a couple of the sites I've found the most interesting and influential in my design:
+
+<Picture src={Vertpush} alt="Vertpush">
+    <>[Vertpush](https://obby.dog/), one of the many sites in Neocities that caught my attention for its Star Fox aesthetic.
+    It would eventually inspire me to make a 3 column layout for my legacy blog.</>
+</Picture>
+
+<Picture src={PixelSurgeon} alt="Pixelsurgeon">
+    <>Pixelsurgeon, a former online magazine about graphic design.
+    I particularly liked how the windows with their tabs looked like, giving it a Mac OS Platinum-ish look.</>
+</Picture>
+
+<Picture src={Moonbeams} alt="nine moonbeams">
+    <>[nine moonbeams](https://nine-moonbeams.neocities.org/) is another Neocities site that has a lovely mix of 3D renders that look like they were taken straight out of the original Myst and pixel art.
+    It almost made me want to go with this aesthetic.</>
+</Picture>
+
+<Picture src={DeviantArt} alt="deviantART">
+    <>Before the new redesign to a more sleek and modern deviantART, this art site used to have a very "standard 2010s" design, but I found the usage of pixel icons particularly endearing.</>
+</Picture>
+
+<Picture src={Nitrome} alt="Nitrome">
+    <>Nitrome is universally known for their pixel art, but I felt like it was too much for my blog and could get out of hand too easily.</>
+</Picture>
+
+<Picture src={RhythmHeaven} alt="Rhythm Paradise" format="gif" width={384}>
+    <>While not necessarily a website, some of the Rhythm Paradise/Heaven graphics seemed very compatible with my idea of the blog, more so than Nitrome.</>
+</Picture>
+
+## Assuming possible limitations
+
+Since we are dealing with browsers over 25 years old, it's essential to understand what was possible to do at the time, and what technologies were not yet established.
+
+One of the seemingly more daunting issues was that **HTML5 wouldn't be a thing until the late 2000s** and that there was no way for Astro to generate pages other than HTML5 out of the box.
+But it turns out that this isn't much of a big deal!
+Old browsers can still render documents that by modern standars would be in HTML5, and many still retain backwards compatible with deprecated HTML4.1 elements like `<marquee>`.
+
+<TextBubble position="bottom" alignment="far" theme="yonic">
+    So long as I remain exclusive to HTML4.1 elements, documents will usually be rendered just fine in **standards** or **almost standards** mode,
+    depending on the browser.
+
+    This will become *very* important later on!
+</TextBubble>
+<Chara name="yonic" set="summer" sprite="normal" thoughts="Ah, the old web, how quirky were you..." />
+
+Back in the day, instead of playing audio with HTML5, pretty much most sites leveraged the power of **Flash Player** to achieve this.
+I already had experience with this undead beast many years ago, so it was time to unearth it from the ground.
+After a short research, I noticed that while Windows 98 supported Flash Player 9 (which introduced ActionScript 3.0),
+Windows 95 and Mac OS Classic supported only up to Flash Player 7.
+
+This meant that either I would be forced to support the music player only for Windows 98,
+or I would have to develop it with ActionScript 2.0, which I haven't had touched in more than 10 years and
+was significantly less capable of drawing advanced graphical effects.
+At the time of writing this post, I have still remained undecided on what to do.
+
+So I decided to set that aside, and focus on what was probably the biggest issue: The **layout**.
+Since I tackled this while making a prototype for it, I think I'll leave this for the next part of this series,
+coming up very soon!

@@ -59,8 +59,12 @@ const blogCollection = defineCollection({
         series: z.object({
             id: reference("series"),
             order: z.number().int()
-        }).strict().optional()
-    }).strict()
+        }).strict().optional(),
+    readingTime: z.object({
+        text: z.number().int(),
+        video: z.number().int().default(0)
+      }).optional() // Filled in the reading time Remark plugin
+    }).strict(),
 });
 
 const seriesCollection = defineCollection({

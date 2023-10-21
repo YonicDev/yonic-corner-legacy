@@ -4,12 +4,17 @@ import mdx from "@astrojs/mdx";
 import AutoImport from 'astro-auto-import';
 import MDXCodeBlocks, { mdxCodeBlockAutoImport } from 'astro-mdx-code-blocks';
 
+import readingTime from './src/remark/reading-time.mjs';
+
 import sitemap from "@astrojs/sitemap";
 
 // https://astro.build/config
 export default defineConfig({
     site: "http://legacy.yonic.blog",
     scopedStyleStrategy: "class",
+    markdown: {
+        remarkPlugins: [readingTime],
+    },
     experimental: {
         assets: true
     },

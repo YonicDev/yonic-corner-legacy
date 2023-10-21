@@ -18,7 +18,11 @@
     "astro-auto-import": "^0.3.0",
     "astro-mdx-code-blocks": "^0.0.3",
     "autoprefixer": "^10.4.14",
-    "sass": "^1.66.1"
+    "mdast-util-to-string": "^4.0.0",
+    "reading-time": "^1.5.0",
+    "sass": "^1.66.1",
+    "unist-util-filter": "^5.0.1",
+    "unist-util-visit": "^5.0.0"
   },
   "devDependencies": {
     "@types/jquery": "^3.5.16"
