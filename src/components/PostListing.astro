@@ -2,7 +2,7 @@
 import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
 
-import { BLOG_PAGE_SIZE, CategoryId, categories } from '@lib/settings';
+import { BLOG_PAGE_SIZE, type CategoryId, categories } from '@lib/settings';
 
 interface Props {
     post: CollectionEntry<"blog">,

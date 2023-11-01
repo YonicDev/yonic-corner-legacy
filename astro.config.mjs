@@ -1,4 +1,4 @@
-import { defineConfig, sharpImageService } from 'astro/config';
+import { defineConfig } from 'astro/config';
 import mdx from "@astrojs/mdx";
 
 import AutoImport from 'astro-auto-import';
@@ -14,12 +14,6 @@ export default defineConfig({
     scopedStyleStrategy: "class",
     markdown: {
         remarkPlugins: [readingTime],
-    },
-    experimental: {
-        assets: true
-    },
-    image: {
-        service: sharpImageService(),
     },
     integrations: [
         AutoImport({
