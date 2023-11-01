@@ -1,12 +1,14 @@
 ---
-import Layout from "@lib/layouts/Layout.astro"
 import { getCollection } from "astro:content";
+
+import Layout from "@lib/layouts/Layout.astro";
+
+import { filterPosts } from "@lib/util";
 
 const title = "Tags"
 const description = "Search blog posts by their tags."
 
-const posts = (await getCollection("blog"))
-    .filter(post => import.meta.env.DEV || !post.data.draft);
+const posts = (await getCollection("blog")).filter(filterPosts);
 
 const allTags = posts.flatMap(post => post.data.tags);
 const tags = [...new Set(allTags)];

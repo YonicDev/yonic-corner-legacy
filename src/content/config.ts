@@ -47,6 +47,7 @@ const blogCollection = defineCollection({
             z.literal("bottom")
         ]).optional(),
         draft: z.boolean().optional().default(false),
+        legacy: z.boolean().or(z.literal("only")).default(true),
         pubDate: z
 			.string()
 			.or(z.date())

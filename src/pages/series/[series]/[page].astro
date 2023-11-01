@@ -6,19 +6,13 @@ import type { GetStaticPaths, Page } from "astro";
 import { BLOG_PAGE_SIZE } from "@lib/settings";
 import Layout from "@lib/layouts/PostList.astro";
 
+import { filterPosts } from "@lib/util";
+
 export const getStaticPaths: GetStaticPaths = async ({paginate}) => {
     const series = await getCollection('series');
     const posts = await getCollection('blog');
     return series.flatMap(serie => {
-        const filteredPosts = posts.filter(post => {
-                return post.data.series?.id.id === serie.id && (import.meta.env.DEV || !post.data.draft);
-            }).sort((a, b) => {
-                const aPub = a.data.pubDate.getTime();
-                const bPub = b.data.pubDate.getTime();
-                const aEdt = a.data.updatedDate?.getTime() ?? 0;
-                const bEdt = b.data.updatedDate?.getTime() ?? 0;
-                return Math.max(bPub, bEdt) - Math.max(aEdt, aPub) || a.id.localeCompare(b.id);
-            })
+        const filteredPosts = posts.filter(post => post.data.series?.id.id === serie.id).filter(filterPosts).sort((a, b) => a.data.series!.order - b.data.series!.order);
     
         return paginate(filteredPosts, {
             pageSize: BLOG_PAGE_SIZE,
