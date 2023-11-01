@@ -19,11 +19,16 @@ export default defineConfig({
         AutoImport({
             imports: [
                 mdxCodeBlockAutoImport("@lib/components/CodeBlock.astro"),
+                '@lib/components/biyonic/Paragraph.astro',
+                '@lib/components/biyonic/ListItem.astro',
+                '@lib/components/biyonic/Code.astro',
                 '@lib/components/bubbles/TextBubble.astro',
                 '@lib/components/Picture.astro',
+                '@lib/components/ImageGrid.astro',
                 '@lib/components/Chara.astro',
                 '@lib/components/PlayerLink.astro',
                 '@lib/components/Anchor.astro',
+                '@lib/components/VersionBranch.astro',
                 {
                     'astro:assets': ['Image']
                 },
@@ -37,6 +42,9 @@ export default defineConfig({
         build: {
             target: "es6",
             assetsInlineLimit: 0,
+        },
+        resolve: {
+            preserveSymlinks: true
         }
     },
 });
