@@ -43,6 +43,11 @@ export default defineConfig({
         build: {
             target: "es6",
             assetsInlineLimit: 0,
+            rollupOptions: {
+                external: function(id) {
+                    return /^@lib\/components\/modern/.test(id);
+                }
+            }
         },
         resolve: {
             preserveSymlinks: true
