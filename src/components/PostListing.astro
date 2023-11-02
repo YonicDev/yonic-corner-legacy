@@ -17,7 +17,7 @@ const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, "");
 
 let heroImage: any;
 try {
-    heroImage = (await import(`../assets/articles/${post.slug}/hero.png`)).default;
+    heroImage = (await import(`../assets/articles/${post.slug}/hero-legacy.png`)).default;
 } catch(err) {
     heroImage = null;
 }
