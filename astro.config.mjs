@@ -10,7 +10,8 @@ import sitemap from "@astrojs/sitemap";
 
 // https://astro.build/config
 export default defineConfig({
-    site: "http://legacy.yonic.blog",
+    site: "https://yonicdev.github.io",
+    base: '/yonic-corner-mono',
     scopedStyleStrategy: "class",
     markdown: {
         remarkPlugins: [readingTime],
