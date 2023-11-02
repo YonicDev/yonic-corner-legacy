@@ -2,10 +2,22 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "command": "./node_modules/.bin/astro dev",
+      "command": "./node_modules/.bin/astro dev --host --port 3000",
       "name": "Development server",
       "request": "launch",
       "type": "node-terminal"
-    }
+    },
+    {
+      "command": "./node_modules/.bin/astro build",
+      "name": "Build",
+      "request": "launch",
+      "type": "node-terminal"
+    },
+    {
+      "command": "./node_modules/.bin/astro preview --host --port 3000",
+      "name": "Preview server",
+      "request": "launch",
+      "type": "node-terminal"
+    },
   ]
 }
