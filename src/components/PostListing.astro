@@ -38,7 +38,7 @@ try {
                     <tr style="height: 0"><td>
                         <a href={`${baseUrl}/category/${post.data.category}/1`}>
                             <img class="category-image" title={categories[post.data.category].title} alt={categories[post.data.category].title} src={`${baseUrl}/icons/category/${post.data.category}.gif`} width={16} height={16} />
-                        </a>
+                        </a>{" "}
                         <a href={`${baseUrl}/blog/article/${post.slug}`}>
                             <b>{post.data.title}{post.data.draft && <sup>[draft]</sup>}</b>
                         </a>

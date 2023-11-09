@@ -69,14 +69,14 @@ const {readingTime} = remarkPluginFrontmatter;
 ---
 
 <Layout {...post.data}>
-    <div class="category-label"><a href={`${baseUrl}/category/${post.data.category}/1`}><img src={`${baseUrl}/icons/category/${post.data.category}.gif`}/> {categories[post.data.category].title}</a></div>
+    <div class="category-label"><a href={`${baseUrl}/category/${post.data.category}/1`}><img src={`${baseUrl}/icons/category/${post.data.category}.gif`} align="top"/>{" "}{categories[post.data.category].title}</a></div>
     {
         hero!=null && <Image alt={post.data.title} src={hero} width="454" format="jpg" quality="max"/>
     }
     <h1>{post.data.title}{post.data.draft && <sup>[draft]</sup>}</h1>
     <div>
-        <span><img class="icon" src={baseUrl + "/icons/article.gif"} alt="Published" title="Published"/> {dateFormat.format(post.data.pubDate)}</span>
-        { post.data.updatedDate && <span><img class="icon" src={baseUrl + "/icons/edit.gif"} alt="Last modified" title="Last modified"/> {dateFormat.format(post.data.updatedDate)}</span> }
+        <span><img class="icon" src={baseUrl + "/icons/article.gif"} alt="Published" title="Published"/>{" "}{dateFormat.format(post.data.pubDate)}</span>{" "}
+        { post.data.updatedDate && <><span><img class="icon" src={baseUrl + "/icons/edit.gif"} alt="Last modified" title="Last modified"/>{" "}{dateFormat.format(post.data.updatedDate)}</span>{" "}</> }
         <span><img class="icon" src={baseUrl + "/icons/time.gif"} alt="Time to read" title="Time to read"/> {readingTime.text} min{readingTime.text!=1 && "s"} {readingTime.video > 0 && `(plus ${readingTime.video} min${readingTime.video!=1 && "s"} of videos)`}</span>
     </div>
     <div class="tags-list">

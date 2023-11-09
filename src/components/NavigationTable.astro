@@ -18,7 +18,7 @@ const {links, title, type} = Astro.props;
 <ul class="navigation">
     {
         links.map(({href, icon, label}) => <li>
-            {icon && <img src={baseUrl + icon} width="16" height="16"/>}
+            {icon && <img src={baseUrl + icon} width="16" height="16"/>}{" "}
             <a href={baseUrl + href}>{label}</a>
         </li>)
     }
