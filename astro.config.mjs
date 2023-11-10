@@ -24,14 +24,14 @@ export default defineConfig({
                 '@lib/components/biyonic/ListItem.astro',
                 '@lib/components/biyonic/Code.astro',
                 '@lib/components/bubbles/TextBubble.astro',
-                '@lib/components/Picture.astro',
+                '@lib/components/Figure.astro',
                 '@lib/components/ImageGrid.astro',
                 '@lib/components/Chara.astro',
                 '@lib/components/PlayerLink.astro',
                 '@lib/components/Anchor.astro',
                 '@lib/components/VersionBranch.astro',
                 {
-                    'astro:assets': ['Image']
+                    'astro:assets': ['Image', 'Picture']
                 },
             ]
         }),
