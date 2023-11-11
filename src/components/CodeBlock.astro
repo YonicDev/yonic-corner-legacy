@@ -1,10 +1,18 @@
 ---
 import { Code } from 'astro/components';
+import type { BuiltinLanguage, LanguageRegistration, SpecialLanguage } from 'shikiji';
 
 import Window from './Window.astro';
 
+interface Props {
+    code: string,
+    lang?: BuiltinLanguage | SpecialLanguage | LanguageRegistration,
+    filename?: string
+}
+
+
 const { code, lang } = Astro.props;
-const filename = Astro.props.filename.trim();
+const filename = Astro.props.filename?.trim();
 
 ---
 <Window class="code-window" title={filename!=="-"? filename : undefined}>
