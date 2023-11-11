@@ -1,0 +1,12 @@
+{
+    "title": "Horizon",
+    "author": "Isamu Ohira",
+    "album": "Gran Turismo 4",
+    "cover": "gt4",
+    "sources": [
+        {
+            "src": "https://fi.zophar.net/soundfiles/playstation2-psf2/gran-turismo-4/02%20-%20Isamu%20Ohira%20-%20Horizon.mp3",
+            "type": "audio/mpeg"
+        }
+    ]
+}

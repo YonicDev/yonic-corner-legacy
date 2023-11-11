@@ -1,0 +1,131 @@
+---
+title: "Example article"
+description: "Demonstrates all main components in both Modern and Legacy versions."
+category: misc
+legacy: true
+pubDate: 2023-11-11T20:10:13.081Z
+tags: [yonic-corner, example]
+series:
+    id: example
+    order: 1
+---
+
+import YouTube from "@lib/components/Youtube.astro";
+
+import Lena from "@lib/assets/articles/example/lena.png";
+
+export const components = { p: Paragraph, li: ListItem, code: Code };
+
+{ frontmatter.description }
+
+Bi(y)onic text support will be automatically included when using the `export const components` statement.
+
+## Player link
+
+Music metadata is stored in `content/music`, and the `id` property points to the JSON metadata file relative to that folder.
+
+<PlayerLink id="sample/music" />
+
+## RSS Feed preview
+
+<div class="feed-preview">
+Anything enclosed in an element with the `feed-preview` class will be rendered into the content of the RSS Feed. **It also includes all the innerHTML, so be careful.**
+</div>
+
+## Images (figures)
+
+The `<Figure>` component is a powerful one for displaying responsive images with thumbnails at whatever format you wish. It has the same properties as the Astro builtin `<Picture>` component. You can set the `fallback` format for browsers that do not support HTML5 `<picture>` elements.
+
+The Legacy version will render a normal image with a single source with the `fallback` format.
+
+<Figure src={Lena} alt="Standardized picture of a woman" width="300">
+    <>Captions are shown here. We're using a JSX fragment to avoid unnecessary HTML.</>
+</Figure>
+
+If you do not set a `width`, it will automatically span to the width of the post.
+
+<Figure src={Lena} alt="Standardized picture of a woman">
+    <>That's a big woman!</>
+</Figure>
+
+...That's a weird caption. For images with no captions, the `nocaption` property must be set for it to be properly displayed in the Legacy version.
+
+<Figure src={Lena} nocaption alt="Standardized picture of a woman" width="64" fallback="gif" />
+
+## Text bubble and Character sprites
+
+This section changes a lot depending the version of the blog, so we're using `<VersionBranch>` to split showing the relevant content for each version.
+
+<VersionBranch>
+<TextBubble position="bottom" alignment="far" theme="yonic" slot="modern">
+    Text bubbles in the modern version have the following properties:
+    * **`position`**: Indicates which side of the text bubble should the speech triangle be positioned.
+    * **`alignment`**: Sets where in that side the triangle should be positioned.
+        * `near` is up in vertical and left in horizontal sides.
+        * `far` is down in vertical and right in horizontal sides.
+        * `center` is in the middle of any side.
+    * **`theme`**: The visual theme of the TextBubble. It usually matches the name of the character who's speaking. The visual theme is defined using CSS and SVG images. Sometimes, there are also CSS and SVG animations.
+</TextBubble>
+<TextBubble position="bottom" alignment="far" theme="yonic" slot="legacy">
+    Text bubbles in the legacy version have the same properties as the ones in the modern version, but the `theme` is handled very differently. Here's how to define a new theme:
+
+    1. **Create a new Astro component in `components/bubbles/themes`**. 
+    2. **Have the pops of said component extend the props from the `BubbleBase` component** in `components/bubbles` (in practice, just put `interface Props extends BubbleSpeech {}`).
+    3. **Configure the component** with the following controllable properties:
+        * `theme`: Internal ID used to locate the assets that will make the bubble.
+        * `sizing`: Here you can control the sizes of the outer border in pixels. They each take an array of 2 integers per side (top, left, bottom and right). Only the top side is mandatory. If one side is undefined, it mirrors the opposite side (or the top side if it's the left one, for diagonal mirroring)
+        * `speech`: Controls how to place the speech bubble. **Do not set this value directly.** Instead, take it from `Astro.props` and pass it to the `BubbleBase` component.
+    4. **Import the new Astro component** in the `TextBubble.astro` component and include it as an element of the `themes` Record.
+    5. **Add the assets in the `public/bubbles/<your-theme-id>`** directory. Each asset is comprised of the following GIF images:
+        * 9 sliced images that represent the border. The corners go from `top-left` to `bottom-right` and include the sides like `top-center` for vertical and `center-right` for horizontal sides. The 9th image is for the `center`. Edge and center images are meant to be tileable, while corners are not.
+        * 4 images for the speech triangle, one for each side of the bubble.
+</TextBubble>
+</VersionBranch>
+<Chara name="yonic" set="summer" sprite="thinking" thoughts="Will someone use this theme? Hard to say..." />
+
+Character sprites work the same for both versions.
+
+<TextBubble position="bottom" alignment="near" theme="yonic">
+    **Characters** have **sets**, each containing their collection of GIF sprite images. Characters are divided by their name, while sets are usually split between costumes or visual appearance. You set which one to use in the props for the `<Chara>` component.
+
+    Additionally, you can set their `position` to the left, center or the right of the line.
+
+    The `thoughts` property allows you to put a string of text that will represent the thoughts of a character, which is shown when the mouse is placed on top of the character image (the cursor will change to a thinking balloon).
+</TextBubble>
+<Chara name="yonic" set="winter" position="left" sprite="normal" thoughts="Youuuu are readiiiing my miiiiind" />
+
+## Code blocks
+
+It supports syntax highlighting and you can copy code from it. Also, you can set a **filename header** to the code block by including a `// file.comment` as the first line.
+
+**The language for highlighting is mandatory and it is not inferred from the filename header.** If your language isn't supported by Shiki, use `text` or a near equivalent.
+
+```cpp
+// sample.cpp
+// If your code snippet starts with a comment and you do not wish for a title,
+// have a comment like in the line below as the first line:
+// -
+// ^ And it will be ignored. (Trailing whitespace doesn't matter)
+#include <stdio.h>
+
+void SayHello( void );
+
+int main (int argc, const char * argv[]) {
+    SayHello();
+
+    return 0;
+}
+
+
+void SayHello( void ) {
+    printf( "Hello, world!\n" );
+}
+```
+
+## YouTube videos
+
+The Yonic Corner leverages Invidious instances for YouTube video playback. This allows videos being played using the builtin HTML5 media player from the browser when JavaScript is disabled.
+
+Set the `id` to the one from the desired video (in the `watch?v=<id>` part of the URL when viewed normally, that is, not Youtu.be nor YouTube Shorts or whatever Google comes up with playing videos). You can also use a different Insidious instance by setting the URL of said instance.
+
+<YouTube instance="https://invidious.asir.dev" id="YE7VzlLtp-4" title="Big Buck Bunny" description="The short everyone uses when demonstrating placing videos on the web."/>

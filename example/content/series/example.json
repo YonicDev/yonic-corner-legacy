@@ -1,0 +1,4 @@
+{
+    "title": "Example series",
+    "description": "Posts from the same series are sorted in ascending order: Smallest number first, largest last. The order property must be an integer."
+}

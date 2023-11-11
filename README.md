@@ -1,6 +1,6 @@
 # The Yonic Corner (Legacy edition)
 
-![The Yonic Corner on IE 5.5 for Windows 98](src/assets/articles/first-post-legacy/hero.png)
+![The Yonic Corner on IE 5.5 for Windows 98 and Netscape 7 for Mac OS 9](src/assets/readme-card.png)
 
 [**Visit the blog here!**](http://yonicdev.github.io/yonic-corner-legacy/)
 
@@ -8,7 +8,9 @@ This is a version of my [personal blog](https://github.com/YonicDev/yonic-corner
 
 ## Minimal browsers
 
-While Astro outputs HTML5 compliant pages, this blog only elements from up to HTML 4.01, and uses CSS2 alongside with jQuery 1.0 for cross-browser JavaScript. These are the browsers that have been tested to work with all these features:
+While Astro outputs HTML5 compliant pages, this blog only renders elements from up to HTML 4.01, and uses CSS2 alongside with jQuery 1.0 for cross-browser JavaScript.
+
+These are the browsers that have been tested to work with all these features:
 
 * **Windows 9x/NT**: Internet Explorer 5.5, Firefox 2, K-Meleon 1.5.4, Opera 9
   * Internet Explorer 5 also works with the blog, but jQuery features will not.
@@ -16,18 +18,19 @@ While Astro outputs HTML5 compliant pages, this blog only elements from up to HT
 
 ## Differences between Modern and Legacy versions
 
-The content API of both modern and legacy versions is pretty much identical between versions, but there are still some key differences between them, as well as different ways to handle assets:
+The content API of both modern and legacy versions is pretty much identical between the two, so you can write a post for both versions in a single MDX file. But there are still some key differences between them, as well as different ways to handle assets:
 
-* **The Legacy version does not include the Svelte integration.** Instead, regular Astro components with jQuery are used when required.
+* **The Legacy version does not include the Svelte integration.** Instead, regular Astro components with jQuery are used when required. Svelte components are automatically ignored from build and should not be rendered in MDX posts.
+* **Posts with `legacy` set to `false`** will be ignored in routing, tag counts, series and RSS feeds. Posts with this field set to `only` will only be taken into account in the Legacy version.
 * **Unsupported Astro components** (e.g. `<YouTube>` and `<PlayerLink>`) **will show an information box** with a referral link to the Modern version.
-* **The bi(y)onic reading components (`<Paragraph>`, `<ListItem>` and `<Code>`) as well as `<ImageGrid>` are missing** in the Legacy version altogether.
-  * The bi(y)onic reading components must be removed from the `export const components` declaration in the MDX files.
-  * `<ImageGrid>` must be replaced with a static layout (most often, an HTML table will do).
-* **Hero/cover images must have a fixed 3:2 aspect-ratio**. This applies to post and series hero images.
-  * This means the `heroPosition` property in the post frontmatter is unused, but the parser still accepts it.
-* **Only `jpg`/`jpeg`, `gif` and `png` are eligible formats for the `<Picture>` component**, and defaults to `jpg`. It will error out if the normally accepted by Astro and more modern image formats are used.
-  * **Transparent PNG images are not supported**, but won't cause an error when used. Use GIF instead for transparent images.
-* **The **`<Picture>`** component has an additional prop: `nocaption`**, a boolean prop that hides the caption box in the picture.
+* **Modern-only components will render a warning message** (e.g. `<ImageGrid>`) with a recommendation on what to do to replace them with compatible components or HTML.
+* **Hero/cover images must have a fixed 3:2 aspect-ratio and named `hero-legacy.png`**. This applies to post and series hero images.
+  * Like the Modern version, it doesn't necessarily have to be an actual PNG image.
+  * The `heroPosition` property in the post frontmatter is left unused, but the parser still considers it as a valid field.
+  * The ideal resolution is at 454x303 pixels.
+* **The `<Figure>` component will only use its `fallback` field** to determine the format of the image.
+* **Transparent PNG images are not supported**, but won't cause an error when used. Use GIF instead for transparent images.
 * **`<Chara>` images are GIF only and use their intrinsic size.**
-* **Text bubble themes** are defined as separate components that wrap the `<BubbleBase>` component and use a 9-slice GIF image set for the appeareance in the `public/bubbles` folder, in their own folder. Then these are imported and included in the `themes` record in the `TextBubble.astro` component.
-* **Music content will only use the first audio source in the `srcset`** field, and **Astro will error out** if the protocol is anything other than plain HTTP *(not HTTPS)*.
+* **Text bubble themes** are defined as separate components that wrap the `<BubbleBase>` component and use a 9-slice GIF image set for the appearance in the `public/bubbles` folder, in their own folder. Then these are imported and included in the `themes` record in the `TextBubble.astro` component.
+* **Music content will only use the first HTTP *(not HTTPS)* audio source in the `srcset`** field. If there is none, it will error out.
+* **Only the slot `legacy`** in `<VersionBranch>` will be rendered.
