@@ -3,13 +3,11 @@ import { Code } from 'astro/components';
 
 import Window from './Window.astro';
 
-const {
-    code,
-    lang,
-    filename,
-} = Astro.props;
+const { code, lang } = Astro.props;
+const filename = Astro.props.filename.trim();
+
 ---
-<Window class="code-window" title={filename}>
+<Window class="code-window" title={filename!=="-"? filename : undefined}>
     <Code code={code} lang={lang} theme="min-dark"/>
 </Window>
 
