@@ -125,7 +125,7 @@ const basify = (url: string) => `url(${baseUrl}${url})`;
 					</tr>
 				</div>
 			</table>
-			<div id="footer" style={{backgroundImage: basify("/ui/footer.jpg")}}>
+			<div id="footer">
 				<div id="rainbow">
 					<img id="footer-me" src={baseUrl+"/ui/footer-me.gif"} />
 					{
@@ -134,7 +134,7 @@ const basify = (url: string) => `url(${baseUrl}${url})`;
 						))
 					}
 				</div>
-				<center>
+				<center style={{backgroundImage: basify("/ui/footer.jpg")}}>
 					<p>Yonic Corner Legacy v{version}, hosted by GitHub Pages <a class="badge" href="https://astro.build"><img align="middle" alt="Built with Astro" src="/badge-astro.gif" width="120" height="20"/></a></p>
 					<span><a href="https://github.com/YonicDev/yonic-corner-legacy">Source code</a> | <a href={baseUrl+"/rss.xml"}><img src={baseUrl+"/icons/rss.gif"} alt="RSS" width="16" height="16" style="vertical-align: middle"/> Subscribe to feed</a> (WIP)</span>
 				</center>
@@ -142,7 +142,7 @@ const basify = (url: string) => `url(${baseUrl}${url})`;
 		</center>
 	</body>
 </html>
-<style is:global>
+<style lang="scss" is:global>
 	html, body {
 		padding: 0;
 		margin: 0;
@@ -210,9 +210,15 @@ const basify = (url: string) => `url(${baseUrl}${url})`;
 	}
 	#footer {
 		font-size: 10pt;
-		background: #1b1b2f;
 		color: white;
-		padding-bottom: 24px;
+		center {
+			background-color: #1b1b2f;
+			padding-bottom: 24px;
+			padding-top: 12px;
+			p {
+				margin-top: 0;
+			}
+		}
 	}
 	#footer-me {
 		position: absolute;
