@@ -20,10 +20,11 @@ These are the browsers that have been tested to work with all these features:
 
 The content API of both modern and legacy versions is pretty much identical between the two, so you can write a post for both versions in a single MDX file. But there are still some key differences between them, as well as different ways to handle assets:
 
-* **The Legacy version does not include the Svelte integration.** Instead, regular Astro components with jQuery are used when required. Svelte components are automatically ignored from build and should not be rendered in MDX posts.
+* **The Legacy version does not include the Svelte integration.** Instead, regular Astro components with jQuery are used when required. Svelte components are automatically ignored from build and should not be rendered in the Legacy version.
 * **Posts with `legacy` set to `false`** will be ignored in routing, tag counts, series and RSS feeds. Posts with this field set to `only` will only be taken into account in the Legacy version.
 * **Unsupported Astro components** (e.g. `<YouTube>` and `<PlayerLink>`) **will show an information box** with a referral link to the Modern version.
 * **Modern-only components will render a warning message** (e.g. `<ImageGrid>`) with a recommendation on what to do to replace them with compatible components or HTML.
+  * **Bi(y)onic reading components** (`<Paragraph>`, `<ListItem>` and `<Code>`) **have been deprecated** in 1.2.0 and will be removed in a future version. To migrate to 1.2.0, remove the `exports` statement in all MDX posts.
 * **Hero/cover images must have a fixed 3:2 aspect-ratio and named `hero-legacy.png`**. This applies to post and series hero images.
   * Like the Modern version, it doesn't necessarily have to be an actual PNG image.
   * The `heroPosition` property in the post frontmatter is left unused, but the parser still considers it as a valid field.

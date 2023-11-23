@@ -7,6 +7,8 @@ import type { ImageMetadata } from 'astro';
 import Layout from "@lib/layouts/Article.astro";
 import Series from "@lib/components/Series.astro";
 
+import Anchor from '@lib/components/Anchor.astro';
+
 import { filterPosts, sortPosts } from '@lib/util';
 import { categories } from '@lib/settings';
 
@@ -66,6 +68,8 @@ const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, "");
 const {Content, remarkPluginFrontmatter} = await post.render();
 const hero = await getHeroImage();
 const {readingTime} = remarkPluginFrontmatter;
+
+const components = { a: Anchor };
 ---
 
 <Layout {...post.data}>
@@ -86,7 +90,7 @@ const {readingTime} = remarkPluginFrontmatter;
         )) : <span>None</span>}
     </div>
     <hr/>
-    <Content/>
+    <Content {components} />
     {
         series && seriesPosts.length > 0 && seriesIndex >= 0 && (
             <Series slot="below" series={series.id} category="series" title={"Series: " + series.data.title} previous={seriesPosts[seriesIndex-1]} next={seriesPosts[seriesIndex+1]}/>

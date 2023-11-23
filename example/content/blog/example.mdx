@@ -14,11 +14,9 @@ import YouTube from "@lib/components/Youtube.astro";
 
 import Lena from "@lib/assets/articles/example/lena.png";
 
-export const components = { p: Paragraph, li: ListItem, code: Code };
-
 { frontmatter.description }
 
-Bi(y)onic text support will be automatically included when using the `export const components` statement.
+Since 1.2.0, the `export const components` statements are not necessary and should be removed from older posts.
 
 ## Player link
 
