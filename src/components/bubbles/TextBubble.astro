@@ -5,6 +5,7 @@
  */
 import type { BubbleSpeech } from "./BubbleBase.astro";
 import YonicBubble from "./themes/Yonic.astro";
+import RaxkiBubble from "./themes/Raxki.astro";
 
 interface Props extends BubbleSpeech {
     theme: string
@@ -14,7 +15,8 @@ interface Props extends BubbleSpeech {
 const { theme, position = "none", offset, alignment = "center" } = Astro.props;
 
 const themes: Record<string, (_props: BubbleSpeech) => any> = {
-    "yonic": YonicBubble
+    "yonic": YonicBubble,
+    "raxki": RaxkiBubble,
 }
 
 const Component = themes[theme];

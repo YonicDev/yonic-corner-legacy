@@ -3,6 +3,7 @@ interface Props {
     theme?: string,
     sizing?: BubbleSizings,
     speech?: BubbleSpeech,
+    textColor?: string,
 }
 
 export interface BubbleSizings {
@@ -31,7 +32,9 @@ const defaultSpeech: BubbleSpeech = {
     offset: 0
 }
 
-const {theme = "test", sizing = defaultSizing, speech = defaultSpeech} = Astro.props;
+const {theme = "test", sizing = defaultSizing, speech = defaultSpeech, textColor = "black"} = Astro.props;
+
+console.log(textColor);
 
 const {top} = sizing,
 left = sizing.left ?? top,
@@ -89,7 +92,7 @@ const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, "");
                 </div>
             }
         </td>
-        <td style={{backgroundImage: `url(${baseUrl}/bubbles/${theme}/center.gif)`, fontSize: "10pt"}}><slot/></td>
+        <td style={{backgroundImage: `url(${baseUrl}/bubbles/${theme}/center.gif)`, fontSize: "10pt", color: textColor}}><slot/></td>
         <td class="corner" style={{backgroundImage: `url(${baseUrl}/bubbles/${theme}/center-right.gif)`, height: "100%"}}>
             {   position === "right" && <div>
                     <img style={positions.right[alignment]} class="triangle" src={`${baseUrl}/bubbles/${theme}/speech-right.gif`} width={right[0]} height={right[1]} /> 
