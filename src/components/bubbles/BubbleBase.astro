@@ -34,8 +34,6 @@ const defaultSpeech: BubbleSpeech = {
 
 const {theme = "test", sizing = defaultSizing, speech = defaultSpeech, textColor = "black"} = Astro.props;
 
-console.log(textColor);
-
 const {top} = sizing,
 left = sizing.left ?? top,
 right = sizing.right ?? left,
