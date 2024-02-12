@@ -15,9 +15,9 @@ const {post, i, page, category} = Astro.props;
 
 const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, "");
 
-let heroImage: any;
+let heroImage: ImageMetadata | null;
 try {
-    heroImage = (await import(`../assets/articles/${post.slug}/hero-legacy.png`)).default;
+    heroImage = post.data.hero?.legacy ?? (await import(`../assets/articles/${post.slug}/hero-legacy.png`)).default;
 } catch(err) {
     heroImage = null;
 }

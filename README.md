@@ -26,6 +26,7 @@ The content API of both modern and legacy versions is pretty much identical betw
 * **Modern-only components will render a warning message** (e.g. `<ImageGrid>`) with a recommendation on what to do to replace them with compatible components or HTML.
   * **Bi(y)onic reading components** (`<Paragraph>`, `<ListItem>` and `<Code>`) **have been deprecated** in 1.2.0 and will be removed in a future version. To migrate to 1.2.0, remove the `exports` statement in all MDX posts.
 * **Hero/cover images must have a fixed 3:2 aspect-ratio and named `hero-legacy.png`**. This applies to post and series hero images.
+  * Optionally, you may set it in the `hero.legacy` property in the post data. 
   * Like the Modern version, it doesn't necessarily have to be an actual PNG image.
   * The `heroPosition` property in the post frontmatter is left unused, but the parser still considers it as a valid field.
   * The ideal resolution is at 454x303 pixels.

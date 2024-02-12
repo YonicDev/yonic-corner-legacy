@@ -36,11 +36,19 @@ function createManyUnion<
 }
 
 const blogCollection = defineCollection({
-    schema: z.object({
+    schema: ({image}) => z.object({
         title: z.string(),
         description: z.string(),
         category: createUnionSchema(CATEGORY_IDS).optional().default("misc"),
         tags: z.array(z.string()).optional().default([]),
+        hero: z.object({
+          modern: image(),
+          legacy: image().refine(({src, width, height}) => {
+            if(width != 454 || height != 303)
+              console.warn(`Image ${src} does not have the ideal resolution of 454x303 pixels.`);
+            return Math.abs(width/height - 1.5) <= 0.01;
+          }, "Legacy hero images must be of 2:3 aspect ratio."),
+      }).partial().strict().optional(),
         heroPosition: z.union([
             z.literal("top"),
             z.literal("center"),
@@ -70,8 +78,12 @@ const blogCollection = defineCollection({
 
 const seriesCollection = defineCollection({
     type: "data",
-    schema: z.object({
+    schema: ({image}) => z.object({
       title: z.string(),
+      hero: z.object({
+          modern: image(),
+          legacy: image().refine(({width, height}) => (Math.abs(width/height - 1.5) <= 0.01), "Legacy hero images must be of 2:3 aspect ratio." ),
+      }).partial().strict().optional(),
       description: z.string()
     }).strict()
   });
