@@ -30,6 +30,7 @@ The content API of both modern and legacy versions is pretty much identical betw
   * The `heroPosition` property in the post frontmatter is left unused, but the parser still considers it as a valid field.
   * The ideal resolution is at 454x303 pixels.
 * **The `<Figure>` component will only use its `fallback` field** to determine the format of the image.
+  * From 1.2.0, the `nocaption` prop has been removed and does not have any effect. Instead, the caption box is hidden when there are no inner contents in the `<Figure>` component.
 * **Transparent PNG images are not supported**, but won't cause an error when used. Use GIF instead for transparent images.
 * **`<Chara>` images are GIF only and use their intrinsic size.**
 * **Text bubble themes** are defined as separate components that wrap the `<BubbleBase>` component and use a 9-slice GIF image set for the appearance in the `public/bubbles` folder, in their own folder. Then these are imported and included in the `themes` record in the `TextBubble.astro` component.
