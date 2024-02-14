@@ -1,7 +1,23 @@
 ---
-const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, "");
----
+import { getEntry } from "astro:content";
 
+import { shuffle } from "@lib/util";
+
+const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, "");
+const blurbs: string[] = ["Welcome to the Yonic Corner!", ...shuffle([(await getEntry("blurb", "legacy")).data.base, (await getEntry("blurb", "common")).data.base].flat())];
+const spacing = 12;
+
+function makeSpacing(prev: string, acc: string) {
+    return prev + "&nbsp;".repeat(spacing) + acc;
+}
+---
+<noscript>
+    <style is:inline>
+        .blurb-container {
+            text-align: center;
+        }
+    </style>
+</noscript>
 <table class="blurb-window">
     <tr>
         <td>
@@ -15,11 +31,18 @@ const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, "");
                 }
             </style>
             <div id="blurb-marquee-js">
-                <!-- <span>Marquee test!</span> -->
-                <span>Marquee test! This marquee is very long for testing purposes!</span>
+                <noscript>
+                    <span class="noscript">Browse without JavaScript!</span>
+                </noscript>
+                <span class="script-only"><Fragment set:html={blurbs.reduce(makeSpacing)} /></span>
             </div>
             <!--<![endif]-->
-            <marquee id="blurb-marquee" scrolldelay="120" scrollamount="4"><span>Marquee test!</span></marquee>
+            <marquee id="blurb-marquee" scrolldelay="120" scrollamount="4">
+                <noscript>
+                    <span class="noscript"><Fragment set:html={[blurbs[0],"Browse without JavaScript!"].reduce(makeSpacing)} /></span>
+                </noscript>
+                <span class="script-only"><Fragment set:html={blurbs.reduce(makeSpacing)} /></span>
+            </marquee>
         </td>
         <td>
             <img src={baseUrl+"/ui/marquee-window-right.gif"} width="13" height="24" />
@@ -28,14 +51,67 @@ const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, "");
 </table>
 
 <script is:inline>
-    /* JS driven marquee (for non-IE browsers) */
-    var marquee = $("#blurb-marquee-js span");
-    if(marquee.length > 0) {
+    var blurbWindow = $("#blurb-marquee .script-only, #blurb-marquee-js .script-only");
+    var now = new Date();
+    $("#blurb-marquee-js span").css("left", "100%");
+    $.getJSON("/blurbs.json", function(data) {
+        var blurbs = $.grep(data, function(dat) {
+            /**@type import("@lib/content/config").TimedBlurb */
+            var blurb = dat;
+            if(blurb.singleDate != null) {
+                var dateSegments = blurb.singleDate.date.split("-");
+                var date = new Date(Date.UTC(parseInt(dateSegments[0]), parseInt(dateSegments[1]-1), parseInt(dateSegments[2])));
+                var result = (!blurb.singleDate.useYear || date.getUTCFullYear() == now.getUTCFullYear()) && date.getUTCMonth() == now.getUTCMonth() && date.getUTCDate() == now.getUTCDate()
+                return result;
+            } else if (blurb.dateRange != null) {
+                var fromSegments = blurb.dateRange.from.split("-");
+                var from = new Date(Date.UTC(parseInt(fromSegments[0]), parseInt(fromSegments[1]-1), parseInt(fromSegments[2])));
+                var toSegments = blurb.dateRange.to.split("-");
+                var to = new Date(Date.UTC(parseInt(toSegments[0]), parseInt(toSegments[1]-1), parseInt(toSegments[2])));
+                if(blurb.dateRange.useYear) {
+                    return from.getTime() <= now.getTime() && to.getTime() >= now.getTime()
+                } else {
+                    if(now.getUTCMonth() < from.getUTCMonth() || now.getUTCMonth() > to.getUTCMonth()) {
+                        return false;
+                    }
+                    if(now.getUTCMonth() == from.getUTCMonth()) {
+                        return now.getUTCDate() >= from.getUTCDate() && (from.getUTCMonth() != to.getUTCMonth() || now.getUTCDate() <= to.getUTCDate())
+                    } else if(now.getUTCMonth() == to.getUTCMonth()) {
+                        return now.getUTCDate() <= to.getUTCDate() && (from.getUTCMonth() != to.getUTCMonth() || now.getUTCDate() >= from.getUTCDate())
+                    } else {
+                        return false;
+                    }
+                }
+            } else {
+                return false;
+            }
+        })
+        var html = blurbWindow.html();
+        var spacer = "";
+        var s = 0;
+        while(s < 12) {
+            spacer += "&nbsp;";
+            s++;
+        }
+        for(var i=0;i<blurbs.length;i++) {
+            var blurb = blurbs[i];
+            html += spacer + blurb.text
+        }
+        blurbWindow.html(html);
+        var marquee = $("#blurb-marquee-js span");
+        if(marquee.length > 0) {
+            beginJSMarquee(marquee);
+        }
+    })
+
+    // /* JS driven marquee (for non-IE browsers) */
+    function beginJSMarquee(marquee) {
         var scrollAmount = 4;
         var scrollInterval = 120;
         var containerWidth = $("#blurb-marquee-js").width();
         var marqueeWidth = marquee.width();
         marquee.css("left", Math.min(containerWidth, marqueeWidth) + 'px');
+        marquee.css("display", "inline");
         function scroll() {
             marqueeWidth = marquee.width();
             var currentScroll = parseInt(marquee.css("left"));

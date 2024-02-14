@@ -35,6 +35,13 @@ const basify = (url: string) => `url(${baseUrl}${url})`;
 		<!--[if gte IE 6]><!-->
 		<link rel="stylesheet" type="text/css" href={baseUrl + "/layout-standard.css"}>
 		<!--<![endif]-->
+		<noscript>
+			<style is:inline>
+				.script-only {
+					display: none!important;
+				}
+			</style>
+		</noscript>
 	</head>
 	<body style={{backgroundImage: basify("/ui/bg.gif")}}>
 		<center>
