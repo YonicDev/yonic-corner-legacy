@@ -8,7 +8,18 @@ const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, "");
             <img src={baseUrl+"/ui/marquee-window-left.gif"} width="13" height="24" />
         </td>
         <td class="blurb-container" style={{backgroundImage: `url(${baseUrl}/ui/marquee-window-center.gif)`}}>
-            <marquee id="blurb-marquee" scrolldelay="120" scrollamount="4">Marquee test!</marquee>
+            <!--[if !IE]>-->
+            <style is:inline>
+                #blurb-marquee {
+                    display: none;
+                }
+            </style>
+            <div id="blurb-marquee-js">
+                <!-- <span>Marquee test!</span> -->
+                <span>Marquee test! This marquee is very long for testing purposes!</span>
+            </div>
+            <!--<![endif]-->
+            <marquee id="blurb-marquee" scrolldelay="120" scrollamount="4"><span>Marquee test!</span></marquee>
         </td>
         <td>
             <img src={baseUrl+"/ui/marquee-window-right.gif"} width="13" height="24" />
@@ -16,13 +27,34 @@ const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, "");
     </tr>
 </table>
 
+<script is:inline>
+    /* JS driven marquee (for non-IE browsers) */
+    var marquee = $("#blurb-marquee-js span");
+    if(marquee.length > 0) {
+        var scrollAmount = 4;
+        var scrollInterval = 120;
+        var containerWidth = $("#blurb-marquee-js").width();
+        var marqueeWidth = marquee.width();
+        marquee.css("left", Math.min(containerWidth, marqueeWidth) + 'px');
+        function scroll() {
+            marqueeWidth = marquee.width();
+            var currentScroll = parseInt(marquee.css("left"));
+            if(currentScroll < Math.max(containerWidth, marqueeWidth) * -1) {
+                marquee.css("left", Math.min(containerWidth, marqueeWidth) + 'px');
+            } else {
+                marquee.css("left", (currentScroll - scrollAmount) + 'px')
+            }
+        }
+        setInterval(scroll, scrollInterval)
+    }
+</script>
+
 <style is:global>
     .blurb-window {
         border-collapse: collapse;
         margin: 12px 0;
     }
 	.blurb-container {
-        display: inline-block;
 		width: 360px;
         height: 24px;
         background-position: center left;
@@ -32,12 +64,21 @@ const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, "");
         display: inline-block;
         vertical-align: top;
     }
-    #blurb-marquee {
+    #blurb-marquee, #blurb-marquee-js {
         white-space: nowrap;
         height: 100%;
         line-height: 24px;
         font-family: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono,
 			Bitstream Vera Sans Mono, Courier New, monospace;
         font-size: 12px;
+    }
+    #blurb-marquee-js {
+        position: relative;
+        width: 360px;
+        overflow: hidden;
+    }
+    #blurb-marquee-js span {
+        position: relative;
+        width: auto;
     }
 </style>
