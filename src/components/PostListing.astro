@@ -15,9 +15,28 @@ const {post, i, page, category} = Astro.props;
 
 const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, "");
 
+/**
+ * Gets the hero image.
+ * 
+ * The hero image has to be named "hero.png" and be located in the post folder.
+ * It doesn't need to be a PNG image, other formats are supported.
+ */
+ async function getHeroImage(): Promise<ImageMetadata | null> {
+    try {
+        const [year, month, id] = post.slug.split("/");
+
+        const imageMeta: ImageMetadata = year === "drafts" 
+            ? (await import(`../content/blog/${year}/${month}/hero-legacy.png`)).default
+            : (await import(`../content/blog/${year}/${month}/${id}/hero-legacy.png`)).default;
+        return imageMeta;
+    } catch {
+        return null;
+    }
+}
+
 let heroImage: ImageMetadata | null;
 try {
-    heroImage = post.data.hero?.legacy ?? (await import(`../assets/articles/${post.slug}/hero-legacy.png`)).default;
+    heroImage = post.data.hero?.legacy ?? await getHeroImage();
 } catch(err) {
     heroImage = null;
 }
