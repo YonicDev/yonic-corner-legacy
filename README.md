@@ -2,9 +2,13 @@
 
 ![The Yonic Corner on IE 5.5 for Windows 98 and Netscape 7 for Mac OS 9](src/assets/readme-card.png)
 
-[**Visit the blog here!**](http://yonicdev.github.io/yonic-corner-legacy/)
+[**Visit the blog here!**](http://legacy.yonic.blog/)
 
 This is a version of my [personal blog](https://github.com/YonicDev/yonic-corner-astro) designed specifically for late 1990s browsers. It is made with the same framework as the modern blog: Astro.
+
+## Migrating from 1.0.0
+
+The process is exactly the same as migrating from the [Modern version's 2.1.0 to 2.2.0](https://github.com/YonicDev/yonic-corner?tab=readme-ov-file#migrating-from-2.1.0).
 
 ## Minimal browsers
 

@@ -47,7 +47,7 @@ const blogCollection = defineCollection({
                 if(width != 454 || height != 303)
                     console.warn(`Image ${src} does not have the ideal resolution of 454x303 pixels.`);
                 return Math.abs(width/height - 1.5) <= 0.01;
-            }, "Legacy hero images must be of 2:3 aspect ratio."),
+            }, "Legacy hero images must be of 3:2 aspect ratio."),
       }).partial().strict().optional(),
         heroPosition: z.union([
             z.literal("top"),
