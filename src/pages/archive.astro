@@ -1,0 +1,124 @@
+---
+import { getCollection } from "astro:content";
+
+import { filterPosts } from "@lib/util";
+
+import Layout from '@lib/layouts/Layout.astro';
+
+const posts = (await getCollection("blog"))
+    .filter(filterPosts)
+    .filter(post => post.id.split("/")[0] !== "drafts")
+    .sort((a,b) => a.data.pubDate.getTime() - b.data.pubDate.getTime());
+
+const archive: Record<number,typeof posts> = {};
+
+for (const post of posts) {
+    const year = post.data.pubDate.getUTCFullYear();
+    if(!archive[year])
+        archive[year] = [];
+        archive[year] = [...archive[year], post];
+}
+
+const format: Intl.DateTimeFormatOptions = {year: "numeric", month:"long", day:"2-digit" };
+
+const title = "Archive"
+const description = "All blog posts ordered by the date they were first published, from most recent to oldest."
+---
+<Layout {title}>
+    <center>
+        <div id="top" class="listing-header">
+            <div class="default">
+                <h1>{title}</h1>
+                <span>{description}</span>
+            </div>
+        </div>
+        <div class="article">
+            <div id="tag-directory">
+                <div class="link-section">
+                    <h3>Index</h3>
+                    {Object.keys(archive).reverse().map((year, i, arr) => <><a href={`#section-${year}`}>{year.toUpperCase()}</a>{i < arr.length -1 ? " | ": ""}</> )}
+                </div>
+            </div>
+            {Object.entries(archive).reverse().map(([year, posts]) => <>
+                <table class="stop" id={`section-${year}`}><tr>
+                    <td><span>{year}</span></td>
+                    <td style="width:100%"></td>
+                    <td><a href="#top">&uarr;&nbsp;<small>Top</small></a></td>
+                </tr></table>
+                <table class="archive">
+                    {
+                        posts.reverse().map((post) => {
+                            const pubDate = post.data.pubDate.toLocaleDateString("en-US",format);
+                            const slot = <a href={`/blog/article/${post.slug}`}>{post.data.title}</a>
+                            if(post.data.updatedDate) {
+                                return (
+                                    <tr>
+                                        <td style="width: 100px; padding-top: 6px;">{pubDate}</td>
+                                        <td style="padding-top: 6px;">{slot}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding-bottom: 6px;" colspan="2"><small>Updated on {post.data.updatedDate.toLocaleDateString("en-US",format)}</small></td>
+                                    </tr>
+                                )
+                            } else {
+                                return (
+                                    <tr>
+                                        <td style="width: 100px; padding: 6px 0;">{pubDate}</td>
+                                        <td style="padding: 6px 0;">{slot}</td>
+                                    </tr>
+                                )
+                            }
+                        })
+                    }
+                </table>
+            </>)}
+        </div>
+    </center>
+</Layout>
+
+<style lang="scss" is:global>
+	.article {
+		background: #C5FFF4;
+		border: 3px solid #009183;
+		text-align: left;
+		width: 500px;
+		padding: 20px;
+		font-size: 11pt;
+        .stop {
+            margin-top: 15px;
+            border-collapse: collapse;
+            span {
+                font-size: 20px;
+                font-weight: bold;
+            }
+            a {
+                font-size: 18px;
+                small {
+                    font-size: 12px;
+                }
+            }
+        }
+	}
+	.article a {
+		color: #1768d3;
+	}
+	.article p {
+		margin: 12pt 0;
+	}
+    #tag-directory {
+        border: 2px solid #1768d3;
+        background-color: #a5cef5;
+        padding: 10px;
+        text-align: center;
+        h3 {
+            margin: 0;
+            margin-bottom: 5px;
+        }
+        .link-section {
+            font-size: 13px;
+            b {
+                color: #666666;
+            }
+        }
+    }
+</style>
