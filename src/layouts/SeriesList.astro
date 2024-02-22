@@ -61,8 +61,8 @@ const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, "");
             })}
         </div>
         <div class="page-navigator">
-            {page.currentPage > 1? <a href={baseUrl+"/blog/1"}>&lt;&lt; First</a> : <span>&lt;&lt; First</span>}
-            {page.url.prev? <a href={page.url.prev}>&lt; Prev</a>:<span>&lt; Prev</span>}
+            {page.currentPage > 1? <a href={baseUrl+"/blog/1"}>&lt;&lt; First </a> : <span>&lt;&lt; First </span>}
+            {page.url.prev? <a href={page.url.prev}>&lt; Prev </a>:<span>&lt; Prev </span>}
             <b>[</b>
             {
                 [-2,-1,0,1,2].map((i) => {
@@ -75,8 +75,8 @@ const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, "");
                     }
                 })
             }
-            <b>]</b>
-            {page.url.next? <a href={page.url.next}>Next &gt;</a> : <span>Next &gt;</span>}
+            <b> ] </b>
+            {page.url.next? <a href={page.url.next}>Next &gt; </a> : <span>Next &gt; </span>}
             {page.currentPage < page.lastPage? <a href={baseUrl + "/blog/1"}>Last &gt;&gt;</a>:<span>Last &gt;&gt;</span>}
         </div>
     </div>

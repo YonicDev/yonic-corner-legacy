@@ -34,9 +34,9 @@ const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, "");
         })}
     </div>
     <div class="page-navigator">
-        {page.currentPage > 1? <a href="1">&lt;&lt; First</a> : <span>&lt;&lt; First</span>}
-        {page.url.prev? <a href={baseUrl + page.url.prev}>&lt; Prev</a>:<span>&lt; Prev</span>}
-        <b>[</b>
+        {page.currentPage > 1? <a href="1">&lt;&lt; First </a> : <span>&lt;&lt; First </span>}
+        {page.url.prev? <a href={baseUrl + page.url.prev}>&lt; Prev </a>:<span>&lt; Prev </span>}
+        <b>[ </b>
         {
             [-2,-1,0,1,2].map((i) => {
                 const pageNo = (page.currentPage+i).toString().padStart(2, "0")+(page.currentPage+i+1 > page.lastPage? "" : " ");
@@ -48,8 +48,8 @@ const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, "");
                 }
             })
         }
-        <b>]</b>
-        {page.url.next? <a href={baseUrl + page.url.next}>Next &gt;</a> : <span>Next &gt;</span>}
-        {page.currentPage < page.lastPage? <a href={page.lastPage.toString()}>Last &gt;&gt;</a>:<span>Last &gt;&gt;</span>}
+        <b> ] </b>
+        {page.url.next? <a href={baseUrl + page.url.next}>Next &gt; </a> : <span>Next &gt; </span>}
+        {page.currentPage < page.lastPage? <a href={page.lastPage.toString()}>Last &gt;&gt; </a>:<span>Last &gt;&gt; </span>}
     </div>
 </Layout>
