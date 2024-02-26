@@ -43,11 +43,7 @@ const blogCollection = defineCollection({
         tags: z.array(z.string()).optional().default([]),
         hero: z.object({
             modern: image(),
-            legacy: image().refine(({src, width, height}) => {
-                if(width != 454 || height != 303)
-                    console.warn(`Image ${src} does not have the ideal resolution of 454x303 pixels.`);
-                return Math.abs(width/height - 1.5) <= 0.01;
-            }, "Legacy hero images must be of 3:2 aspect ratio."),
+            legacy: image().refine(({width, height}) => (Math.abs(width/height - 1.5) <= 0.01), "Legacy hero images must be of 3:2 aspect ratio."),
       }).partial().strict().optional(),
         heroPosition: z.union([
             z.literal("top"),
