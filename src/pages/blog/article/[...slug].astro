@@ -6,7 +6,7 @@ import type { ImageMetadata } from 'astro';
 
 import Layout from "@lib/layouts/Article.astro";
 import Series from "@lib/components/Series.astro";
-
+import AsianText from "@lib/components/AsianText.astro";
 import Anchor from '@lib/components/Anchor.astro';
 
 import { filterPosts, sortPosts } from '@lib/util';
@@ -94,6 +94,7 @@ const components = { a: Anchor };
         )) : <span>None</span>}
     </div>
     <hr/>
+    { post.data.asianText && <AsianText /> }
     <Content {components} />
     {
         series && seriesPosts.length > 0 && seriesIndex >= 0 && (

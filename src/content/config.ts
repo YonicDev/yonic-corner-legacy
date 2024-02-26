@@ -69,6 +69,7 @@ const blogCollection = defineCollection({
             id: reference("series"),
             order: z.number().int()
         }).strict().optional(),
+        asianText: z.boolean().default(false),
         readingTime: z.object({
             text: z.number().int(),
             video: z.number().int().default(0)

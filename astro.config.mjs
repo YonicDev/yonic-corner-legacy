@@ -29,6 +29,7 @@ export default defineConfig({
                 '@lib/components/PlayerLink.astro',
                 '@lib/components/Anchor.astro',
                 '@lib/components/VersionBranch.astro',
+                '@lib/components/Ruby.astro',
                 {
                     'astro:assets': ['Image', 'Picture']
                 },
