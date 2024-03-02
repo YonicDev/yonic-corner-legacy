@@ -1,14 +1,10 @@
 ---
 type Props = {
-    text: string,
-    ruby: string,
-    separator?: string,
+    text: string[],
+    ruby: string[],
 }
 
-const {separator = " "} = Astro.props; 
-
-const textSets = Astro.props.text.split(separator);
-const rubySets = Astro.props.ruby.split(separator);
+const { text: textSets, ruby: rubySets } = Astro.props;
 ---
 <ruby translate="no">
     { textSets.map((textSet, i) => <>{textSet} <rp>(</rp><rt>{rubySets[i]}</rt><rp>)</rp></>) }
