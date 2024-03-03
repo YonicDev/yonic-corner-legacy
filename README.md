@@ -26,6 +26,7 @@ The content API of both modern and legacy versions is pretty much identical betw
 
 * **The Legacy version does not include the Svelte integration.** Instead, regular Astro components with jQuery are used when required. Svelte components are automatically ignored from build and should not be rendered in the Legacy version.
 * **Posts with `legacy` set to `false`** will be ignored in routing, tag counts, series and RSS feeds. Posts with this field set to `only` will only be taken into account in the Legacy version.
+* **Posts with `asianText` set to `true`** will display a warning box that the post contains CJK text and may display incorrectly without additional language support.
 * **Unsupported Astro components** (e.g. `<YouTube>` and `<PlayerLink>`) **will show an information box** with a referral link to the Modern version.
 * **Modern-only components will render a warning message** (e.g. `<ImageGrid>`) with a recommendation on what to do to replace them with compatible components or HTML.
   * **Bi(y)onic reading components** (`<Paragraph>`, `<ListItem>` and `<Code>`) **have been deprecated** in 1.2.0 and will be removed in a future version. To migrate to 1.2.0, remove the `exports` statement in all MDX posts.
@@ -38,6 +39,7 @@ The content API of both modern and legacy versions is pretty much identical betw
   * From 1.2.0, the `nocaption` prop has been removed and does not have any effect. Instead, the caption box is hidden when there are no inner contents in the `<Figure>` component.
 * **Transparent PNG images are not supported**, but won't cause an error when used. Use GIF instead for transparent images.
 * **`<Chara>` images are GIF only and use their intrinsic size.**
+  * As a result, the `fallback` prop will not do anything. 
 * **Text bubble themes** are defined as separate components that wrap the `<BubbleBase>` component and use a 9-slice GIF image set for the appearance in the `public/bubbles` folder, in their own folder. Then these are imported and included in the `themes` record in the `TextBubble.astro` component.
 * **Music content will only use the first HTTP *(not HTTPS)* audio source in the `srcset`** field. If there is none, it will error out.
 * **Only the slot `legacy`** in `<VersionBranch>` will be rendered.
