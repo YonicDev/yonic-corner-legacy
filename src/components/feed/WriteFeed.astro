@@ -4,11 +4,15 @@ import path from "path";
 import { promisify } from "node:util";
 
 const writeFile = promisify(fs.writeFile);
+const makeDir = promisify(fs.mkdir);
 
 try {
     if (Astro.slots.has("feed-writer")) {
       const html = await Astro.slots.render("feed-writer");
-      await writeFile(path.resolve(process.cwd(), "src/feeds/atom.xml"), html);
+      const feedPath = path.resolve(process.cwd(), "src/feeds");
+      if(!fs.existsSync(feedPath))
+        await makeDir(feedPath)
+      await writeFile(path.resolve(process.cwd(), "src/feeds/rss.xml"), html);
       console.log("Written feed succesfully"); 
     }
 } catch (e) {

@@ -4,7 +4,7 @@
 import fs from "fs"
 import path from "path"
 
-const src = path.resolve(process.cwd(), "src/feeds/atom.xml");
+const src = path.resolve(process.cwd(), "src/feeds/rss.xml");
 const dest = path.resolve(process.cwd(), "dist/feeds/rss.xml");
 
 fs.copyFileSync(src, dest);
