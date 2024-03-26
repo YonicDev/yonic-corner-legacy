@@ -8,6 +8,7 @@
     "dev": "astro dev",
     "start": "astro dev",
     "build": "astro build",
+    "postbuild": "node ./postbuild.mjs",
     "preview": "astro preview",
     "astro": "astro"
   },
@@ -18,6 +19,7 @@
     "astro-auto-import": "^0.3.0",
     "astro-mdx-code-blocks": "^0.0.6",
     "autoprefixer": "^10.4.14",
+    "cheerio": "^1.0.0-rc.12",
     "mdast-util-to-string": "^4.0.0",
     "reading-time": "^1.5.0",
     "sass": "^1.66.1",

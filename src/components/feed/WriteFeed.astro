@@ -1,0 +1,18 @@
+---
+import fs from "node:fs";
+import path from "path";
+import { promisify } from "node:util";
+
+const writeFile = promisify(fs.writeFile);
+
+try {
+    if (Astro.slots.has("feed-writer")) {
+      const html = await Astro.slots.render("feed-writer");
+      await writeFile(path.resolve(process.cwd(), "src/feeds/atom.xml"), html);
+      console.log("Written feed succesfully"); 
+    }
+} catch (e) {
+    console.error("There was an error trying to write the feed");
+    console.error(e);
+}
+---

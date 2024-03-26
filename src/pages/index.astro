@@ -1,5 +1,8 @@
 ---
 import Layout from '../layouts/Layout.astro';
+
+import WriteFeed from '@lib/components/feed/WriteFeed.astro';
+import RSSFeed from "@lib/components/feed/RSSFeed.astro";
 ---
 
 <Layout title="Welcome">
@@ -38,6 +41,10 @@ import Layout from '../layouts/Layout.astro';
 			<p>As for number of colors, 256 colors is enough to see it clearly, but high color/16-bit color/thousands of colors or higher is recommended.</p>
 		</div>
 	</center>
+
+	<WriteFeed slot="feed-writer">
+		<RSSFeed slot="feed-writer"/>
+	</WriteFeed>
 </Layout>
 
 <style is:global>

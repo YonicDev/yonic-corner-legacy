@@ -1,0 +1,60 @@
+---
+import { getImage, Image } from 'astro:assets';
+import type { GetImageResult } from 'astro';
+
+import {load} from 'cheerio';
+
+interface Props {
+    post: string,
+    heroImage?: ImageMetadata
+}
+
+const { post, heroImage } = Astro.props;
+
+let finalHtml = "";
+
+const html = await Astro.slots.render("html");
+let $ = load(html, null, false);
+const feedHtml = $(".feed-preview").html();
+if(feedHtml) {
+    $ = load(feedHtml, null, false);
+    $(".playerLink, .chara-wrapper, .triangle").remove();
+    $(".speech-container").each(function() {
+        const charaName = $(this).attr("data-chara-name");
+        if(charaName==null) return;
+        const firstLine = $(this).find(".speech p").html();
+        $(this).find("p").first().html(`<b>${charaName}:</b>${firstLine}`);
+    })
+    $("p").each(function() {
+        $(this).html($(this).html()!.replaceAll(/\n|\s\n/g, " "))
+    })
+    finalHtml = $.html();
+}
+
+/**
+ * Gets the hero image.
+ * 
+ * By default, the hero image has to be named "hero-legacy.png" and be located in the post folder.
+ * It doesn't need to be a PNG image; other formats are supported, but the file must be named exactly like that,
+ * with the .png extension.
+ * 
+ * @returns A promise with the optimized image or null if it couldn't be found or optimized.
+ */
+ async function getHeroImage(): Promise<GetImageResult | null> {
+    try {
+        const [year, month, id] = post.split("/");
+
+        const imageMeta: ImageMetadata = heroImage ?? (year === "drafts" 
+            ? (await import(`../../content/blog/${year}/${month}/hero-legacy.png`)).default
+            : (await import(`../../content/blog/${year}/${month}/${id}/hero-legacy.png`)).default);
+            
+        return getImage({src: imageMeta, width: 300, format: "jpg", quality: 80});
+    } catch {
+        return null;
+    }
+}
+
+const hero = await getHeroImage();
+---
+{hero && <img src={import.meta.env.SITE + hero.src} alt="Cover image" width={hero.attributes.width} height={hero.attributes.height} />}
+<Fragment set:html={finalHtml} />

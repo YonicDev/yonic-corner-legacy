@@ -1,0 +1,47 @@
+---
+import { getCollection } from "astro:content";
+
+import HTMLFeed from "./HTMLFeed.astro";
+import { filterPosts, sortPosts } from "@lib/util";
+
+const posts = (await getCollection('blog')).filter(filterPosts).sort(sortPosts).slice(0,20);
+
+const atomHeader = `<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="/feeds/style.xsl" type="text/xsl"?>
+
+<rss version="2.0">
+<channel>
+    <title>The Yonic Corner (Legacy Version)</title>
+    <link>${import.meta.env.SITE}</link>
+    <ttl>${60*24*7}</ttl>
+    <description>A blog about games, technology, and my hobbies</description>
+    <generator>${Astro.generator}</generator>
+`
+
+const atomFooter = `</channel>
+</rss>`
+---
+
+<Fragment set:html={atomHeader} />
+{posts.map(async (post) => {
+    const { Content } = await post.render();
+
+    const slug = import.meta.env.SITE + "/blog/article/" + post.slug;
+
+    return (
+    <Fragment set:html={`
+        <item>
+            <title>${post.data.title}</title>
+            <subtitle>${post.data.description}</subtitle>
+            <author>
+                <name>Yonic</name>
+            </author>
+            <link>${slug}</link>
+            <link href="${slug}" />
+            <link rel="alternate" type="text/html" href="${slug}" />
+            <summary><![CDATA[ ${post.data.description} ]]></summary>
+            <pubDate>${(post.data.updatedDate ?? post.data.pubDate).toISOString()}</pubDate>
+            <description><![CDATA[`}/><HTMLFeed post={post.slug} heroImage={post.data?.hero?.legacy}><Content slot="html"/></HTMLFeed><Fragment set:html={`]]></description>
+    </item>`} />
+)})}
+<Fragment set:html={atomFooter} />
