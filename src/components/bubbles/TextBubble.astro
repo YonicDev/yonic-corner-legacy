@@ -9,11 +9,11 @@ import RaxkiBubble from "./themes/Raxki.astro";
 import LianBubble from "./themes/Lian.astro";
 
 interface Props extends BubbleSpeech {
-    theme: string
+    theme: string,
 }
 
 
-const { theme, position = "none", offset, alignment = "center" } = Astro.props;
+const { theme, position = "none", offset, alignment = "center", name } = Astro.props;
 
 const themes: Record<string, (_props: BubbleSpeech) => any> = {
     "yonic": YonicBubble,
@@ -24,4 +24,4 @@ const themes: Record<string, (_props: BubbleSpeech) => any> = {
 const Component = themes[theme];
 ---
 
-<Component {position} {offset} {alignment}><slot/></Component>
+<Component {position} {offset} {alignment} {name}><slot/></Component>

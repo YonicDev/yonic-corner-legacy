@@ -18,13 +18,14 @@ let $ = load(html, null, false);
 const feedHtml = $(".feed-preview").html();
 if(feedHtml) {
     $ = load(feedHtml, null, false);
-    $(".playerLink, .chara-wrapper, .triangle").remove();
-    $(".speech-container").each(function() {
-        const charaName = $(this).attr("data-chara-name");
-        if(charaName==null) return;
-        const firstLine = $(this).find(".speech p").html();
-        $(this).find("p").first().html(`<b>${charaName}:</b>${firstLine}`);
-    })
+    $(".bubble").each(function() {
+        const charaName = $(this).attr("data-speaker-name");
+        const inside = $(this).find(".content");
+        const firstLine =  $(inside).find("p").first();
+        firstLine.html(`<b>${charaName}:</b> ${firstLine.html()}`);
+        $(this).replaceWith(`<div>${inside.html()}</div>`);
+    });
+    $(".chara, table:has(.chara)").remove();
     $("p").each(function() {
         $(this).html($(this).html()!.replaceAll(/\n|\s\n/g, " "))
     })
