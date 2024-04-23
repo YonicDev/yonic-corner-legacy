@@ -1,17 +1,91 @@
 ---
+import { Image } from "astro:assets";
 import { getEntry } from "astro:content";
-// import AlertBox from "./AlertBox.astro";
 
-// import { MODERN_WEBSITE } from "@lib/settings";
+type Props = { id: string };
 
 const {id} = Astro.props;
 
 const {id: musicId, data: music} = (await getEntry('music', id))!;
+const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, "");
+let coverImage = baseUrl + "/ui/music-cover-default.gif";
+try {
+    if(music.cover)
+        coverImage = (await import(`../assets/covers/${music.cover}.png`)).default;
+} catch(e) {}
 
-// const hrefOriginal = Astro.url.pathname.split("/").filter(s => s);;
-// const slug = hrefOriginal[hrefOriginal.length-1];
+const href = `/player-object/${musicId.replaceAll("\\", "/")}`;
 ---
-<a href={`/player-object/${musicId.replaceAll("\\", "/")}`} target="player"><b>Music: </b>{music.title}</a>
-<!-- <AlertBox title="The Legacy Version's music player is still under construction." icon="video">
-    You can check the <a href={`${MODERN_WEBSITE}/blog/article/${slug}`}>modern version</a> of The Yonic Corner for a version with music playback. This will need a modern browser.</p>
-</AlertBox> -->
+<table cellpadding="2" cellspacing="2" width="454" class="player-link">
+    <tr>
+        <th align="center" colspan="2">Music: {music.title}</th>
+    </tr>
+    <tr>
+        <td height="4" colspan="2"></td>
+    </tr>
+    <tr>
+        <td align="center" width="64"><Image src={coverImage} width="48" height="48" alt="Music album cover" format="gif" /></td>
+        <td valign="middle">
+            <ul>
+                {music.album && <li><b>Album</b>: {music.album}</li>}
+                {music.author && <li><b>Author</b>: {music.author}</li>}
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td height="4" colspan="2"></td>
+    </tr>
+    <tr>
+        <td align="center" colspan="2">
+            <div>
+                <a {href} target="player"><u>L</u>isten</a>
+            </div>
+        </td>
+    </tr>
+</table>
+
+<style lang="scss" is:global>
+    .article .player-link {
+        $body-color: #00cccc;
+        $border-color: #009d9d;
+        margin: 8px 0;
+        border-collapse: separate;
+        background-color: $body-color;
+        border: 2px outset #{$border-color};
+        font-family: "Segoe UI", "MS Sans Serif", Geneva, Tahoma, sans-serif;
+        font-smooth: never;
+        -webkit-font-smoothing: none;
+        -moz-osx-font-smoothing: unset;
+        text-rendering: optimizeSpeed;
+        td, th {
+            font-size: 9pt;
+            vertical-align: middle!important;
+        }
+        th {
+            background-color: #056b5a;
+            color: white;
+        }
+        div {
+            background-color: $body-color;
+            border: 2px outset #{$border-color};
+            width: 64px;
+            padding: 2px;
+            a {
+                display:block;
+                font-weight: normal;
+                color: black;
+                text-decoration: none;
+                text-align: center;
+                border: 1px black dotted;
+            }
+        }
+        ul {
+            margin: 0;
+            padding-left: 4pt;
+            li {
+                padding: 0;
+                list-style-type: none;
+            }
+        }
+    }
+</style>
