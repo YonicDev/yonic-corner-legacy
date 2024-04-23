@@ -1,11 +1,17 @@
 ---
-import AlertBox from "./AlertBox.astro";
+import { getEntry } from "astro:content";
+// import AlertBox from "./AlertBox.astro";
 
-import { MODERN_WEBSITE } from "@lib/settings";
+// import { MODERN_WEBSITE } from "@lib/settings";
 
-const hrefOriginal = Astro.url.pathname.split("/").filter(s => s);;
-const slug = hrefOriginal[hrefOriginal.length-1];
+const {id} = Astro.props;
+
+const {id: musicId, data: music} = (await getEntry('music', id))!;
+
+// const hrefOriginal = Astro.url.pathname.split("/").filter(s => s);;
+// const slug = hrefOriginal[hrefOriginal.length-1];
 ---
-<AlertBox title="The Legacy Version's music player is still under construction." icon="video">
+<a href={`/player-object/${musicId.replaceAll("\\", "/")}`} target="player"><b>Music: </b>{music.title}</a>
+<!-- <AlertBox title="The Legacy Version's music player is still under construction." icon="video">
     You can check the <a href={`${MODERN_WEBSITE}/blog/article/${slug}`}>modern version</a> of The Yonic Corner for a version with music playback. This will need a modern browser.</p>
-</AlertBox>
+</AlertBox> -->

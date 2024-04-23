@@ -1,0 +1,38 @@
+---
+const flashVars = {
+	src: undefined,
+	coverImage: undefined,
+	musicDuration: 1000, // Non-zero value to prevent divisions by zero
+	musicTitle: "Nothing playing"
+};
+---
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Music player</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<script src="http://code.jquery.com/jquery-1.0.4.pack.js" integrity="sha256-upOUW/O9T857epnazR8IlX1C0ZSEE19MuqWoC75KUOE=" crossorigin="anonymous"></script>
+		<script is:inline src="/client-scripts/json2.js"></script>
+		<script is:inline src="/client-scripts/swfobject.js"></script>
+	</head>
+	<body marginwidth="0" marginheight="0" leftmargin="0" topmargin="0" rightmargin="0" bottommargin="0" bgcolor="#A1FFED">
+		<!-- El método de incorporación dinámica de SWFObject reemplaza este contenido HTML alternativo por contenido de Flash si hay disponible compatibilidad suficiente para JavaScript y el plug-in de Flash. -->
+		<div id="flashContent">
+			<p>You need Flash Player 6 or higher for the music player.</p>
+		</div>
+		<div id="flashData" style="display:none">{JSON.stringify(flashVars)}</div>
+		<script is:inline src="/client-scripts/music-player.js"></script>
+	</body>
+</html>
+
+<style is:global>
+	html, body { 
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+		font-size: 12px;
+		overflow: hidden;
+	}
+	body { 
+		margin:0; 
+		padding:0;
+	}
+</style>

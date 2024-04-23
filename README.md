@@ -20,6 +20,8 @@ These are the browsers that have been tested to work with all these features:
   * Internet Explorer 5 also works with the blog, but jQuery features will not.
 * **Mac OS Classic 9**: Netscape 7, Classilla 9.3.4 Beta
 
+The music player relies on Flash Player. Versions 6, 8 and higher are supported. Flash Player 7 is not as it may cause crashes.
+
 ## Differences between Modern and Legacy versions
 
 The content API of both modern and legacy versions is pretty much identical between the two, so you can write a post for both versions in a single MDX file. But there are still some key differences between them, as well as different ways to handle assets:
@@ -41,5 +43,5 @@ The content API of both modern and legacy versions is pretty much identical betw
 * **`<Chara>` images are GIF only and use their intrinsic size.**
   * As a result, the `fallback` prop will not do anything. 
 * **Text bubble themes** are defined as separate components that wrap the `<BubbleBase>` component and use a 9-slice GIF image set for the appearance in the `public/bubbles` folder, in their own folder. Then these are imported and included in the `themes` record in the `TextBubble.astro` component.
-* **Music content will only use the first HTTP *(not HTTPS)* audio source in the `srcset`** field. If there is none, it will error out.
+* **Music content will only use the first HTTP *(not HTTPS)* audio source in the `srcset`** field.
 * **Only the slot `legacy`** in `<VersionBranch>` will be rendered.
