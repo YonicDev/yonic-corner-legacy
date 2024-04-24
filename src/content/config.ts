@@ -117,7 +117,7 @@ const musicCollection = defineCollection({
             .or(z.string().regex(/^\d+:\d{1,2}$/, "Duration must be set to 'minutes:seconds'"))
             .optional(),
         sources: z.array(z.object({
-            src: z.string().url().or(z.literal("")),
+            src: z.string(),
             type: z.string()
         }).strict())
     }).strict()

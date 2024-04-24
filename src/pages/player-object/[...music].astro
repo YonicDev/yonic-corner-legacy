@@ -17,13 +17,17 @@ export async function getStaticPaths() {
 const { title, sources, author, album, duration, cover } = Astro.props.music;
 const validFormats = ["audio/mpeg", "audio/mp3","audio/wav"];
 
-const musicSrc = sources.find(source => new URL(source.src).protocol === "http:" && validFormats.indexOf(source.type) >= 0)
+const musicSrc = sources.find(source => {
+	if(source.type === "youtube")
+		return false;
+	return new URL(source.src).protocol === "http:" && validFormats.indexOf(source.type) >= 0;
+});
 
 const coverImage = cover ? (await import(`../../assets/covers/${cover}.png`)).default : undefined;
 const coverSrc = coverImage? (await getImage({src: coverImage, width: 24, height: 24, format: 'jpg' })).src : undefined;
 
 let musicDuration: number;
-const DEFAULT_DURATION = 1000; // To prevent division by 0 on the swf file.
+const DEFAULT_DURATION = 1; // To prevent division by 0 on the swf file.
 
 switch(typeof duration) {
 	case "number":
