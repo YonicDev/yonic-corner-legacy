@@ -14,11 +14,19 @@ try {
         coverImage = (await import(`../assets/covers/${music.cover}.png`)).default;
 } catch(e) {}
 
+const validFormats = ["audio/mpeg", "audio/mp3","audio/wav"];
+
+const hasValidSource = music.sources.find(source => {
+	if(source.type === "youtube")
+		return false;
+	return new URL(source.src).protocol === "http:" && validFormats.indexOf(source.type) >= 0;
+});
+
 const href = `/player-object/${musicId.replaceAll("\\", "/")}`;
 ---
 <table cellpadding="2" cellspacing="2" width="454" class="player-link">
     <tr>
-        <th align="center" colspan="2">Music: {music.title}</th>
+        <th align="left" valign="middle" colspan="2"><img title="Music" alt="Music" style="vertical-align:middle" src="/icons/music.gif" width="16" height="16" /><span style="margin-left: 2px;vertical-align:middle">{music.title}</span></th>
     </tr>
     <tr>
         <td height="4" colspan="2"></td>
@@ -37,8 +45,11 @@ const href = `/player-object/${musicId.replaceAll("\\", "/")}`;
     </tr>
     <tr>
         <td align="center" colspan="2">
-            <div>
-                <a {href} target="player"><u>L</u>isten</a>
+            <div class:list={[hasValidSource==null ? "disabled" : undefined]}>
+                {hasValidSource != null
+                    ? <a {href} target="player"><u>L</u>isten</a>
+                    : <span>Not available</span>
+                }
             </div>
         </td>
     </tr>
@@ -85,6 +96,13 @@ const href = `/player-object/${musicId.replaceAll("\\", "/")}`;
             li {
                 padding: 0;
                 list-style-type: none;
+            }
+        }
+        .disabled {
+            color: #056b5a;
+            width: 80px;
+            span {
+                cursor: default;
             }
         }
     }
