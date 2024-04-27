@@ -21,3 +21,10 @@ export function shuffle<T>(arr: Array<T>): Array<T> {
       }
     return array;
 }
+
+/**
+ * Checks whether it's being rendered the web feed.
+ * @param referencePath Path to use as reference for rendering (should be `Astro.url`)
+ * @returns A boolean with value true the page is being rendered for the web feed.
+ */
+export function isRenderingFeed(referencePath: URL) { return referencePath.pathname === "/" }

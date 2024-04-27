@@ -1,11 +1,14 @@
 ---
 import AlertBox from "./AlertBox.astro";
+import FeedBranch from "./FeedBranch.astro";
 
 import { MODERN_WEBSITE } from "@lib/settings";
 
 const hrefOriginal = Astro.url.pathname.split("/").filter(s => s);;
 const slug = hrefOriginal[hrefOriginal.length-1];
 ---
+<FeedBranch>
 <AlertBox title="The Legacy Version's music player is still under construction." icon="video">
     You can check the <a href={`${MODERN_WEBSITE}/blog/article/${slug}`}>modern version</a> of The Yonic Corner for a version with music playback. This will need a modern browser.</p>
 </AlertBox>
+</FeedBranch>

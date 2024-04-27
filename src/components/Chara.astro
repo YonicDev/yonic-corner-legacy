@@ -1,4 +1,6 @@
 ---
+import FeedBranch from './FeedBranch.astro';
+
 export interface Props {
     name: string;
     set?: string;
@@ -12,6 +14,8 @@ const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, "");
 
 const { name, set = "default", sprite, thoughts, position = "right", height=200 } = Astro.props;
 ---
+<FeedBranch>
 <div class="chara" style={{textAlign: position}}>
     <img src={`${baseUrl}/chara/${name}/${set}/${sprite}.gif`} alt={thoughts} title={thoughts} {height}/>
 </div>
+</FeedBranch>

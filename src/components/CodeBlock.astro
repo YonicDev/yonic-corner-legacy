@@ -3,6 +3,7 @@ import { Code } from 'astro/components';
 import type { BuiltinLanguage, LanguageRegistration, SpecialLanguage } from 'shikiji';
 
 import Window from './Window.astro';
+import FeedBranch from './FeedBranch.astro';
 
 interface Props {
     code: string,
@@ -15,9 +16,15 @@ const { code, lang } = Astro.props;
 const filename = Astro.props.filename?.trim();
 
 ---
+<FeedBranch>
 <Window class="code-window" title={filename!=="-"? filename : undefined}>
     <Code code={code} lang={lang} theme="min-dark"/>
 </Window>
+<div slot="feed">
+    {filename && <b>{filename}:</b><br/>}
+    <Code code={code} lang={lang} theme="min-dark"/>
+</div>
+</FeedBranch>
 
 <style lang="scss" is:global>
     .astro-code {

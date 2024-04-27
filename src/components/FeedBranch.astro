@@ -1,0 +1,6 @@
+---
+import { isRenderingFeed } from "@lib/util";
+type Props = {};
+const isFeed = isRenderingFeed(Astro.url);
+---
+{ isFeed? <slot name="feed"/> : <slot />}

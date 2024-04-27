@@ -8,8 +8,12 @@ import YonicBubble from "./themes/Yonic.astro";
 import RaxkiBubble from "./themes/Raxki.astro";
 import LianBubble from "./themes/Lian.astro";
 
+import { load } from "cheerio";
+import FeedBranch from "../FeedBranch.astro";
+
 interface Props extends BubbleSpeech {
     theme: string,
+    name?: string,
 }
 
 
@@ -22,6 +26,17 @@ const themes: Record<string, (_props: BubbleSpeech) => any> = {
 }
 
 const Component = themes[theme];
----
 
-<Component {position} {offset} {alignment} {name}><slot/></Component>
+const normalHtml = await Astro.slots.render("default");
+const $ = load(normalHtml, null, false);
+
+if(name) {
+    const firstLine = $("p").first();
+    firstLine.html(`<b>${name}:</b> ${firstLine.html()}`);
+}
+const feedHtml = $.root().html()!;
+---
+<FeedBranch>
+<Component {position} {offset} {alignment}><slot/></Component>
+<div slot="feed"><Fragment set:html={feedHtml} /></div>
+</FeedBranch>

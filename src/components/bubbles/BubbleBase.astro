@@ -17,7 +17,6 @@ export interface BubbleSpeech {
     position: "top"|"left"|"right"|"bottom"|"none",
     alignment: "near"|"center"|"far",
     offset?: number,
-    name?: string,
 }
 
 const defaultSizing: BubbleSizings = {
@@ -70,10 +69,9 @@ function toPixels(a: number) {
 }
 
 const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, "");
-
 ---
 
-<table data-speaker-name={speech.name} class="bubble" style="position: relative" cellpadding="0">
+<table class="bubble" style="position: relative" cellpadding="0">
     <tr>
         <td class="corner" style={{backgroundImage: `url(${baseUrl}/bubbles/${theme}/top-left.gif)`, width: toPixels(left[0]), height: toPixels(top[1])}}></td>
         <td style={{background: `url(${baseUrl}/bubbles/${theme}/top-center.gif)`, height: toPixels(top[1])}}>
