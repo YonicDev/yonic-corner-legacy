@@ -53,8 +53,12 @@ function getDurationFromString(duration: string): number {
 }
 
 async function getDurationFromSrc(source: string) {
-	const res = await ffprobe(source, {path: ffprobePath});
-	return parseFloat(res.streams[0].duration ?? "0");
+	try {
+		const res = await ffprobe(source, {path: ffprobePath});
+		return parseFloat(res.streams[0].duration ?? DEFAULT_DURATION.toString());
+	} catch {
+		return DEFAULT_DURATION;
+	}
 }
 ---
 <!DOCTYPE html>
