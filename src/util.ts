@@ -21,3 +21,10 @@ export function shuffle<T>(arr: Array<T>): Array<T> {
       }
     return array;
 }
+
+export function hasSuitableSource(source: CollectionEntry<"music">["data"]["sources"][number]) {
+    const validFormats = ["audio/mpeg", "audio/mp3","audio/wav"];
+	if(source.type === "youtube" || source.src === '')
+		return false;
+	return new URL(source.src).protocol === "http:" && validFormats.indexOf(source.type) >= 0;
+}
