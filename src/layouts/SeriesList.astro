@@ -17,7 +17,7 @@ const { title, description, page } = Astro.props;
 
 const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, "");
 ---
-<Layout {title}>
+<Layout {title} noindex={page.currentPage > 1}>
     <div style="height: 752px">
         <div class="listing-header">
             <div class="series">

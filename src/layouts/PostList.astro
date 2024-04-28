@@ -12,15 +12,16 @@ interface Props {
     title: string,
     description?: string,
     page: Page<CollectionEntry<"blog">>,
-    category?: CategoryId | "series"
+    category?: CategoryId | "series",
+    forceNoindex?: boolean,
 }
 
 
-const { title, description, page, category = "default" } = Astro.props;
+const { title, description, page, category = "default", forceNoindex = false } = Astro.props;
 
 const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, "");
 ---
-<Layout {title}>
+<Layout {title} noindex={forceNoindex || page.currentPage > 1}>
     <div class="listing-header">
         <div class={category}>
             <h1>{title}</h1>

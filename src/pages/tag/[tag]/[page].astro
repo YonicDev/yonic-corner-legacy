@@ -27,4 +27,4 @@ interface Props {
 const {page} = Astro.props;
 const {tag} = Astro.params;
 ---
-<Layout {page} title={`Posts with tag "${tag?.replaceAll("-", " ") ?? "UNKNOWN"}"`} />
+<Layout {page} title={`Posts with tag "${tag?.replaceAll("-", " ") ?? "UNKNOWN"}"`} forceNoindex />

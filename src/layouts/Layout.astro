@@ -10,9 +10,10 @@ import "@lib/styles/global.scss";
 
 interface Props {
 	title: string;
+	noindex?: boolean;
 }
 
-const { title } = Astro.props;
+const { title, noindex = false } = Astro.props;
 
 const rainbowColors = ["#078D70","#26CEAA","#98E8C1","white","#7BADE2","#5049CC","#3D1A78"]
 
@@ -30,7 +31,9 @@ const basify = (url: string) => `url(${baseUrl}${url})`;
 		<link rel="icon" type="image/x-icon" href={baseUrl + "/favicon.ico"} />
 		<link rel="shortcut icon" type="image/x-icon" href={baseUrl + "/favicon.ico"}>
 		<link rel="alternate" type=" application/atom+xml" href={baseUrl + "/feeds/rss.xml"}>
+		<link rel="sitemap" href="/sitemap-index.xml" />
 		<meta name="generator" content={Astro.generator} />
+		{noindex && <meta name="robots" content="noindex" /> }
 		<title>{title}</title>
         <script src="http://code.jquery.com/jquery-1.0.4.pack.js" integrity="sha256-upOUW/O9T857epnazR8IlX1C0ZSEE19MuqWoC75KUOE=" crossorigin="anonymous"></script>
 		<!--[if gte IE 6]><!-->
