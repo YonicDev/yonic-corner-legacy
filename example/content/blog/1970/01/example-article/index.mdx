@@ -20,23 +20,22 @@ import YSvg from "./ys.svg";
 import YSRaster from "./ys.gif";
 import ColorChecker from "./ColorChecker.jpg";
 
+<div class="feed-preview">
+
 { frontmatter.description }
 
-Since 2.2.0, bi(y)onic reading support is automatically included in all posts and don't need any `export const components` statements.
+Since 1.3.0, Anything within the `<div class="feed-preview">` element will be displayed in the partial feed. **It also includes all the innerHTML, so be careful.**
 
-Also, file imports can now be relative to the MDX file. Making a folder inside `blog/year/month` and then put `index.mdx` is now the standard structure, with assets being included inside this folder, and not inside the `assets` folder.
+Components that use the `<FeedBranch>` component will split rendering between the full HTML content and the streamlined content for RSS feeds.
+</div>
 
 ## Player link
 
-Music metadata is stored in `content/music`, and the `id` property points to the JSON metadata file relative to that folder. It is preferably to have music sources with at least one HTTP source, so that it works with the Legacy version.
+Music metadata is stored in `content/music`, and the `id` property points to the JSON metadata file relative to that folder. Only music entries with an HTTP (*not* HTTPS) source will be considered. If a music entry does not have any, it will be marked as "Not available".
 
 <PlayerLink id="sample/music" />
 
-## RSS Feed preview
-
-<div class="feed-preview">
-Anything enclosed in an element with the `feed-preview` class will be rendered into the content of the RSS Feed. **It also includes all the innerHTML, so be careful.**
-</div>
+Note that music playback requires Flash Player 6 or higher. Flash Player 7 is not recommended due to being prone to crashing the browser.
 
 ## Images (figures)
 
@@ -54,11 +53,11 @@ If you do not set a `width`, it will automatically span to the width of the post
     <>That's a **big** woman!</>
 </Figure>
 
-...That was a weird caption. For images with no captions, just don't write anything inside the caption element. Some older articles will have a `nocaption` property, but this will have no effect.
+...That was a weird caption. For images with no captions, just don't write anything inside the caption element.
 
 <Figure src={ColorChecker} width="200" alt="Several test color swatches" />
 
-The source image has to be a PNG, JPG, GIF, WEBP or AVIF in format. SVG images are also supported, but you must supply a raster figure exclusively for the Legacy Version.
+The source image has to be a PNG, JPG, or GIF, WEBP or AVIF in format, but the destination format must be PNG, JPG or GIF, and is specified in the `fallback` prop (defaults to JPG). SVG images are also supported, but you must supply a raster figure exclusively for the Legacy Version.
 
 Images with partial transparency are not supported in the Legacy version. Instead, use GIF images.
 
@@ -115,12 +114,14 @@ Character sprites work the same for both versions.
 
 ## Code blocks
 
-It supports syntax highlighting and you can copy code from it. Also, you can set a **filename header** to the code block by including a `// file.comment` as the first line.
+It supports syntax highlighting and you can copy code from it. Also, you can set a **filename header** to the code block in two ways:
+
+* **Adding a meta** `filename="filename.extension"` next to the \`\`\` code fences (recommended).
+* **Including a comment with two forwardslashes** `// file.comment` as the first line.
 
 **The language for highlighting is mandatory and it is not inferred from the filename header.** If your language isn't supported by Shiki, use `text` or a near equivalent.
 
-```cpp
-// sample.cpp
+```cpp filename="sample.cpp"
 // If your code snippet starts with a comment and you do not wish for a title,
 // have a comment like in the line below as the first line:
 // -
@@ -143,8 +144,6 @@ void SayHello( void ) {
 
 ## YouTube videos
 
-The Yonic Corner leverages Invidious instances for YouTube video playback. This allows videos being played using the builtin HTML5 media player from the browser when JavaScript is disabled.
-
-Set the `id` to the one from the desired video (in the `watch?v=<id>` part of the URL when viewed normally, that is, not Youtu.be nor YouTube Shorts or whatever Google comes up with playing videos). You can also use a different Insidious instance by setting the URL of said instance.
+The Yonic Corner Legacy Version does not support YouTube video playback. If you include one you will see a warning that will guide you to the Modern version.
 
 <YouTube instance="https://inv.vern.cc" id="YE7VzlLtp-4" duration="9:57" title="Big Buck Bunny" description="The short everyone uses when demonstrating placing videos on the web."/>

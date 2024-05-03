@@ -1,0 +1,29 @@
+{
+    "base": [
+        "This blog is all about gaming, software, my creative works and personal adventures!"
+    ],
+    "timed": [
+        {
+            "text": "Happy Valentine's Day!",
+            "singleDate": {
+                "date": "2024-02-14",
+                "useYear": false
+            }
+        },
+        {
+            "text": "Happy birthday to me!",
+            "singleDate": {
+                "date": "2024-09-17",
+                "useYear": false
+            }
+        },
+        {
+            "text": "It is spring time!",
+            "dateRange": {
+                "from": "2024-03-21",
+                "to": "2024-06-21",
+                "useYear": false
+            }
+        }
+    ]
+}
