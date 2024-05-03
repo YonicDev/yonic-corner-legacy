@@ -106,10 +106,28 @@ const blurbCollection = defineCollection({
     schema: blurbSchema
 })
 
+const musicCollection = defineCollection({
+    type: "data",
+    schema: z.object({
+        title: z.string(),
+        author: z.string().optional(),
+        album: z.string().optional(),
+        cover: z.string().optional(),
+        duration: z.number().refine(n => n > 0, "Duration must be greater than 0")
+            .or(z.string().regex(/^\d+:\d{1,2}$/, "Duration must be set to 'minutes:seconds'"))
+            .optional(),
+        sources: z.array(z.object({
+            src: z.string(),
+            type: z.string()
+        }).strict())
+    }).strict()
+})
+
 export type TimedBlurb = z.infer<typeof blurbSchema>["timed"][number];
 
 export const collections = {
     blog: blogCollection,
     series: seriesCollection,
-    blurb: blurbCollection
+    blurb: blurbCollection,
+    music: musicCollection
 };

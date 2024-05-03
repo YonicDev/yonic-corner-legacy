@@ -1,0 +1,70 @@
+﻿---
+const flashVars = {
+	src: encodeURI("http://metroid.retropixel.net/games/mprime/music/mp02.mp3"),
+	duration: 154.468456*1000,
+	trackString: "ME CAGÜEN LA HOSTIA"
+}
+
+const parsedFlashVars = Object.entries(flashVars).reduce((parsed, [key, value]) => {
+	return `${parsed}&${key}=${encodeURI(value.toString())}`;
+}, "").slice(1);
+---
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>player</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	</head>
+	<body>
+		<div id="flashContent">
+			<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" width="250" height="120" id="player">
+				<param name="movie" value="player.swf" />
+				<param name="FlashVars" value={parsedFlashVars} />
+				<param name="quality" value="high" />
+				<param name="bgcolor" value="#ffffff" />
+				<param name="play" value="true" />
+				<param name="loop" value="true" />
+				<param name="wmode" value="transparent" />
+				<param name="scale" value="showall" />
+				<param name="menu" value="true" />
+				<param name="devicefont" value="false" />
+				<param name="salign" value="" />
+				<param name="allowScriptAccess" value="sameDomain" />
+				<!--[if !IE]>-->
+				<object type="application/x-shockwave-flash" data="player.swf" width="250" height="120">
+					<param name="movie" value="player-simple.swf" />
+					<param name="FlashVars" value={parsedFlashVars} />
+					<param name="quality" value="high" />
+					<param name="bgcolor" value="#ffffff" />
+					<param name="play" value="true" />
+					<param name="loop" value="true" />
+					<param name="wmode" value="transparent" />
+					<param name="scale" value="showall" />
+					<param name="menu" value="true" />
+					<param name="devicefont" value="false" />
+					<param name="salign" value="" />
+					<param name="allowScriptAccess" value="sameDomain" />
+				<!--<![endif]-->
+					You need Flash Player to use the music player.
+				<!--[if !IE]>-->
+				</object>
+				<!--<![endif]-->
+			</object>
+		</div>
+	</body>
+</html>
+
+
+<style>
+	html, body { 
+		background-color: black;
+		background-image: url("/test-bg-trans.png");
+		background-attachment: fixed;
+		color: white;
+	}
+	body { 
+		margin:0; 
+		padding:0;
+	}
+</style>

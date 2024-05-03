@@ -28,3 +28,10 @@ export function shuffle<T>(arr: Array<T>): Array<T> {
  * @returns A boolean with value true the page is being rendered for the web feed.
  */
 export function isRenderingFeed(referencePath: URL) { return referencePath.pathname === "/" }
+
+export function hasSuitableSource(source: CollectionEntry<"music">["data"]["sources"][number]) {
+    const validFormats = ["audio/mpeg", "audio/mp3","audio/wav"];
+	if(source.type === "youtube" || source.src === '')
+		return false;
+	return new URL(source.src).protocol === "http:" && validFormats.indexOf(source.type) >= 0;
+}
