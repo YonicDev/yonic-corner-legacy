@@ -27,36 +27,42 @@ const href = `/player/${musicId.replaceAll("\\", "/")}`;
 ---
 <FeedBranch>
 <table cellpadding="2" cellspacing="2" width="454" class="player-link">
-    <tr>
-        <th align="left" valign="middle" colspan="2"><img title="Music" alt="Music" style="vertical-align:middle" src="/icons/music.gif" width="16" height="16" /><span style="margin-left: 2px;vertical-align:middle">{music.title}</span></th>
-    </tr>
-    <tr>
-        <td height="4" colspan="2"></td>
-    </tr>
-    <tr>
-        <td align="center" width="64"><Image src={coverImage} width="48" height="48" alt="Music album cover" format="gif" /></td>
-        <td valign="middle">
-            <ul>
-                {music.album && <li><b>Album</b>: {music.album}</li>}
-                {music.author && <li><b>Author</b>: {music.author}</li>}
-            </ul>
-        </td>
-    </tr>
-    <tr>
-        <td height="4" colspan="2"></td>
-    </tr>
-    <tr>
-        <td align="center" colspan="2">
-            <div class:list={[hasValidSource==null ? "disabled" : undefined]}>
-                {hasValidSource != null
-                    ? <a {href} target="player"><u>L</u>isten</a>
-                    : <span>Not available</span>
-                }
-            </div>
-        </td>
-    </tr>
+    <thead>
+        <tr>
+            <th align="left" valign="middle" colspan="2"><img title="Music" alt="Music" style="vertical-align:middle" src="/icons/music.gif" width="16" height="16" /><span style="margin-left: 2px;vertical-align:middle">{music.title}</span></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td height="4" colspan="2"></td>
+        </tr>
+        <tr>
+            <td align="center" width="64">
+                <Image src={coverImage} width="48" height="48" alt="Music album cover" format="gif" />
+            </td>
+            <td valign="middle">
+                <ul>
+                    {music.album && <li><b>Album</b>: {music.album}</li>}
+                    {music.author && <li><b>Author</b>: {music.author}</li>}
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td height="4" colspan="2"></td>
+        </tr>
+        <tr>
+            <td align="center" colspan="2">
+                <div class:list={[hasValidSource==null ? "disabled" : undefined]}>
+                    {hasValidSource != null
+                        ? <a {href} target="player"><u>L</u>isten</a>
+                        : <span>Not available</span>
+                    }
+                </div>
+            </td>
+        </tr>
+    </tbody>
 </table>
-<p slot="feed"><b>Music: </b><a {href}>{music.title}</a> <span>({[music.author, music.album].filter(data => data!=null).join(" | ")})</span></p>
+<p slot="feed"><b>Music: </b><a {href}>{music.title}</a>&nbsp;<span>({[music.author, music.album].filter(data => data!=null).join(" | ")})</span></p>
 </FeedBranch>
 
 <style lang="scss" is:global>
