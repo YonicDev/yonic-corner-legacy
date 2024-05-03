@@ -79,7 +79,7 @@ function makeSpacing(prev: string, acc: string) {
                     } else if(now.getUTCMonth() == to.getUTCMonth()) {
                         return now.getUTCDate() <= to.getUTCDate() && (from.getUTCMonth() != to.getUTCMonth() || now.getUTCDate() >= from.getUTCDate())
                     } else {
-                        return false;
+                        return true;
                     }
                 }
             } else {
