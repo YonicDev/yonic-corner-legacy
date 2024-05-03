@@ -56,6 +56,7 @@ const href = `/player/${musicId.replaceAll("\\", "/")}`;
         </td>
     </tr>
 </table>
+<p slot="feed"><b>Music: </b><a {href}>{music.title}</a> <span>({[music.author, music.album].filter(data => data!=null).join(" | ")})</span></p>
 </FeedBranch>
 
 <style lang="scss" is:global>
