@@ -41,15 +41,11 @@ async function fetchVideoData(): Promise<Partial<typeof videoData>> {
     }
 }
 
-
-const hrefOriginal = Astro.url.pathname.split("/").filter(s => s);
-const slug = hrefOriginal[hrefOriginal.length-1];
-
 const title = Astro.props.title ?? ((await fetchVideoData())?.title ?? "Could not get video title");
 ---
 <FeedBranch>
 <AlertBox title="The Legacy Version does not support playing YouTube videos." icon="youtube">
-    You can check the <a href={`${MODERN_WEBSITE}/blog/article/${slug}`}>modern version</a> of The Yonic Corner, or open this video <a href={`${instance ?? INVIDIOUS_DEFAULT_INSTANCE}/watch?v=${id}`} target="_blank" rel="noopener noreferrer">from Insidious</a>.<p style="margin-bottom: 0; margin-top: 8px;"><i>Both options require a modern browser.</i></p>
+    You can check the <a href={`${MODERN_WEBSITE}${Astro.url.pathname}`}>modern version</a> of The Yonic Corner, or open this video <a href={`${instance ?? INVIDIOUS_DEFAULT_INSTANCE}/watch?v=${id}`} target="_blank" rel="noopener noreferrer">from Insidious</a>.<p style="margin-bottom: 0; margin-top: 8px;"><i>Both options require a modern browser.</i></p>
 </AlertBox>
 <p slot="feed">
     <b>YouTube video: </b> <Anchor href={`https://www.youtube.com/watch?v=${id}`}>{title}</Anchor> {duration && `(${duration})`}
