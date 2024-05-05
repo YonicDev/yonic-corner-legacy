@@ -7,10 +7,13 @@ import MDXCodeBlocks, { mdxCodeBlockAutoImport } from 'astro-mdx-code-blocks';
 import readingTime from './src/remark/reading-time.mjs';
 
 import sitemap from "@astrojs/sitemap";
+import { filterSitemap, serializeSitemap } from './src/sitemap-config';
+
+const site = "http://legacy.yonic.blog";
 
 // https://astro.build/config
 export default defineConfig({
-    site: "http://legacy.yonic.blog",
+    site,
     scopedStyleStrategy: "class",
     markdown: {
         remarkPlugins: [readingTime],
@@ -37,7 +40,12 @@ export default defineConfig({
         }),
         MDXCodeBlocks(),
         mdx(), 
-        sitemap(),
+        sitemap({
+            changefreq: "weekly",
+            filter: filterSitemap,
+            serialize: serializeSitemap,
+            customPages: [`${site}/feeds/rss.xml`]
+        })
     ],
     vite: {
         build: {
