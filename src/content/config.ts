@@ -13,8 +13,8 @@ function createUnionSchema<T extends readonly [Primitive]>(
 ): ZodLiteral<T[0]>;
 function createUnionSchema<
     T extends readonly [Primitive, Primitive, ...Primitive[]]
->(values: T): z.ZodUnion<MappedZodLiterals<T>>;
-function createUnionSchema<T extends readonly Primitive[]>(values: T) {
+>(values: T, params?: z.RawCreateParams): z.ZodUnion<MappedZodLiterals<T>>;
+function createUnionSchema<T extends readonly Primitive[]>(values: T, params?: z.RawCreateParams) {
     if (values.length > 1) {
         return createManyUnion(
             values as typeof values & [Primitive, Primitive, ...Primitive[]]
@@ -34,6 +34,8 @@ function createManyUnion<
         literals.map((value) => z.literal(value)) as MappedZodLiterals<A>
     );
 }
+
+const audioTypes = ["audio/aac","audio/mpeg","audio/mp3","audio/ogg","audio/x-wav","audio/webm","audio/3gpp"] as const;
 
 const blogCollection = defineCollection({
     schema: ({image}) => z.object({
@@ -117,9 +119,18 @@ const musicCollection = defineCollection({
             .or(z.string().regex(/^\d+:\d{1,2}$/, "Duration must be set to 'minutes:seconds'"))
             .optional(),
         sources: z.array(z.object({
+            src: z.string().url().or(z.literal("")),
+            type: createUnionSchema(audioTypes, {invalid_type_error: "Music sources with an URL source must have a compatible audio MIME type."})
+        }).strict().or(z.object({
             src: z.string(),
-            type: z.string()
-        }).strict())
+            type: z.literal("youtube", {invalid_type_error: "Music sources with a non-URL source must have their type set to 'youtube' or 'iarchive'."}),
+        }).strict()).or(z.object({
+            type: z.literal("iarchive"),
+            src: z.object({
+                item: z.string(),
+                file: z.string()
+            }, {invalid_type_error: "iarchive sources must supply an Internet Archive item name and file name"}).strict()
+        }).strict()))
     }).strict()
 })
 

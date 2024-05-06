@@ -45,5 +45,8 @@ The content API of both modern and legacy versions is pretty much identical betw
 * **`<Chara>` images are GIF only and use their intrinsic size.**
   * As a result, the `fallback` prop will not do anything. 
 * **Text bubble themes** are defined as separate components that wrap the `<BubbleBase>` component and use a 9-slice GIF image set for the appearance in the `public/bubbles` folder, in their own folder. Then these are imported and included in the `themes` record in the `TextBubble.astro` component.
-* **Music content will only use the first HTTP *(not HTTPS)* audio source in the `srcset`** field. If there is none, the music will be listed as "Not available" and a player page will not be generated.
+* **Certain sources from music content will be ignored depending on the source type.** If there is no suitable source, the music entry will be listed as "Not available" and a player page will not be generated.
+  * **Direct source**: Only uses the first plain HTTP *(not HTTPS)* source. Sources containing audio formats incompatible with Flash Player 6 are skipped.
+  * **Internet Archive sourced**: Only uses the first of the two working servers.
+  * **YouTube sourced**: *Ignored altogether*.
 * **Only the slot `legacy`** in `<VersionBranch>` will be rendered.

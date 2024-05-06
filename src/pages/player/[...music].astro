@@ -18,27 +18,56 @@ export async function getStaticPaths() {
 
 const { title, sources, author, album, duration, cover } = Astro.props.music;
 
-const musicSrc = sources.find(hasSuitableSource);
+const selectedSrc = sources.find(hasSuitableSource) as Exclude<typeof sources[number], {type: "youtube"}>;
 
 const coverImage = cover ? (await import(`../../assets/covers/${cover}.png`)).default : undefined;
 const coverSrc = coverImage? (await getImage({src: coverImage, width: 24, height: 24, format: 'jpg' })).src : undefined;
 
-let musicDuration: number;
+let musicSrc = "";
 const DEFAULT_DURATION = 1; // To prevent division by 0 on the swf file.
+let musicDuration = DEFAULT_DURATION;
 
-switch(typeof duration) {
-	case "number":
-		musicDuration = duration;
-		break;
-	case "string":
-		musicDuration = getDurationFromString(duration);
-		break;
-	default:
-		musicDuration = (musicSrc? await getDurationFromSrc(musicSrc.src) : DEFAULT_DURATION);
+if(selectedSrc) {
+	if(selectedSrc.type === "iarchive") {
+		const { item, file } = selectedSrc.src;
+		try {
+			const archiveItem = await (await fetch(`https://archive.org/metadata/${item}`)).json() as ArchiveItem;
+			const archiveFile = archiveItem.files.find(({name}) => file === name );
+			if(!archiveFile)
+				console.warn(`Could not find IArchive music file ${file} from item ${item}`);
+			else {
+				musicSrc = encodeURI(`http://${archiveItem.d1}${archiveItem.dir}/${archiveFile.name}`);
+				switch(typeof duration) {
+					case "number":
+						musicDuration = duration;
+						break;
+					case "string":
+						musicDuration = getDurationFromString(duration);
+						break;
+					default:
+						musicDuration = parseFloat(archiveFile.length);
+				}
+			}
+		} catch {
+			console.error(`Could not load IArchive music file ${file} from item ${item}`);
+		}
+	} else {
+		musicSrc = selectedSrc.src;
+		switch(typeof duration) {
+			case "number":
+				musicDuration = duration;
+				break;
+			case "string":
+				musicDuration = getDurationFromString(duration);
+				break;
+			default:
+				musicDuration = await getDurationFromSrc(selectedSrc.src);
+		}
+	}
 }
 
 const flashVars = {
-	src: musicSrc ? decodeURI(musicSrc.src) : "",
+	src: decodeURI(musicSrc),
 	coverImage: coverSrc? decodeURI(coverSrc) : undefined,
 	musicDuration,
 	musicTitle: [title, author, album].filter(data => data!=null).join(" | ")
@@ -69,6 +98,22 @@ const parsedFlashVars = Object.entries(flashVars).reduce((parsed, [key, value]) 
 
 const flashSrc = "/yonic-corner-music-player.swf";
 const size = 196;
+
+const archiveFormats = {
+    "VBR MP3" : "audio/mpeg"
+}
+
+type ArchiveItem = {
+    d1: string,
+    d2: string,
+    dir: string,
+    files: {
+        name: string,
+        length: string,
+        format: keyof typeof archiveFormats,
+    }[]
+}
+
 ---
 <!DOCTYPE html>
 <html>
