@@ -126,10 +126,7 @@ const musicCollection = defineCollection({
             type: z.literal("youtube", {invalid_type_error: "Music sources with a non-URL source must have their type set to 'youtube' or 'iarchive'."}),
         }).strict()).or(z.object({
             type: z.literal("iarchive"),
-            src: z.object({
-                item: z.string(),
-                file: z.string()
-            }, {invalid_type_error: "iarchive sources must supply an Internet Archive item name and file name"}).strict()
+            src: z.string().regex(/^.+\/.+\..+$/, "iarchive sources must supply an Internet Archive valid url: {itemID}/{filename}")
         }).strict()))
     }).strict()
 })
