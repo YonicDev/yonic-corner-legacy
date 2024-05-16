@@ -29,7 +29,8 @@ let musicDuration = DEFAULT_DURATION;
 
 if(selectedSrc) {
 	if(selectedSrc.type === "iarchive") {
-		const [ item, file ] = selectedSrc.src.split("/").map(segment => decodeURIComponent(segment));
+		const [ item, ...fileSegments ] = selectedSrc.src.split("/").map(segment => decodeURIComponent(segment));
+		const file = fileSegments.join("/");
 		try {
 			const archiveItem = await (await fetch(`https://archive.org/metadata/${item}`)).json() as ArchiveItem;
 			const archiveFile = archiveItem.files.find(({name}) => file === name );
