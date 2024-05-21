@@ -157,6 +157,18 @@ const basify = (url: string) => `url(${baseUrl}${url})`;
 			</div>
 		</center>
 		<slot name="feed-writer" />
+		<script is:inline>
+			var ver = navigator.userAgent.split(" ");
+			ver = ver[ver.length-1].split("/")[0];
+			if(ver == "Netscape") {
+				window.addEventListener('load', function() {
+					$(".astro-code").each(function() {
+						var height = $(this).height();
+						$(this).height(height + 16 + 'px');
+					})
+				}, {});
+			}
+		</script>
 	</body>
 </html>
 <style lang="scss" is:global>
