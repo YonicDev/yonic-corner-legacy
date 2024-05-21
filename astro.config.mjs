@@ -18,6 +18,9 @@ export default defineConfig({
     markdown: {
         remarkPlugins: [readingTime],
     },
+    devToolbar: {
+        enabled: false
+    },
     integrations: [
         AutoImport({
             imports: [
