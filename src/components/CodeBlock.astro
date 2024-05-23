@@ -1,32 +1,45 @@
 ---
-import { Code } from 'astro:components';
-import type { BuiltinLanguage, LanguageRegistration, SpecialLanguage } from 'shikiji';
+import Code  from './Code.astro';
+import type { BuiltinLanguage, LanguageRegistration, SpecialLanguage } from 'shiki';
 
 import Window from './Window.astro';
 import FeedBranch from './FeedBranch.astro';
 
-interface Props {
+import { parseMeta, lineHighlightTransformer, squigglyLinesTransformer, betterCommentsTransformer } from '@lib/shiki';
+
+type CodeLanguage = BuiltinLanguage | SpecialLanguage | LanguageRegistration;
+
+type Props = {
     code: string,
-    lang?: BuiltinLanguage | SpecialLanguage | LanguageRegistration,
-    filename?: string
+    lang?: CodeLanguage,
+    filename?: string,
+    [x: string]: string | CodeLanguage | undefined,
 }
 
+const transformers = [
+    parseMeta(),
+    lineHighlightTransformer(),
+    squigglyLinesTransformer(),
+    betterCommentsTransformer(),
+]
 
-const { code, lang } = Astro.props;
-const filename = Astro.props.filename?.trim();
+const { code, lang, filename: rawFilename, ...meta } = Astro.props;
+const filename = rawFilename?.trim();
 
 ---
 <FeedBranch>
     <Window class="code-window" title={filename!=="-"? filename : undefined}>
-        <Code code={code} lang={lang} theme="min-dark"/>
+        <Code {code} {lang} {transformers}  meta={meta as Record<string, string|undefined>} theme="min-dark"/>
     </Window>
     <div slot="feed">
         {filename && (<b>{filename}:</b><br/>)}
-        <Code code={code} lang={lang} theme="min-dark"/>
+        <Code {code} {lang} {transformers}  meta={meta as Record<string, string|undefined>} theme="min-dark"/>
     </div>
 </FeedBranch>
 
 <style lang="scss" is:global>
+    @use "sass:color";
+
     .astro-code {
         width: 100%;
         background: none!important;
@@ -37,5 +50,32 @@ const filename = Astro.props.filename?.trim();
         overflow: scroll auto!important;
         overflow-x: scroll!important;
         font-size: 12px;
+        .insertion {
+            background-color: color.mix(lime, #003333, 25%);
+            .line-marker {
+                color: lime;
+                border-left-color: lime;
+            }
+        }
+        .deletion {
+            background-color: color.mix(red, #003333, 25%);
+            .line-marker {
+                color: red;
+                border-left-color: red;
+            }
+        }
+        .marked {
+            background-color: color.mix(skyblue, #003333, 25%);
+            .line-marker {
+                color: skyblue;
+                border-left-color: skyblue;
+            }
+        }
+        .line-marker {
+            user-select: none;
+            // margin-right: 8px;
+            padding: 0 4px;
+            border-left: 2px solid #003333;
+        }
     }
 </style>
