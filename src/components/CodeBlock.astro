@@ -14,6 +14,7 @@ type Props = {
     code: string,
     lang?: CodeLanguage,
     filename?: string,
+    icon?: string,
     [x: string]: string | CodeLanguage | undefined,
 }
 
@@ -24,13 +25,13 @@ const transformers = [
     betterCommentsTransformer(),
 ]
 
-const { code, lang, filename: rawFilename, ...meta } = Astro.props;
+const { code, lang, filename: rawFilename, icon, ...meta } = Astro.props;
 const filename = rawFilename?.trim();
 
 ---
 <FeedBranch>
     <Window class="code-window" title={filename!=="-"? filename : undefined}>
-        {filename && <img valign="bottom" alt="Icon" slot="icon" width="16" height="16" style="vertical-align:bottom" src={`/icons/files/${getIconForFile(filename)?.replace(/\.svg$/, ".gif")}`} />}
+        {filename && <img valign="bottom" alt="Icon" slot="icon" width="16" height="16" style="vertical-align:bottom" src={`/icons/files/${icon? `${icon}.gif` : getIconForFile(filename)?.replace(/\.svg$/, ".gif")}`} />}
         <Code {code} {lang} {transformers}  meta={meta as Record<string, string|undefined>} theme="min-dark"/>
     </Window>
     <div slot="feed">
