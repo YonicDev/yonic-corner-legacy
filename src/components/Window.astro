@@ -15,7 +15,7 @@ interface Props {
     <tr>
         <td class="corner"><img src={baseUrl + "/ui/window-top-left.gif"} /></td>
         <td class="top-center" style={{backgroundImage: windowCorner("top")}}></td>
-        <td class={title? "top-center-title" : "top-center"} style={{backgroundImage: title? windowCorner("bottom") : windowCorner("top")}}>{title}</td>
+        <td class={title? "top-center-title" : "top-center"} style={{backgroundImage: title? windowCorner("bottom") : windowCorner("top")}}><slot name="icon" /> {title}</td>
         <td class="top-center" style={{backgroundImage: windowCorner("top")}}></td>
         <td class="corner"><img src={baseUrl + "/ui/window-top-left.gif"} /></td>
     </tr>
