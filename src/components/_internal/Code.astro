@@ -54,11 +54,16 @@ interface Props extends Omit<HTMLAttributes<'pre'>, 'lang'> {
 	inline?: boolean;
     /**
 	 * List of AST transformers to customize the generated HTML.
-     * Supports all 
+     * Supports all common Shiki transformers, found here: https://shiki.style/packages/transformers
 	 *
 	 * @default []
 	 */
 	transformers?: ShikiTransformer[];
+	/**
+	 * List of metadata to be used by transformers.
+	 * 
+	 * @default {}
+	 */
     meta?: Record<string, string | undefined>
 }
 
