@@ -50,7 +50,10 @@ export default defineConfig({
             changefreq: "weekly",
             filter: filterSitemap,
             serialize: serializeSitemap,
-            customPages: [`${site}/feeds/rss.xml`]
+            customPages: [
+                `${site}/feeds/rss.xml`,
+                `${site}/feeds/rss-full.xml`,
+              ]
         })
     ],
     experimental: {

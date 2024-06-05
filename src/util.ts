@@ -27,7 +27,10 @@ export function shuffle<T>(arr: Array<T>): Array<T> {
  * @param referencePath Path to use as reference for rendering (should be `Astro.url`)
  * @returns A boolean with value true the page is being rendered for the web feed.
  */
-export function isRenderingFeed(referencePath: URL) { return referencePath.pathname === "/" }
+export function isRenderingFeed(referencePath: URL) {
+    return /^\/feeds\//.test(referencePath.pathname) 
+}
+
 
 export function hasSuitableSource(source: CollectionEntry<"music">["data"]["sources"][number]) {
     const validFormats = ["audio/mpeg", "audio/mp3","audio/wav"];

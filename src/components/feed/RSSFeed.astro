@@ -4,6 +4,10 @@ import { getCollection } from "astro:content";
 import HTMLFeed from "./HTMLFeed.astro";
 import { filterPosts, sortPosts } from "@lib/util";
 
+type Props = { full?: boolean }
+
+const { full = false } = Astro.props;
+
 const posts = (await getCollection('blog')).filter(filterPosts).sort(sortPosts).slice(0,20);
 
 const atomHeader = `<?xml version="1.0" encoding="UTF-8"?>
@@ -41,7 +45,7 @@ const atomFooter = `</channel>
             <link rel="alternate" type="text/html" href="${slug}" />
             <summary><![CDATA[ ${post.data.description} ]]></summary>
             <pubDate>${(post.data.updatedDate ?? post.data.pubDate).toISOString()}</pubDate>
-            <description><![CDATA[`}/><HTMLFeed post={post.slug} heroImage={post.data?.hero?.legacy}><Content slot="html"/></HTMLFeed><Fragment set:html={`]]></description>
+            <description><![CDATA[`}/><HTMLFeed post={post.slug} heroImage={post.data?.hero?.legacy} {full}><Content slot="html"/></HTMLFeed><Fragment set:html={`]]></description>
     </item>`} />
 )})}
 <Fragment set:html={atomFooter} />
