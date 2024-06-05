@@ -1,5 +1,6 @@
 import { defineConfig } from 'astro/config';
 import mdx from "@astrojs/mdx";
+import { loadEnv } from "vite";
 
 import AutoImport from 'astro-auto-import';
 import MDXCodeBlocks, { mdxCodeBlockAutoImport } from 'astro-mdx-code-blocks';
@@ -10,6 +11,8 @@ import sitemap from "@astrojs/sitemap";
 import { filterSitemap, serializeSitemap } from './src/sitemap-config';
 
 const site = "http://legacy.yonic.blog";
+
+const { USE_CONTENT_COLLECTION_CACHE } = loadEnv(process.env.NODE_ENV, process.cwd(), "");
 
 // https://astro.build/config
 export default defineConfig({
@@ -50,6 +53,9 @@ export default defineConfig({
             customPages: [`${site}/feeds/rss.xml`]
         })
     ],
+    experimental: {
+        contentCollectionCache: (USE_CONTENT_COLLECTION_CACHE === "true") ?? false
+    },
     vite: {
         build: {
             target: "es6",
