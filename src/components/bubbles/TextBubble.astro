@@ -14,10 +14,11 @@ import FeedBranch from "../FeedBranch.astro";
 interface Props extends BubbleSpeech {
     theme: string,
     name?: string,
+    singleLine?: boolean,
 }
 
 
-const { theme, position = "none", offset, alignment = "center", name } = Astro.props;
+const { theme, position = "none", offset, alignment = "center", name, singleLine = false } = Astro.props;
 
 const themes: Record<string, (_props: BubbleSpeech) => any> = {
     "yonic": YonicBubble,
@@ -30,7 +31,7 @@ const Component = themes[theme];
 const normalHtml = await Astro.slots.render("default");
 const $ = load(normalHtml, null, false);
 
-if(name) {
+if(name && singleLine) {
     const firstLine = $("p").first();
     firstLine.html(`<b>${name}:</b> ${firstLine.html()}`);
 }
@@ -38,5 +39,5 @@ const feedHtml = $.root().html()!;
 ---
 <FeedBranch>
 <Component {position} {offset} {alignment}><slot/></Component>
-<div slot="feed"><Fragment set:html={feedHtml} /></div>
+<div slot="feed">{name && !singleLine && <p><b>{`<${name}>`}</b></p>}<Fragment set:html={feedHtml} />{name && !singleLine && <p><b>{`</${name}>`}</b></p>}</div>
 </FeedBranch>
