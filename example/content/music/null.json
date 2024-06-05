@@ -1,0 +1,9 @@
+{
+    "title": "Nothing playing",
+    "sources": [
+        {
+            "src": "",
+            "type": "audio/mpeg"
+        }
+    ]
+}

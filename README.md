@@ -6,9 +6,9 @@
 
 This is a version of my [personal blog](https://github.com/YonicDev/yonic-corner-astro) designed specifically for late 1990s browsers. It is made with the same framework as the modern blog: Astro.
 
-## Migrating from 1.0.0
+## Migrating from 1.2.0
 
-The process is exactly the same as migrating from the [Modern version's 2.1.0 to 2.2.0](https://github.com/YonicDev/yonic-corner?tab=readme-ov-file#migrating-from-2.1.0).
+The process is exactly the same as migrating from the [Modern version's 2.2.0 to 2.3.0](https://github.com/YonicDev/yonic-corner?tab=readme-ov-file#migrating-from-2.1.0).
 
 ## Minimal browsers
 
@@ -22,7 +22,7 @@ These are the browsers that have been tested to work with all these features:
 
 The music player requires Flash Player 6 or higher, and works with all browsers mentioned above. If you're on a modern system, Ruffle may work.
 
-> ⚠ **Flash Player 7 is known to cause freeze-ups or crashes, but at this point in time it should remain stable** under the most modern versions of emulators like PCEm and SheepShaver, and most virtual machines. It is recommended to use Flash Player 6 on Mac OS and Windows 95, and 8 or 9 in Windows 98.
+> ⚠ **Flash Player 7 is known to cause freeze-ups or crashes, but at this point in time it should remain stable** under the most modern versions of emulators like PCEm and SheepShaver, and some virtual machines with a compatible video driver. It is recommended to use Flash Player 6 on Mac OS and Windows 95, and 8 or 9 in Windows 98.
 
 ## Differences between Modern and Legacy versions
 
@@ -33,7 +33,7 @@ The content API of both modern and legacy versions is pretty much identical betw
 * **Posts with `asianText` set to `true`** will display a warning box that the post contains CJK text and may display incorrectly without additional language support.
 * **Unsupported Astro components** (e.g. `<YouTube>` and `<PlayerLink>`) **will show an information box** with a referral link to the Modern version.
 * **Modern-only components will render a warning message** (e.g. `<ImageGrid>`) with a recommendation on what to do to replace them with compatible components or HTML.
-  * **Bi(y)onic reading components** (`<Paragraph>`, `<ListItem>` and `<Code>`) **have been deprecated** in 1.2.0 and will be removed in a future version. To migrate to 1.2.0, remove the `exports` statement in all MDX posts.
+  * **Bi(y)onic reading components** (`<Paragraph>`, `<ListItem>` and `<Code>`) **have been deprecated** in 1.3.0 and will be removed in a future version. To migrate to 1.3.0, remove the `exports` statement in all MDX posts.
 * **Hero/cover images must have a fixed 3:2 aspect-ratio and named `hero-legacy.png`**. This applies to post and series hero images.
   * Optionally, you may set it in the `hero.legacy` property in the post data. 
   * Like the Modern version, it doesn't necessarily have to be an actual PNG image.

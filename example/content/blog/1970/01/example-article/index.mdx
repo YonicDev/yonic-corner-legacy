@@ -4,6 +4,7 @@ description: "Demonstrates all main components in both Modern and Legacy version
 category: misc
 legacy: true
 pubDate: 2023-11-11T20:10:13.081Z
+updatedDate: 2024-06-05T20:53:30.019Z
 tags:
     - yonic-corner
     - example
@@ -24,7 +25,7 @@ import ColorChecker from "./ColorChecker.jpg";
 
 { frontmatter.description }
 
-Since 1.3.0, Anything within the `<div class="feed-preview">` element will be displayed in the partial feed. **It also includes all the innerHTML, so be careful.**
+Since 1.2.0, Anything within the `<div class="feed-preview">` element will be displayed in the partial feed. **It also includes all the innerHTML, so be careful.** In 1.3.0, a full feed will also be generated with all content from the post.
 
 Components that use the `<FeedBranch>` component will split rendering between the full HTML content and the streamlined content for RSS feeds.
 </div>
@@ -35,11 +36,18 @@ Music metadata is stored in `content/music`, and the `id` property points to the
 
 <PlayerLink id="sample/music" />
 
+You can have several types of source:
+* **Direct source *(direct link)***, specified with the MIME type.
+* **YouTube sourced**, specified with a YouTube video id and the type `'youtube'`. These are ignored in the Legacy version.
+* **Internet Archive sourced**, specified with the object and item IDS of an Internet Archive item.
+
 Note that music playback requires Flash Player 6 or higher. Flash Player 7 is not recommended due to being prone to crashing the browser.
 
 ## Images (figures)
 
 The `<Figure>` component is a powerful one for displaying responsive images with thumbnails at whatever format you wish. It has the same properties as the Astro builtin `<Picture>` component. You can set the `fallback` format for browsers that do not support HTML5 `<picture>` elements.
+
+Images can be imported from a path relative to the MDX file. Making a folder inside `blog/year/month` and then put `index.mdx` is the standard structure, with assets being included inside this folder, and not inside the `assets` folder.
 
 The Legacy version will render a normal image with a single source with the `fallback` format, which may be a non-partially transparent PNG, JPG, or GIF.
 
@@ -53,7 +61,7 @@ If you do not set a `width`, it will automatically span to the width of the post
     <>That's a **big** woman!</>
 </Figure>
 
-...That was a weird caption. For images with no captions, just don't write anything inside the caption element.
+...That was a weird caption. For images with no captions, just don't write anything inside the figure element.
 
 <Figure src={ColorChecker} width="200" alt="Several test color swatches" />
 
@@ -75,7 +83,7 @@ Images with partial transparency are not supported in the Legacy version. Instea
 This section changes a lot depending the version of the blog, so we're using `<VersionBranch>` to split showing the relevant content for each version.
 
 <VersionBranch>
-<TextBubble position="bottom" alignment="far" theme="yonic" slot="modern">
+<TextBubble position="bottom" alignment="far" theme="yonic" slot="modern" name="Yonic">
     Text bubbles in the modern version have the following properties:
     * **`position`**: Indicates which side of the text bubble should the speech triangle be positioned.
     * **`alignment`**: Sets where in that side the triangle should be positioned.
@@ -84,7 +92,7 @@ This section changes a lot depending the version of the blog, so we're using `<V
         * `center` is in the middle of any side.
     * **`theme`**: The visual theme of the TextBubble. It usually matches the name of the character who's speaking. The visual theme is defined using CSS and SVG images. Sometimes, there are also CSS and SVG animations.
 </TextBubble>
-<TextBubble position="bottom" alignment="far" theme="yonic" slot="legacy">
+<TextBubble position="bottom" alignment="far" theme="yonic" slot="legacy" name="Yonic">
     Text bubbles in the legacy version have the same properties as the ones in the modern version, but the `theme` is handled very differently. Here's how to define a new theme:
 
     1. **Create a new Astro component in `components/bubbles/themes`**. 
@@ -103,7 +111,7 @@ This section changes a lot depending the version of the blog, so we're using `<V
 
 Character sprites work the same for both versions.
 
-<TextBubble position="bottom" alignment="near" theme="yonic">
+<TextBubble position="bottom" alignment="near" theme="yonic" name="Yonic">
     **Characters** have **sets**, each containing their collection of GIF sprite images. Characters are divided by their name, while sets are usually split between costumes or visual appearance. You set which one to use in the props for the `<Chara>` component.
 
     Additionally, you can set their `position` to the left, center or the right of the line.
@@ -112,20 +120,35 @@ Character sprites work the same for both versions.
 </TextBubble>
 <Chara name="yonic" set="winter" position="left" sprite="normal" thoughts="Youuuu are readiiiing my miiiiind" />
 
+The following properties control how the text bubbles are displayed on the feeds:
+
+* `name`: The name of the character saying the text.
+* `singleLine`: A boolean flag that determines if the bubble has only one line. Instead of rendering `<CharaName>Content</CharaName>`, it will render `CharaName: Content`.
+
 ## Code blocks
 
-It supports syntax highlighting and you can copy code from it. Also, you can set a **filename header** to the code block in two ways:
+They support syntax highlighting, and you can copy code from them in the Modern version. Also, you can set a **filename header** to the code block in two ways:
 
 * **Adding a meta** `filename="filename.extension"` next to the \`\`\` code fences (recommended).
 * **Including a comment with two forwardslashes** `// file.comment` as the first line.
 
-**The language for highlighting is mandatory and it is not inferred from the filename header.** If your language isn't supported by Shiki, use `text` or a near equivalent.
+**The language for highlighting can be inferred from the filename header**, but it's still recommended to do it so 
+If your language isn't supported by Shiki, use `text` or a near equivalent or add it in the Astro config.
 
-```cpp filename="sample.cpp"
-// If your code snippet starts with a comment and you do not wish for a title,
-// have a comment like in the line below as the first line:
-// -
-// ^ And it will be ignored. (Trailing whitespace doesn't matter)
+Version 1.3.0 introduces a few additional meta and syntax extensions.
+
+* Line marks: With the `mark`, `ins` and `del` (diff) meta properties.
+* Syntax extensions: `~~squigglyLines~~` and enhanced comments:
+  * **Error style**: `//! Error`, `<!-- ! Error -->`
+  * **Warning style**: `//? Warning`, `<!-- ? Warning -->`
+  * **Info style**: `//i Info`, `<!-- i Info -->`
+  * **Header style**: `//N. Info`, `<!-- N. Info -->` where `N` is a positive integer.
+  * **Return style**: `//> Return value`, `<!-- > Return value -->`
+
+In the Legacy version, no numbered line markings will appear, but diff markings will if marked as insertion or deletion lines.
+
+```cpp filename="sample.cpp" mark="6" ins="2-4,7,11-14" del="1"
+#include <iostream>
 #include <stdio.h>
 
 void SayHello( void );
@@ -133,13 +156,21 @@ void SayHello( void );
 int main (int argc, const char * argv[]) {
     SayHello();
 
-    return 0;
+    return ~~"0"~~;  //! "0" is not an int
 }
 
 
 void SayHello( void ) {
     printf( "Hello, world!\n" );
 }
+```
+
+```html
+<!-- 2. HTML Comments -->
+<!-- ? Something is the matter -->
+<!-- ! This is bad! -->
+<!-- i New thing -->
+<!-- > Will return this -->
 ```
 
 ## YouTube videos
