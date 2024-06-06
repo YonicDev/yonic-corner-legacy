@@ -123,7 +123,9 @@ Character sprites work the same for both versions.
 The following properties control how the text bubbles are displayed on the feeds:
 
 * `name`: The name of the character saying the text.
-* `singleLine`: A boolean flag that determines if the bubble has only one line. Instead of rendering `<CharaName>Content</CharaName>`, it will render `CharaName: Content`.
+* `singleLine`: A boolean flag that forces to render the bubble as if it has only one line or not.
+    * If true, it renders `<CharaName>Content</CharaName>`, if false, it renders `CharaName: Content`.
+    * Normally determined automatically depending on the number of direct descendant elements inside the bubble. **This does not include plain text nodes.**
 
 ## Code blocks
 
