@@ -18,7 +18,7 @@ interface Props extends BubbleSpeech {
 }
 
 
-const { theme, position = "none", offset, alignment = "center", name, singleLine = false } = Astro.props;
+const { theme, position = "none", offset, alignment = "center", name } = Astro.props;
 
 const themes: Record<string, (_props: BubbleSpeech) => any> = {
     "yonic": YonicBubble,
@@ -30,6 +30,7 @@ const Component = themes[theme];
 
 const normalHtml = await Astro.slots.render("default");
 const $ = load(normalHtml, null, false);
+const singleLine = Astro.props.singleLine ?? $.root().children().length === 1;
 
 if(name && singleLine) {
     const firstLine = $("p").first();
