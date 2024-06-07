@@ -25,7 +25,7 @@ const hasValidSource = music.sources.find(source => {
 	return new URL(source.src).protocol === "http:" && validFormats.indexOf(source.type) >= 0;
 });
 
-const href = `/player/${musicId.replaceAll("\\", "/")}`;
+const href = `/player/${musicId.replaceAll("\\", "/")}/`;
 ---
 <FeedBranch>
 <table cellpadding="2" cellspacing="2" width="454" class="player-link">
