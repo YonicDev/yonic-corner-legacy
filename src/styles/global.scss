@@ -120,3 +120,20 @@
     padding: 0 5px;
     line-height: 10px;
 }
+
+.figure {
+    background-color: #009183;
+}
+.figure img {
+    display: block;
+}
+.figure .caption {
+    display: block;
+    background-color: #92fffa;
+    color: black;
+    text-align: center;
+    font-style: italic;
+}
+.figure .caption i, .figure .caption em {
+    font-style: normal;
+}

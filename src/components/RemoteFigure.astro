@@ -1,24 +1,26 @@
 ---
-import { getImage, Image } from "astro:assets";
-
+import { Image } from "astro:assets";
+import { getBorderImage, getRemoteImage } from '@lib/remote-images';
 interface Props {
-    src: ImageMetadata,
+    src: string,
     alt: string,
     width?: number | string,
-    fallback?: "jpg" | "jpeg" | "gif" | "png",
+    quality?: number,
+    fallback?: "jpg" | "jpeg" | "gif" | "png" | "bmp",
 }
-const { src, alt, fallback = "jpg" } = Astro.props;
+const { src, alt, fallback = "jpg", quality = 70 } = Astro.props;
 const margin = 12;
 const padding = 3;
 const MAX_WIDTH = 454;
 const width = parseInt(Astro.props.width?.toString() ?? MAX_WIDTH.toString() )
 const trueWidth = Math.min(MAX_WIDTH, width)-padding*2;
 
-const borderImg = await getImage({src, width: 1, height: 1, format: "gif"});
+const proxiedSrc = getRemoteImage({src, width: trueWidth, format: fallback, quality});
+const borderImg = getBorderImage(src);
 ---
 <center>
-    <div class="figure" style={{background: `url(${borderImg.src})`, width: `${trueWidth}px`, margin: `${margin}px 0`, padding: `${padding}px`}}>
-        <Image {src} {alt} width={trueWidth} format={fallback} />
+    <div class="figure" style={{backgroundImage: `url(${borderImg})`, width: `${trueWidth}px`, margin: `${margin}px 0`, padding: `${padding}px`}}>
+        <Image src={proxiedSrc} {alt} inferSize />
         {Astro.slots.has("default") && <div class="caption" style={{width: trueWidth+'px'}}>
             <center>
                 <div style={{width: trueWidth-10+'px', padding: "10px 0"}}>
