@@ -80,8 +80,8 @@ const seriesCollection = defineCollection({
     schema: ({image}) => z.object({
         title: z.string(),
         hero: z.object({
-            modern: image(),
-            legacy: image().refine(({width, height}) => (Math.abs(width/height - 1.5) <= 0.01), "Legacy hero images must be of 2:3 aspect ratio." ),
+            modern: image().or(z.string()),
+            legacy: image().refine(({width, height}) => (Math.abs(width/height - 1.5) <= 0.01), "Legacy hero images must be of 2:3 aspect ratio." ).or(z.string()),
         }).partial().strict().optional(),
         description: z.string()
     }).strict()

@@ -8,3 +8,11 @@ interface Category {
     baseColor: string,
     emphasisColor: string,
 }
+
+declare interface ImportMetaEnv {
+    BLOG_IMAGE_ROOT: string,
+    BLOG_STATIC_ROOT: string,
+    IMGPROXY_HOST: string,
+    IMGPROXY_KEY: string,
+    IMGPROXY_SALT: string,
+}

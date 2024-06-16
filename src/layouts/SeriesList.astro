@@ -1,10 +1,11 @@
 ---
 import { Image } from "astro:assets";
 
-import type { Page } from "astro";
+import type { GetImageResult, Page } from "astro";
 import type { CollectionEntry } from "astro:content";
 
 import Layout from "@lib/layouts/Layout.astro";
+import { getRemoteHeroImage } from "@lib/remote-images";
 
 
 interface Props {
@@ -28,9 +29,12 @@ const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, "");
         </div>
         <div class="post-listing">
             {page.data.map(async (post) => {
-                let heroImage: any;
+                let heroImage: ImageMetadata | string | null;
                 try {
-                    heroImage = post.data.hero?.legacy ?? (await import(`../assets/series/${post.id}.png`)).default;
+                    if(typeof post.data.hero?.legacy === "string")
+                        heroImage = getRemoteHeroImage({src: post.data.hero.legacy})
+                    else
+                        heroImage = post.data.hero?.legacy ?? (await import(`../assets/series/${post.id}.png`)).default;
                 } catch(err) {
                     heroImage = null;
                 }
@@ -40,7 +44,7 @@ const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, "");
                             <td class="hero-image">
                                 <a href={`${baseUrl}/series/${post.id}/1`}>
                                 {heroImage!=null ?
-                                    <Image alt={post.data.title} src={heroImage} width="150" height="100" format="jpeg"/> : <img src={`${baseUrl}/ui/thumbnails/series.gif`} alt={post.data.title} src={heroImage} width="150" height="100"/>
+                                    <Image alt={post.data.title} src={heroImage as unknown as string} width="150" height="100" format="jpeg"/> : <img src={`${baseUrl}/ui/thumbnails/series.gif`} alt={post.data.title} src={heroImage} width="150" height="100"/>
                                 }
                                 </a>
                             </td>
