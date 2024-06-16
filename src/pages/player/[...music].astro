@@ -4,7 +4,8 @@ import { getCollection } from 'astro:content';
 import ffprobe from 'ffprobe';
 import {path as ffprobePath } from 'ffprobe-static';
 
-import { hasSuitableSource } from "@lib/util";
+import { hasSuitableSource, isURL } from "@lib/util";
+import { getRemoteAlbumCover } from '@lib/remote-images';
 
 export async function getStaticPaths() {
     const songList = await getCollection("music");
@@ -20,8 +21,19 @@ const { title, sources, author, album, duration, cover } = Astro.props.music;
 
 const selectedSrc = sources.find(hasSuitableSource) as Exclude<typeof sources[number], {type: "youtube"}>;
 
-const coverImage = cover ? (await import(`../../assets/covers/${cover}.png`)).default : undefined;
-const coverSrc = coverImage? (await getImage({src: coverImage, width: 24, height: 24, format: 'jpg' })).src : undefined;
+const coverImage: string | undefined = cover 
+	? (isURL(cover)
+		? cover
+		: (await import(`../../assets/covers/${cover}.png`)).default
+	)
+	: undefined;
+
+const coverSrc = coverImage
+	? (coverImage === cover
+		? getRemoteAlbumCover({src: coverImage, small: true})
+		: (await getImage({src: coverImage, width: 24, height: 24, format: 'jpg' })).src
+	)
+	: undefined;
 
 let musicSrc = "";
 const DEFAULT_DURATION = 1; // To prevent division by 0 on the swf file.

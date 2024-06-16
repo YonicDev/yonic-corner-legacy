@@ -44,8 +44,8 @@ const blogCollection = defineCollection({
         category: createUnionSchema(CATEGORY_IDS).optional().default("misc"),
         tags: z.array(z.string()).optional().default([]),
         hero: z.object({
-            modern: image(),
-            legacy: image().refine(({width, height}) => (Math.abs(width/height - 1.5) <= 0.01), "Legacy hero images must be of 3:2 aspect ratio."),
+            modern: image().or(z.string()),
+            legacy: image().refine(({width, height}) => (Math.abs(width/height - 1.5) <= 0.01), "Legacy hero images must be of 3:2 aspect ratio.").or(z.string()),
       }).partial().strict().optional(),
         heroPosition: z.union([
             z.literal("top"),

@@ -40,3 +40,12 @@ export function hasSuitableSource(source: CollectionEntry<"music">["data"]["sour
 		return false;
 	return new URL(source.src).protocol === "http:" && validFormats.indexOf(source.type) >= 0;
 }
+
+export function isURL(href: string): boolean {
+    try {
+        new URL(href);
+        return true;
+    } catch (_) {
+        return false;
+    }
+}

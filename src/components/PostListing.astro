@@ -3,6 +3,7 @@ import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
 
 import { BLOG_PAGE_SIZE, type CategoryId, categories } from '@lib/settings';
+import { getRemoteHeroImage } from '@lib/remote-images';
 
 interface Props {
     post: CollectionEntry<"blog">,
@@ -34,9 +35,14 @@ const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, "");
     }
 }
 
-let heroImage: ImageMetadata | null;
+let heroImage: ImageMetadata | string | null;
 try {
-    heroImage = post.data.hero?.legacy ?? await getHeroImage();
+    heroImage = post.data.hero?.legacy
+    ? (typeof post.data.hero.legacy === "string"
+        ? getRemoteHeroImage({src: post.data.hero.legacy})
+        : post.data.hero.legacy
+    )
+    : await getHeroImage();
 } catch(err) {
     heroImage = null;
 }
@@ -48,7 +54,7 @@ try {
             <td class="hero-image">
                 <a href={`${baseUrl}/blog/article/${post.slug}`}>
                     {heroImage!=null ?
-                        (<Image alt={post.data.title} src={heroImage} width="150" height="100" format="jpeg"/>) : (<img src={`${baseUrl}/ui/thumbnails/${post.data.category}.gif`} alt={post.data.title} src={heroImage} width="150" height="100"/>)
+                        (<Image alt={post.data.title} src={heroImage as unknown as string} width="150" height="100" format="jpeg"/>) : (<img src={`${baseUrl}/ui/thumbnails/${post.data.category}.gif`} alt={post.data.title} src={heroImage} width="150" height="100"/>)
                     }
                 </a>
             </td>

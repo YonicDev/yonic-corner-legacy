@@ -10,6 +10,7 @@ import AsianText from "@lib/components/AsianText.astro";
 import Anchor from '@lib/components/Anchor.astro';
 
 import { filterPosts, sortPosts } from '@lib/util';
+import { getRemoteCover } from "@lib/remote-images";
 import { categories } from '@lib/settings';
 
 interface Props {
@@ -70,7 +71,17 @@ const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, "");
 }
 
 const {Content, remarkPluginFrontmatter} = await post.render();
-const hero = post.data.hero?.legacy ?? await getHeroImage();
+let heroImage: ImageMetadata | string | null;
+try {
+    heroImage = post.data.hero?.legacy
+    ? (typeof post.data.hero.legacy === "string"
+        ? getRemoteCover({src: post.data.hero.legacy})
+        : post.data.hero.legacy
+    )
+    : await getHeroImage();
+} catch(err) {
+    heroImage = null;
+}
 const {readingTime} = remarkPluginFrontmatter;
 
 const components = { a: Anchor };
@@ -79,7 +90,7 @@ const components = { a: Anchor };
 <Layout {...post.data}>
     <div class="category-label"><a href={`${baseUrl}/category/${post.data.category}/1`}><img src={`${baseUrl}/icons/category/${post.data.category}.gif`} align="top"/>{" "}{categories[post.data.category].title}</a></div>
     {
-        hero!=null && <Image alt={post.data.title} src={hero} width="454" format="jpg" quality="max"/>
+        heroImage!=null && <Image alt={post.data.title} src={heroImage as unknown as string} loading="eager" decoding="sync" width="454" height="303" format="jpg" quality="max"/>
     }
     <h1>{post.data.title}{post.data.draft && <sup>[draft]</sup>}</h1>
     <div>

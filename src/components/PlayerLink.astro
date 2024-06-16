@@ -3,6 +3,9 @@ import { Image } from "astro:assets";
 import FeedBranch from "./FeedBranch.astro";
 import { getEntry } from "astro:content";
 
+import { isURL } from "@lib/util";
+import { getRemoteAlbumCover } from "@lib/remote-images";
+
 type Props = { id: string };
 
 const {id} = Astro.props;
@@ -12,7 +15,10 @@ const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, "");
 let coverImage = baseUrl + "/ui/music-cover-default.gif";
 try {
     if(music.cover)
-        coverImage = (await import(`../assets/covers/${music.cover}.png`)).default;
+        if(isURL(music.cover))
+            coverImage = getRemoteAlbumCover({src: music.cover});
+        else
+            coverImage = (await import(`../assets/covers/${music.cover}.png`)).default;
 } catch(e) {}
 
 const validFormats = ["audio/mpeg", "audio/mp3","audio/wav"];
