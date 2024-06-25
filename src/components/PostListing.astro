@@ -3,7 +3,7 @@ import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
 
 import { BLOG_PAGE_SIZE, type CategoryId, categories } from '@lib/settings';
-import { getRemoteHeroImage } from '@lib/remote-images';
+import { getRemoteHeroImage, processShorthandles, type Shorthandle } from '@lib/remote-images';
 
 interface Props {
     post: CollectionEntry<"blog">,
@@ -35,11 +35,15 @@ const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, "");
     }
 }
 
+const shorthandles: Shorthandle[] = [
+    {replaceCase: /^@local:/, value: import.meta.env.BLOG_IMAGE_ROOT + post.slug + '/'},
+    {replaceCase: /^@:/, value: import.meta.env.BLOG_IMAGE_ROOT},
+]
 let heroImage: ImageMetadata | string | null;
 try {
     heroImage = post.data.hero?.legacy
     ? (typeof post.data.hero.legacy === "string"
-        ? getRemoteHeroImage({src: post.data.hero.legacy})
+        ? getRemoteHeroImage({src: processShorthandles(post.data.hero.legacy, shorthandles)})
         : post.data.hero.legacy
     )
     : await getHeroImage();
