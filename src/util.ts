@@ -1,5 +1,6 @@
 import { HIDE_DRAFTS_IN_DEVELOPMENT } from "@lib/settings";
-import { type CollectionEntry } from "astro:content";
+import type { CollectionEntry } from "astro:content";
+import { processShorthandles, type Shorthandle } from "./remote-images";
 
 export function filterPosts(post: CollectionEntry<"blog">) {
     return post.data.legacy !== false && (!HIDE_DRAFTS_IN_DEVELOPMENT && import.meta.env.DEV || !post.data.draft)
@@ -34,11 +35,13 @@ export function isRenderingFeed(referencePath: URL) {
 
 export function hasSuitableSource(source: CollectionEntry<"music">["data"]["sources"][number]) {
     const validFormats = ["audio/mpeg", "audio/mp3","audio/wav"];
+    const shorthandles: Shorthandle[] = [{replaceCase: /^@:/, value: import.meta.env.BLOG_STATIC_ROOT}];
     if(source.type === "iarchive")
         return true;
 	if(source.type === "youtube" || source.src === '')
 		return false;
-	return new URL(source.src).protocol === "http:" && validFormats.indexOf(source.type) >= 0;
+    const src = processShorthandles(source.src, shorthandles);
+	return new URL(src).protocol === "http:" && validFormats.indexOf(source.type) >= 0;
 }
 
 export function isURL(href: string): boolean {

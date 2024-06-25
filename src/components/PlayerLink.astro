@@ -3,7 +3,7 @@ import { Image } from "astro:assets";
 import FeedBranch from "./FeedBranch.astro";
 import { getEntry } from "astro:content";
 
-import { isURL } from "@lib/util";
+import { isURL, hasSuitableSource } from "@lib/util";
 import { getRemoteAlbumCover } from "@lib/remote-images";
 
 type Props = { id: string };
@@ -21,15 +21,7 @@ try {
             coverImage = (await import(`../assets/covers/${music.cover}.png`)).default;
 } catch(e) {}
 
-const validFormats = ["audio/mpeg", "audio/mp3","audio/wav"];
-
-const hasValidSource = music.sources.find(source => {
-    if (source.type === "iarchive")
-        return true;
-	else if(source.type === "youtube")
-		return false;
-	return new URL(source.src).protocol === "http:" && validFormats.indexOf(source.type) >= 0;
-});
+const hasValidSource = music.sources.find(hasSuitableSource) != null;
 
 const href = `/player/${musicId.replaceAll("\\", "/")}/`;
 ---
@@ -60,8 +52,8 @@ const href = `/player/${musicId.replaceAll("\\", "/")}/`;
         </tr>
         <tr>
             <td align="center" colspan="2">
-                <div class:list={[hasValidSource==null ? "disabled" : undefined]}>
-                    {hasValidSource != null
+                <div class:list={[!hasValidSource ? "disabled" : undefined]}>
+                    {hasValidSource
                         ? <a {href} target="player"><u>L</u>isten</a>
                         : <span>Not available</span>
                     }

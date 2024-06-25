@@ -50,3 +50,16 @@ export function getRemoteAlbumCover(options: {src: string, small?: boolean}) {
     const size = small? 24 : 48;
     return getRemoteSizedImage({src, width: size, height: size, format: "jpg", quality: 80});
 }
+
+export interface Shorthandle {
+    replaceCase: RegExp,
+    value: string
+}
+
+export function processShorthandles(src: string, shorthandles: Shorthandle[]) {
+    return shorthandles.reduce((str, {replaceCase, value}) => str.replace(replaceCase, value), src)
+}
+
+export function toLocalShort(url: string) {
+    return url.split(".")[0].split("/").slice(["blog","year","id"].length,-1).join("/");
+}

@@ -1,6 +1,6 @@
 ---
 import { Image } from "astro:assets";
-import { getBorderImage, getRemoteImage } from '@lib/remote-images';
+import { getBorderImage, getRemoteImage, processShorthandles, type Shorthandle } from '@lib/remote-images';
 interface Props {
     src: string,
     alt: string,
@@ -8,7 +8,10 @@ interface Props {
     quality?: number,
     fallback?: "jpg" | "jpeg" | "gif" | "png" | "bmp",
 }
-const { src, alt, fallback = "jpg", quality = 70 } = Astro.props;
+const shorthandles: Shorthandle[] = [{ replaceCase: /^@:/, value: import.meta.env.BLOG_IMAGE_ROOT }];
+const { alt, fallback = "jpg", quality = 70 } = Astro.props;
+const src = processShorthandles(Astro.props.src, shorthandles);
+console.log(src);
 const margin = 12;
 const padding = 3;
 const MAX_WIDTH = 454;

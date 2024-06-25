@@ -5,7 +5,7 @@ import ffprobe from 'ffprobe';
 import {path as ffprobePath } from 'ffprobe-static';
 
 import { hasSuitableSource, isURL } from "@lib/util";
-import { getRemoteAlbumCover } from '@lib/remote-images';
+import { getRemoteAlbumCover, processShorthandles, type Shorthandle } from '@lib/remote-images';
 
 export async function getStaticPaths() {
     const songList = await getCollection("music");
@@ -16,6 +16,8 @@ export async function getStaticPaths() {
         }
     });
 }
+
+const shorthandles: Shorthandle[] = [{replaceCase: /^@:/, value: import.meta.env.BLOG_STATIC_ROOT}]
 
 const { title, sources, author, album, duration, cover } = Astro.props.music;
 
@@ -65,7 +67,7 @@ if(selectedSrc) {
 			console.error(`Could not load IArchive music file ${file} from item ${item}`);
 		}
 	} else {
-		musicSrc = selectedSrc.src;
+		musicSrc = processShorthandles(selectedSrc.src, shorthandles);
 		switch(typeof duration) {
 			case "number":
 				musicDuration = duration;
