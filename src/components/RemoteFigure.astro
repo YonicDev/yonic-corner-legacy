@@ -1,6 +1,5 @@
 ---
-import { Image } from "astro:assets";
-import { getBorderImage, getRemoteImage, processShorthandles, type Shorthandle } from '@lib/remote-images';
+import { getBorderImage, getRemoteImage, processShorthandles, getImageDimensions, type Shorthandle } from '@lib/remote-images';
 interface Props {
     src: string,
     alt: string,
@@ -11,7 +10,6 @@ interface Props {
 const shorthandles: Shorthandle[] = [{ replaceCase: /^@:/, value: import.meta.env.BLOG_IMAGE_ROOT }];
 const { alt, fallback = "jpg", quality = 70 } = Astro.props;
 const src = processShorthandles(Astro.props.src, shorthandles);
-console.log(src);
 const margin = 12;
 const padding = 3;
 const MAX_WIDTH = 454;
@@ -19,11 +17,12 @@ const width = parseInt(Astro.props.width?.toString() ?? MAX_WIDTH.toString() )
 const trueWidth = Math.min(MAX_WIDTH, width)-padding*2;
 
 const proxiedSrc = getRemoteImage({src, width: trueWidth, format: fallback, quality});
+const dimensions = await getImageDimensions({src: proxiedSrc, width: trueWidth, referenceUrl: src});
 const borderImg = getBorderImage(src);
 ---
 <center>
     <div class="figure" style={{backgroundImage: `url(${borderImg})`, width: `${trueWidth}px`, margin: `${margin}px 0`, padding: `${padding}px`}}>
-        <Image src={proxiedSrc} {alt} inferSize />
+        <img src={proxiedSrc} {alt} width={dimensions.width} height={dimensions.height} />
         {Astro.slots.has("default") && <div class="caption" style={{width: trueWidth+'px'}}>
             <center>
                 <div style={{width: trueWidth-10+'px', padding: "10px 0"}}>

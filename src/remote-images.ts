@@ -1,4 +1,5 @@
 import type { ImageOutputFormat } from "astro";
+import { getImage } from "astro:assets";
 import crypto from "node:crypto";
 
 const { IMGPROXY_HOST, IMGPROXY_KEY, IMGPROXY_SALT } = import.meta.env;
@@ -62,4 +63,21 @@ export function processShorthandles(src: string, shorthandles: Shorthandle[]) {
 
 export function toLocalShort(url: string) {
     return url.split(".")[0].split("/").slice(["blog","year","id"].length,-1).join("/");
+}
+
+export async function getImageDimensions(options: {src: string, width: number, referenceUrl?: string}): Promise<{width: number, height?: number}> {
+    const { src, width } = options;
+    try {
+        const image = (await getImage({src, width, inferSize: true}));
+        return {
+            width: image.attributes.width,
+            height: image.attributes.height
+        }
+    } catch (e) {
+        console.error(`Could not get dimensions from image ${options.referenceUrl ?? src}${options.referenceUrl && `\n(proxied: ${src})`}`);
+        return {
+            width,
+            height: undefined
+        }
+    }
 }
