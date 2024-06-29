@@ -6,9 +6,11 @@ interface Props {
     width?: number | string,
     quality?: number,
     fallback?: "jpg" | "jpeg" | "gif" | "png" | "bmp",
+    raw?: boolean,
+    fallbackSrc?: string,
 }
 const shorthandles: Shorthandle[] = [{ replaceCase: /^@:/, value: import.meta.env.BLOG_IMAGE_ROOT }];
-const { alt, fallback = "jpg", quality = 70 } = Astro.props;
+const { alt, fallback = "jpg", quality = 70, raw = false } = Astro.props;
 const src = processShorthandles(Astro.props.src, shorthandles);
 const margin = 12;
 const padding = 3;
@@ -16,7 +18,9 @@ const MAX_WIDTH = 454;
 const width = parseInt(Astro.props.width?.toString() ?? MAX_WIDTH.toString() )
 const trueWidth = Math.min(MAX_WIDTH, width)-padding*2;
 
-const proxiedSrc = getRemoteImage({src, width: trueWidth, format: fallback, quality});
+const proxiedSrc = raw 
+    ? getRemoteImage({src, width: trueWidth, format: fallback, quality})
+    : processShorthandles(Astro.props.fallbackSrc ?? Astro.props.src, shorthandles);
 const dimensions = await getImageDimensions({src: proxiedSrc, width: trueWidth, referenceUrl: src});
 const borderImg = getBorderImage(src);
 ---
