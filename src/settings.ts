@@ -50,3 +50,5 @@ export const categories: Record<CategoryId, Category> = {
 }
 
 export const MODERN_WEBSITE = "https://modern.yonic.blog"
+
+export const INFER_REMOTE_IMAGE_SIZE = false;

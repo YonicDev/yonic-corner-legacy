@@ -1,5 +1,7 @@
 ---
 import { getBorderImage, getRemoteImage, processShorthandles, getImageDimensions, type Shorthandle } from '@lib/remote-images';
+import { INFER_REMOTE_IMAGE_SIZE } from '@lib/settings';
+
 interface Props {
     src: string,
     alt: string,
@@ -21,7 +23,7 @@ const trueWidth = Math.min(MAX_WIDTH, width)-padding*2;
 const proxiedSrc = !raw 
     ? getRemoteImage({src, width: trueWidth, format: fallback, quality})
     : processShorthandles(Astro.props.fallbackSrc ?? Astro.props.src, shorthandles);
-const dimensions = await getImageDimensions({src: proxiedSrc, width: trueWidth, referenceUrl: src});
+const dimensions: {width?: number, height?: number} = INFER_REMOTE_IMAGE_SIZE? await getImageDimensions({src: proxiedSrc, width: trueWidth, referenceUrl: src}) : {width: undefined, height: undefined};
 const borderImg = getBorderImage(src);
 ---
 <center>
