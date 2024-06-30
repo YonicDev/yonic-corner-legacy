@@ -4,21 +4,24 @@ import FeedBranch from "./FeedBranch.astro";
 import { getEntry } from "astro:content";
 
 import { isURL, hasSuitableSource } from "@lib/util";
-import { getRemoteAlbumCover } from "@lib/remote-images";
+import { getRemoteAlbumCover, processShorthandles, type Shorthandle } from "@lib/remote-images";
 
 type Props = { id: string };
 
 const {id} = Astro.props;
 
+const shorthandles: Shorthandle[] = [{ replaceCase: /^@:/, value: import.meta.env.BLOG_MUSIC_COVER_ROOT }];
 const {id: musicId, data: music} = (await getEntry('music', id))!;
 const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, "");
+
+const coverSrc = music.cover ? processShorthandles(music.cover, shorthandles) : undefined;
 let coverImage = baseUrl + "/ui/music-cover-default.gif";
 try {
-    if(music.cover)
-        if(isURL(music.cover))
-            coverImage = getRemoteAlbumCover({src: music.cover});
+    if(coverSrc)
+        if(isURL(coverSrc))
+            coverImage = getRemoteAlbumCover({src: coverSrc});
         else
-            coverImage = (await import(`../assets/covers/${music.cover}.png`)).default;
+            coverImage = (await import(`../assets/covers/${coverSrc}.png`)).default;
 } catch(e) {}
 
 const hasValidSource = music.sources.find(hasSuitableSource) != null;

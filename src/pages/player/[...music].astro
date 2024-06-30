@@ -18,8 +18,10 @@ export async function getStaticPaths() {
 }
 
 const shorthandles: Shorthandle[] = [{replaceCase: /^@:/, value: import.meta.env.BLOG_STATIC_ROOT}]
+const shorthandlesCover: Shorthandle[] = [{replaceCase: /^@:/, value: import.meta.env.BLOG_MUSIC_COVER_ROOT}]
 
-const { title, sources, author, album, duration, cover } = Astro.props.music;
+const { title, sources, author, album, duration } = Astro.props.music;
+const cover = processShorthandles(Astro.props.music.cover, shorthandlesCover);
 
 const selectedSrc = sources.find(hasSuitableSource) as Exclude<typeof sources[number], {type: "youtube"}>;
 
