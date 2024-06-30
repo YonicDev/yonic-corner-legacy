@@ -18,7 +18,7 @@ const MAX_WIDTH = 454;
 const width = parseInt(Astro.props.width?.toString() ?? MAX_WIDTH.toString() )
 const trueWidth = Math.min(MAX_WIDTH, width)-padding*2;
 
-const proxiedSrc = raw 
+const proxiedSrc = !raw 
     ? getRemoteImage({src, width: trueWidth, format: fallback, quality})
     : processShorthandles(Astro.props.fallbackSrc ?? Astro.props.src, shorthandles);
 const dimensions = await getImageDimensions({src: proxiedSrc, width: trueWidth, referenceUrl: src});
