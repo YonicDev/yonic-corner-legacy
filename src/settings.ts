@@ -1,3 +1,5 @@
+import type { Shorthandle } from "./remote-images";
+
 export const BLOG_PAGE_SIZE = 5;
 export const CATEGORY_IDS = ["development", "gaming", "creations", "outside", "blog", "misc"] as const;
 export const HIDE_DRAFTS_IN_DEVELOPMENT = false;
@@ -52,3 +54,10 @@ export const categories: Record<CategoryId, Category> = {
 export const MODERN_WEBSITE = "https://modern.yonic.blog"
 
 export const INFER_REMOTE_IMAGE_SIZE = false;
+
+export function getSeriesShorthandles(seriesId: string): Shorthandle[] {
+    return [
+        { replaceCase: /@id/, value: seriesId },
+        { replaceCase: /^@series:/, value: import.meta.env.BLOG_IMAGE_ROOT + 'series-legacy/' }
+    ]
+}
