@@ -21,7 +21,7 @@ const shorthandles: Shorthandle[] = [{replaceCase: /^@:/, value: import.meta.env
 const shorthandlesCover: Shorthandle[] = [{replaceCase: /^@:/, value: import.meta.env.BLOG_MUSIC_COVER_ROOT}]
 
 const { title, sources, author, album, duration } = Astro.props.music;
-const cover = processShorthandles(Astro.props.music.cover, shorthandlesCover);
+const cover = Astro.props.music.cover ? processShorthandles(Astro.props.music.cover, shorthandlesCover) : undefined;
 
 const selectedSrc = sources.find(hasSuitableSource) as Exclude<typeof sources[number], {type: "youtube"}>;
 
@@ -37,7 +37,7 @@ const coverSrc = coverImage
 		? getRemoteAlbumCover({src: coverImage, small: true})
 		: (await getImage({src: coverImage, width: 24, height: 24, format: 'jpg' })).src
 	)
-	: undefined;
+	: `${Astro.site}/img/icons/player-default-cover.png`;
 
 let musicSrc = "";
 const DEFAULT_DURATION = 1; // To prevent division by 0 on the swf file.

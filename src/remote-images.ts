@@ -49,7 +49,7 @@ export function getRemoteCover(options: {src: string}) {
 export function getRemoteAlbumCover(options: {src: string, small?: boolean}) {
     const { src, small = false } = options;
     const size = small? 24 : 48;
-    return getRemoteSizedImage({src, width: size, height: size, format: "jpg", quality: 80});
+    return getRemoteSizedImage({src, width: size, height: size, format: small? "jpg" : "gif", quality: 80});
 }
 
 export interface Shorthandle {
