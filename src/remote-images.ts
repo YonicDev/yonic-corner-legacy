@@ -49,7 +49,10 @@ export function getRemoteCover(options: {src: string}) {
 export function getRemoteAlbumCover(options: {src: string, small?: boolean}) {
     const { src, small = false } = options;
     const size = small? 24 : 48;
-    return getRemoteSizedImage({src, width: size, height: size, format: small? "jpg" : "gif", quality: 80});
+    const encodedURL = Buffer.from(src).toString("base64url");
+    const format = small ? "jpg" : "gif";
+    const imageSrc = getSignedUrl(`${IMGPROXY_HOST}/${salt}/rs:fill:${Math.round(size)}:${Math.round(size)}/q:80/${small? "bg:0:20:48/" : ""}/${encodedURL}.${format}`);
+    return imageSrc;
 }
 
 export interface Shorthandle {
