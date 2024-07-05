@@ -4,7 +4,7 @@ import type { GetImageResult } from 'astro';
 
 import {load} from 'cheerio';
 
-import { getRemoteCover } from '@lib/remote-images';
+import { getRemoteCover, processShorthandles, type Shorthandle } from '@lib/remote-images';
 
 interface Props {
     post: string,
@@ -58,7 +58,17 @@ if(feedHtml) {
     }
 }
 
-const hero = typeof heroImage === "string" ? getRemoteCover({src: heroImage}) : await getHeroImage();
+let hero: string | GetImageResult | null;
+if(typeof heroImage === "string") {
+    const shorthandles: Shorthandle[] = [
+        {replaceCase: /^@local:/, value: import.meta.env.BLOG_IMAGE_ROOT + post + '/'},
+        {replaceCase: /^@:/, value: import.meta.env.BLOG_IMAGE_ROOT },
+    ]
+    const src = processShorthandles(heroImage, shorthandles)
+    hero = getRemoteCover({src});
+} else {
+    hero = await getHeroImage()
+}
 ---
 {hero && <img src={typeof hero === "string" ? hero : import.meta.env.SITE + hero.src} alt="Cover image" width={300} height={200} />}
 <Fragment set:html={finalHtml} />
