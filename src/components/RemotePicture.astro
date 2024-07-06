@@ -1,0 +1,30 @@
+---
+import type { ImageOutputFormat } from "astro";
+
+import { getRemoteImage, getImageDimensions, processShorthandles, type Shorthandle } from "@lib/remote-images";
+import { INFER_REMOTE_IMAGE_SIZE } from "@lib/settings";
+interface Props {
+    id?: string,
+    src: string,
+    alt: string,
+    width?: number,
+    height?: number,
+    fallback?: "jpg" | "jpeg" | "gif" | "png",
+    quality?: number,
+    raw?: boolean,
+    fallbackSrc?: string,
+}
+
+const padding = 3;
+const MAX_WIDTH = 454;
+const shorthandles: Shorthandle[] = [{ replaceCase: /^@:/, value: import.meta.env.BLOG_IMAGE_ROOT }];
+const {id, alt, fallback = "jpg", quality = 70, raw = false, width = MAX_WIDTH, height } = Astro.props;
+const trueWidth = Math.min(MAX_WIDTH, width);
+
+const fallbackSource = processShorthandles(Astro.props.fallbackSrc ?? Astro.props.src, shorthandles)
+
+const dimensions: {width?: number, height?: number} = height
+    ? { width: trueWidth, height }
+    : (INFER_REMOTE_IMAGE_SIZE ? await getImageDimensions({src: fallbackSource, width: trueWidth}) : {width: undefined, height: undefined});
+---
+<img {id} src={raw? fallbackSource : getRemoteImage({src: fallbackSource, width: trueWidth, format: fallback, quality})} width={trueWidth} height={dimensions.height} {alt} />
