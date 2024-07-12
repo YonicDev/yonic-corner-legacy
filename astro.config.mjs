@@ -9,6 +9,7 @@ import readingTime from './src/remark/reading-time.mjs';
 
 import sitemap from "@astrojs/sitemap";
 import { filterSitemap, serializeSitemap } from './src/sitemap-config';
+import { remoteImageManifest } from './src/integrations/remote-manifest';
 
 const site = "http://legacy.yonic.blog";
 
@@ -45,7 +46,8 @@ export default defineConfig({
             ]
         }),
         MDXCodeBlocks(),
-        mdx(), 
+        mdx(),
+        remoteImageManifest(),
         sitemap({
             changefreq: "weekly",
             filter: filterSitemap,
