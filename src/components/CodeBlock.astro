@@ -2,7 +2,7 @@
 import { getIconForFile } from 'vscode-icons-js';
 import type { BuiltinLanguage, LanguageRegistration, SpecialLanguage } from 'shiki';
 
-import Code from './_internal/Code.astro';
+import { Code } from 'astro:components';
 import Window from './Window.astro';
 import FeedBranch from './FeedBranch.astro';
 
@@ -32,11 +32,11 @@ const filename = rawFilename?.trim();
 <FeedBranch>
     <Window class="code-window" title={filename!=="-"? filename : undefined}>
         {filename && <img valign="bottom" alt="Icon" slot="icon" width="16" height="16" style="vertical-align:bottom" src={`/icons/files/${icon? `${icon}.gif` : getIconForFile(filename)?.replace(/\.svg$/, ".gif")}`} />}
-        <Code {code} {lang} {transformers}  meta={meta as Record<string, string|undefined>} theme="min-dark"/>
+        <Code {code} {lang} {transformers}  meta={JSON.stringify(meta)} theme="min-dark"/>
     </Window>
     <div slot="feed">
         {filename && (<b>{filename}:</b><br/>)}
-        <Code {code} {lang} {transformers}  meta={meta as Record<string, string|undefined>} theme="min-dark"/>
+        <Code {code} {lang} {transformers}  meta={JSON.stringify(meta)} theme="min-dark"/>
     </div>
 </FeedBranch>
 
