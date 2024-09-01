@@ -41,12 +41,13 @@ The content API of both modern and legacy versions is pretty much identical betw
   * The ideal resolution is at 454x303 pixels.
 * **The `<Figure>` component will only use its `fallback` field** to determine the format of the image.
   * From 1.2.0, the `nocaption` prop has been removed and does not have any effect. Instead, the caption box is hidden when there are no inner contents in the `<Figure>` component.
+* **`<RemoteFigure>` and `<RemotePicture>` components with the `raw` prop enabled will use `fallbackSrc` for the image source.** It can be the same as `src`, however; and it still uses the `fallback` prop.
 * **Transparent PNG images are not supported**, but won't cause an error when used. Use GIF instead for transparent images.
 * **`<Chara>` images are GIF only and use their intrinsic size.**
   * As a result, the `fallback` prop will not do anything. 
 * **Text bubble themes** are defined as separate components that wrap the `<BubbleBase>` component and use a 9-slice GIF image set for the appearance in the `public/bubbles` folder, in their own folder. Then these are imported and included in the `themes` record in the `TextBubble.astro` component.
 * **Certain sources from music content will be ignored depending on the source type.** If there is no suitable source, the music entry will be listed as "Not available" and a player page will not be generated.
-  * **Direct source**: Only uses the first plain HTTP *(not HTTPS)* source. Sources containing audio formats incompatible with Flash Player 6 are skipped.
+  * **Direct source**: Only uses the first plain HTTP *(not HTTPS)* source. Sources that aren't `audio/mpeg` are skipped. Usually, you'd want to use MP3 sources.
   * **Internet Archive sourced**: Only uses the first of the two working servers.
   * **YouTube sourced**: *Ignored altogether*.
 * **Only the slot `legacy`** in `<VersionBranch>` will be rendered.
