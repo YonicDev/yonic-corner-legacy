@@ -1,13 +1,13 @@
 ---
 import type { CollectionEntry } from 'astro:content';
 
-import { categories } from '@lib/settings';
+import { categories, type CategoryId } from '@lib/settings';
 
 interface Props {
     previous?: CollectionEntry<"blog">,
     next?: CollectionEntry<"blog">,
     title: string,
-    category: string,
+    category: CategoryId | "series" | "all",
     series?: string,
 }
 const { previous, next, title, category, series } = Astro.props;
@@ -20,14 +20,20 @@ if(category in categories) {
 }
 
 const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, "");
+
+const labels: Record<string, {previous: string, next: string}> = {
+    series: { previous: "PREV", next: "NEXT" },
+    default: { previous: "NEWER", next: "OLDER"}
+}
+const labelType = category === "series" ? "series" : "default";
     
 ---
 <div class={category}>
     <table class="series-nav">
         <tr>
-            <th style="text-align: left; width: 37.5%"><span>&lt; </span><span class="iptag">PREV</span></th>
+            <th style="text-align: left; width: 37.5%"><span>&lt; </span><span class="iptag">{labels[labelType].previous}</span></th>
             <th rowspan="2" style="width: 25%;"><a href={baseUrl + link}>{title}</a></th>
-            <th style="text-align: right; width: 37.5%"><span class="iptag">NEXT</span><span> &gt;</span></th>
+            <th style="text-align: right; width: 37.5%"><span class="iptag">{labels[labelType].next}</span><span> &gt;</span></th>
         </tr>
         <tr>
             <td>
