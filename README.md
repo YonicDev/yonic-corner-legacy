@@ -4,6 +4,13 @@
 
 [**Visit the blog here!**](http://legacy.yonic.blog/)
 
+> [!WARNING]
+> **[The legacy version of the Yonic Corner is continuing its development in Codeberg](https://codeberg.org/YonicDev/yonic-corner-legacy).** GitHub has consistently proven since 2025 to have been extremely untrustful to humans and has shifted its focus on LLM-driven development, putting reliability, community building, and secure software development in risk, as well as potentially violating the fundamentals of FOSS and their licences.
+>
+> This is a web project with a complete focus on supporting legacy systems. **Training LLMs to use this code will most likely make your model spit out deprecated and unsafe code, or make decisions based on outdated web design practices.**
+>
+> If you care about developing by and for real, fleshy and organic humans (and potentially cyborgs with an organic human brain should that be a thing in the distant future), **you should also consider making the move into an existing GitHub alternative or self-hosting your own with [Foregejo](https://forgejo.org/) or [Gitea](https://about.gitea.com/products/gitea/).**
+
 This is a version of my [personal blog](https://github.com/YonicDev/yonic-corner-astro) designed specifically for late 1990s browsers. It is made with the same framework as the modern blog: Astro.
 
 ## Migrating from 1.2.0
